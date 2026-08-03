@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Homebrew) (preloaded format=pdflatex 2026.3.4)  3 AUG 2026 07:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Homebrew) (preloaded format=pdflatex 2026.3.4)  3 AUG 2026 08:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1348,32 +1348,6 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 12.
 
-! Package glossaries Error: Glossary entry `growth factor' has not been defined
-.
-
-See the glossaries package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.15 ...r\index{growth factor}\gls{growth factor}s
-                                                  , pivoting\index{pivoting}...
-
-You need to define a glossary entry before you can use it.
-
-
-! Package glossaries Error: Glossary entry `pivoting strategies' has not been d
-efined.
-
-See the glossaries package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.15 ...ting} strategies\gls{pivoting strategies},
-                                                   and the surprising fact t...
-
-You need to define a glossary entry before you can use it.
-
-
 LaTeX Warning: Citation `urschel2025numerical' on page 2 undefined on input lin
 e 15.
 
@@ -1410,19 +1384,6 @@ nput line 98.
  [3{/opt/homebrew/Cellar/texlive/20260301/share/texmf-dist/fonts/enc/dvips/lm/l
 m-mathex.enc}] [4]
 
-! Package glossaries Error: Glossary entry `lu factorization' has not been defi
-ned.
-
-See the glossaries package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.136 For \gls{lu factorization},
-                                  the computed $\hat{\bm{L}}, \hat{\bm{U}}$ ...
-
-You need to define a glossary entry before you can use it.
-
-
 LaTeX Warning: Citation `urschel2025numerical' on page 5 undefined on input lin
 e 174.
 
@@ -1453,7 +1414,7 @@ e 326.
 LaTeX Warning: Citation `urschel2025numerical' on page 9 undefined on input lin
 e 383.
 
-) [9]
+) [9] [10]
 \openout2 = `chapters/ch02_fewnomial_theory.aux'.
 
  (./chapters/ch02_fewnomial_theory.tex
@@ -1465,11 +1426,11 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <17.28> on input line 4.
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 10 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 11 undefined on input line
  6.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 10 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 11 undefined on input line
  16.
 
 ! Undefined control sequence.
@@ -1484,111 +1445,111 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 10 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 11 undefined on input line
  31.
 
-[10
+[11
 
 
 
 
 ]
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 11 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
  40.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 11 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
  43.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 11 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
  44.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 11 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
  67.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 11 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
  78.
 
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <14.4> on input line 81.
-[11]
+[12]
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 13 undefined on input line
  96.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 13 undefined on input line
  100.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 13 undefined on input line
  105.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 13 undefined on input line
  110.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 13 undefined on input line
  121.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 12 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 13 undefined on input line
  135.
 
 
 (/opt/homebrew/Cellar/texlive/20260301/share/texmf-dist/tex/latex/listings/lstl
 ang1.sty
 File: lstlang1.sty 2025/11/14 1.11b listings language file
-) [12] [13]
+) [13] [14]
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 14 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 15 undefined on input line
  201.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 14 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 15 undefined on input line
  202.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 14 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 15 undefined on input line
  203.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 14 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 15 undefined on input line
  210.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 14 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 15 undefined on input line
  219.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 14 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 15 undefined on input line
  220.
 
-[14]
+[15]
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 15 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 16 undefined on input line
  255.
 
 
-LaTeX Warning: Citation `rojas2025fewnomial' on page 15 undefined on input line
+LaTeX Warning: Citation `rojas2025fewnomial' on page 16 undefined on input line
  267.
 
-) [15]
+) [16]
 \openout2 = `chapters/ch03_spectral_methods.aux'.
 
  (./chapters/ch03_spectral_methods.tex
 Chapter 3.
 
-LaTeX Warning: Citation `golub2026spectral' on page 16 undefined on input line 
+LaTeX Warning: Citation `golub2026spectral' on page 17 undefined on input line 
 5.
 
 
-LaTeX Warning: Citation `golub2026spectral' on page 16 undefined on input line 
+LaTeX Warning: Citation `golub2026spectral' on page 17 undefined on input line 
 15.
 
 ! Undefined control sequence.
@@ -1603,38 +1564,38 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `golub2026spectral' on page 16 undefined on input line 
+LaTeX Warning: Citation `golub2026spectral' on page 17 undefined on input line 
 24.
 
-[16
+[17
 
 
 
 
 ]
 
-LaTeX Warning: Citation `golub2026spectral' on page 17 undefined on input line 
+LaTeX Warning: Citation `golub2026spectral' on page 18 undefined on input line 
 36.
 
 
-LaTeX Warning: Citation `golub2026spectral' on page 17 undefined on input line 
+LaTeX Warning: Citation `golub2026spectral' on page 18 undefined on input line 
 41.
 
 
-LaTeX Warning: Citation `golub2026spectral' on page 17 undefined on input line 
+LaTeX Warning: Citation `golub2026spectral' on page 18 undefined on input line 
 44.
 
 
-LaTeX Warning: Citation `golub2026spectral' on page 17 undefined on input line 
+LaTeX Warning: Citation `golub2026spectral' on page 18 undefined on input line 
 58.
 
-[17]
+[18]
 
-LaTeX Warning: Citation `golub2026spectral' on page 18 undefined on input line 
+LaTeX Warning: Citation `golub2026spectral' on page 19 undefined on input line 
 114.
 
 
-LaTeX Warning: Citation `golub2026spectral' on page 18 undefined on input line 
+LaTeX Warning: Citation `golub2026spectral' on page 19 undefined on input line 
 117.
 
 ! Missing \endcsname inserted.
@@ -1646,7 +1607,7 @@ The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
-LaTeX Warning: Citation `\endcsname ' on page 18 undefined on input line 123.
+LaTeX Warning: Citation `\endcsname ' on page 19 undefined on input line 123.
 
 
 Package Listings Warning: Text dropped after begin of listing on input line 123
@@ -1654,7 +1615,7 @@ Package Listings Warning: Text dropped after begin of listing on input line 123
 
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 124.
-[18] [19]
+[19] [20]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -1663,7 +1624,7 @@ l.193 \end{lstlisting}
 The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
-[20]) [21]
+[21]) [22]
 ! Extra \else.
 \@include ...ediate \closeout \@partaux \fi \else 
                                                   \deadcycles \z@ \@nameuse ...
@@ -1671,7 +1632,7 @@ l.337 \include{chapters/ch03_spectral_methods}
                                               
 I'm ignoring this; it doesn't match any \if.
 
-[22
+[23
 
 
 
@@ -1681,7 +1642,7 @@ I'm ignoring this; it doesn't match any \if.
  (./chapters/ch04_deep_learning_geometry.tex
 Chapter 4.
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 23 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 24 undefined on input
  line 15.
 
 ! Undefined control sequence.
@@ -1696,30 +1657,30 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 23 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 24 undefined on input
  line 27.
 
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 23 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 24 undefined on input
  line 36.
 
-[23
+[24
 
 
 ]
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 24 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 25 undefined on input
  line 50.
 
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 24 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 25 undefined on input
  line 62.
 
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 24 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 25 undefined on input
  line 70.
 
-[24]
+[25]
 ! Use of \lstno@ doesn't match its definition.
 \lst@SetFirstNumber ...@intname \endcsname \relax 
                                                   \ifnum \@tempcnta =\z@ \el...
@@ -1731,10 +1692,10 @@ made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 25 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 26 undefined on input
  line 139.
 
-[25]
+[26]
 ! Use of \lstno@ doesn't match its definition.
 \lst@SetFirstNumber ...@intname \endcsname \relax 
                                                   \ifnum \@tempcnta =\z@ \el...
@@ -1767,7 +1728,7 @@ followed by the required stuff, so I'm ignoring it.
 Package Listings Warning: Text dropped after begin of listing on input line 174
 .
 
-[26]
+[27]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -1777,23 +1738,23 @@ The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 27 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 28 undefined on input
  line 232.
 
-[27]
+[28]
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 28 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 29 undefined on input
  line 278.
 
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 28 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 29 undefined on input
  line 282.
 
 
-LaTeX Warning: Citation `balestriero2025geometry' on page 28 undefined on input
+LaTeX Warning: Citation `balestriero2025geometry' on page 29 undefined on input
  line 290.
 
-) [28]
+) [29]
 ! Extra \else.
 \@include ...ediate \closeout \@partaux \fi \else 
                                                   \deadcycles \z@ \@nameuse ...
@@ -1806,15 +1767,15 @@ I'm ignoring this; it doesn't match any \if.
 (./chapters/ch05_equivariant_nn.tex
 Chapter 5.
 
-LaTeX Warning: Citation `lim2023equivariant' on page 29 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
  5.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 29 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
  12.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 29 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
  15.
 
 ! Undefined control sequence.
@@ -1829,66 +1790,66 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 29 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
  26.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 29 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
  30.
 
-[29
+[30
 
 
 
 
 ]
 
-LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
  43.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
  67.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
  75.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
  79.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
  89.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
  92.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 30 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
  94.
 
-[30]
+[31]
 
-LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 32 undefined on input line
  98.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 32 undefined on input line
  109.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 32 undefined on input line
  110.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 32 undefined on input line
  115.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 31 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 32 undefined on input line
  121.
 
 ! Missing \endcsname inserted.
@@ -1913,7 +1874,7 @@ followed by the required stuff, so I'm ignoring it.
 Package Listings Warning: Text dropped after begin of listing on input line 133
 .
 
-[31] [32]
+[32] [33]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -1923,35 +1884,35 @@ The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 33 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 34 undefined on input line
  219.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 33 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 34 undefined on input line
  224.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 33 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 34 undefined on input line
  233.
 
-[33]
+[34]
 
-LaTeX Warning: Citation `lim2023equivariant' on page 34 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 35 undefined on input line
  274.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 34 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 35 undefined on input line
  278.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 34 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 35 undefined on input line
  282.
 
 
-LaTeX Warning: Citation `lim2023equivariant' on page 34 undefined on input line
+LaTeX Warning: Citation `lim2023equivariant' on page 35 undefined on input line
  286.
 
-) [34]
+) [35]
 ! Extra \else.
 \@include ...ediate \closeout \@partaux \fi \else 
                                                   \deadcycles \z@ \@nameuse ...
@@ -1964,15 +1925,15 @@ I'm ignoring this; it doesn't match any \if.
 (./chapters/ch06_topological_ml.tex
 Chapter 6.
 
-LaTeX Warning: Citation `rieck2025topology' on page 35 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
 4.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 35 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
 12.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 35 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
 15.
 
 ! Undefined control sequence.
@@ -1987,44 +1948,44 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 35 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
 24.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 35 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
 26.
 
-[35
+[36
 
 
 
 
 ]
 
-LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 37 undefined on input line 
 37.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 37 undefined on input line 
 40.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 37 undefined on input line 
 64.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 37 undefined on input line 
 72.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 37 undefined on input line 
 79.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 36 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 37 undefined on input line 
 84.
 
-[36]
+[37]
 ! Use of \lstno@ doesn't match its definition.
 \lst@SetFirstNumber ...@intname \endcsname \relax 
                                                   \ifnum \@tempcnta =\z@ \el...
@@ -2035,7 +1996,7 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[37]
+[38]
 ! Use of \lstno@ doesn't match its definition.
 \lst@SetFirstNumber ...@intname \endcsname \relax 
                                                   \ifnum \@tempcnta =\z@ \el...
@@ -2046,25 +2007,25 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[38]
-
-LaTeX Warning: Citation `rieck2025topology' on page 39 undefined on input line 
-245.
-
 [39]
 
 LaTeX Warning: Citation `rieck2025topology' on page 40 undefined on input line 
+245.
+
+[40]
+
+LaTeX Warning: Citation `rieck2025topology' on page 41 undefined on input line 
 259.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 40 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 41 undefined on input line 
 263.
 
 
-LaTeX Warning: Citation `rieck2025topology' on page 40 undefined on input line 
+LaTeX Warning: Citation `rieck2025topology' on page 41 undefined on input line 
 305.
 
-) [40] [41] [42
+) [41] [42] [43
 
 
 
@@ -2074,7 +2035,7 @@ LaTeX Warning: Citation `rieck2025topology' on page 40 undefined on input line
  (./chapters/ch07_uq_tutorial.tex
 Chapter 7.
 
-LaTeX Warning: Citation `chen2025uq' on page 43 undefined on input line 15.
+LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 15.
 
 ! Undefined control sequence.
 <recently read> \n 
@@ -2088,43 +2049,43 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 43 undefined on input line 26.
+LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 26.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 43 undefined on input line 27.
+LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 27.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 43 undefined on input line 28.
+LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 28.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 43 undefined on input line 29.
+LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 29.
 
-[43
+[44
 
 
 ]
 
-LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 57.
+LaTeX Warning: Citation `chen2025uq' on page 45 undefined on input line 57.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 71.
+LaTeX Warning: Citation `chen2025uq' on page 45 undefined on input line 71.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 86.
+LaTeX Warning: Citation `chen2025uq' on page 45 undefined on input line 86.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 89.
+LaTeX Warning: Citation `chen2025uq' on page 45 undefined on input line 89.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 94.
+LaTeX Warning: Citation `chen2025uq' on page 45 undefined on input line 94.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 99.
+LaTeX Warning: Citation `chen2025uq' on page 45 undefined on input line 99.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 44 undefined on input line 102.
+LaTeX Warning: Citation `chen2025uq' on page 45 undefined on input line 102.
 
-[44]
+[45]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -2147,7 +2108,7 @@ followed by the required stuff, so I'm ignoring it.
 Package Listings Warning: Text dropped after begin of listing on input line 110
 .
 
-[45]
+[46]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -2157,9 +2118,9 @@ The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
-LaTeX Warning: Citation `chen2025uq' on page 46 undefined on input line 209.
+LaTeX Warning: Citation `chen2025uq' on page 47 undefined on input line 209.
 
-[46]) [47]
+[47]) [48]
 ! Extra \else.
 \@include ...ediate \closeout \@partaux \fi \else 
                                                   \deadcycles \z@ \@nameuse ...
@@ -2172,7 +2133,7 @@ I'm ignoring this; it doesn't match any \if.
 (./chapters/ch08_global_positioning.tex
 Chapter 8.
 
-LaTeX Warning: Citation `boutin2025gps' on page 48 undefined on input line 15.
+LaTeX Warning: Citation `boutin2025gps' on page 49 undefined on input line 15.
 
 ! Undefined control sequence.
 <recently read> \n 
@@ -2186,44 +2147,44 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 48 undefined on input line 24.
+LaTeX Warning: Citation `boutin2025gps' on page 49 undefined on input line 24.
 
-[48
+[49
 
 
 
 
 ]
 
-LaTeX Warning: Citation `boutin2025gps' on page 49 undefined on input line 40.
+LaTeX Warning: Citation `boutin2025gps' on page 50 undefined on input line 40.
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 49 undefined on input line 86.
+LaTeX Warning: Citation `boutin2025gps' on page 50 undefined on input line 86.
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 49 undefined on input line 88.
+LaTeX Warning: Citation `boutin2025gps' on page 50 undefined on input line 88.
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 49 undefined on input line 95.
+LaTeX Warning: Citation `boutin2025gps' on page 50 undefined on input line 95.
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 49 undefined on input line 101.
+LaTeX Warning: Citation `boutin2025gps' on page 50 undefined on input line 101.
 
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 49 undefined on input line 111.
+LaTeX Warning: Citation `boutin2025gps' on page 50 undefined on input line 111.
 
 
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/10.95'.
 (microtype)             Ignoring protrusion settings for this character.
 
-LaTeX Warning: Citation `boutin2025gps' on page 49 undefined on input line 114.
+LaTeX Warning: Citation `boutin2025gps' on page 50 undefined on input line 114.
 
 
-[49]
+[50]
 
-LaTeX Warning: Citation `bancroft1985algebraic' on page 50 undefined on input l
+LaTeX Warning: Citation `bancroft1985algebraic' on page 51 undefined on input l
 ine 141.
 
 ! Missing \endcsname inserted.
@@ -2248,7 +2209,7 @@ followed by the required stuff, so I'm ignoring it.
 Package Listings Warning: Text dropped after begin of listing on input line 143
 .
 
-[50]
+[51]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -2258,36 +2219,36 @@ The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 51 undefined on input line 204.
+LaTeX Warning: Citation `boutin2025gps' on page 52 undefined on input line 204.
 
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 51 undefined on input line 207.
+LaTeX Warning: Citation `boutin2025gps' on page 52 undefined on input line 207.
 
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 51 undefined on input line 214.
+LaTeX Warning: Citation `boutin2025gps' on page 52 undefined on input line 214.
 
 
-[51]
+[52]
 
-LaTeX Warning: Citation `boutin2025gps' on page 52 undefined on input line 222.
+LaTeX Warning: Citation `boutin2025gps' on page 53 undefined on input line 222.
 
 
 
-LaTeX Warning: Citation `bancroft1985algebraic' on page 52 undefined on input l
+LaTeX Warning: Citation `bancroft1985algebraic' on page 53 undefined on input l
 ine 222.
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 52 undefined on input line 223.
+LaTeX Warning: Citation `boutin2025gps' on page 53 undefined on input line 223.
 
 
 
-LaTeX Warning: Citation `strang1997gps' on page 52 undefined on input line 223.
+LaTeX Warning: Citation `strang1997gps' on page 53 undefined on input line 223.
 
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 52 undefined on input line 224.
+LaTeX Warning: Citation `boutin2025gps' on page 53 undefined on input line 224.
 
 
 
@@ -2303,18 +2264,18 @@ lites at $\OT1/lmr/m/n/10.95 (+20) (20000\OML/lmm/m/it/10.95 ; \OT1/lmr/m/n/10.
  []
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 52 undefined on input line 261.
+LaTeX Warning: Citation `boutin2025gps' on page 53 undefined on input line 261.
 
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 52 undefined on input line 265.
+LaTeX Warning: Citation `boutin2025gps' on page 53 undefined on input line 265.
 
 
 
-LaTeX Warning: Citation `boutin2025gps' on page 52 undefined on input line 269.
+LaTeX Warning: Citation `boutin2025gps' on page 53 undefined on input line 269.
 
 
-) [52]
+) [53]
 ! Extra \else.
 \@include ...ediate \closeout \@partaux \fi \else 
                                                   \deadcycles \z@ \@nameuse ...
@@ -2327,11 +2288,11 @@ I'm ignoring this; it doesn't match any \if.
 (./chapters/ch09_dynamical_systems_3d.tex
 Chapter 9.
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 53 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 54 undefined on inp
 ut line 12.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 53 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 54 undefined on inp
 ut line 15.
 
 ! Undefined control sequence.
@@ -2346,50 +2307,50 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `bishop2026printing' on page 53 undefined on input line
+LaTeX Warning: Citation `bishop2026printing' on page 54 undefined on input line
  24.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 53 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 54 undefined on inp
 ut line 28.
 
-[53
+[54
 
 
 
 
 ]
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 54 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 55 undefined on inp
 ut line 32.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 54 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 55 undefined on inp
 ut line 33.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 54 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 55 undefined on inp
 ut line 45.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 54 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 55 undefined on inp
 ut line 46.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 54 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 55 undefined on inp
 ut line 52.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 54 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 55 undefined on inp
 ut line 74.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 54 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 55 undefined on inp
 ut line 97.
 
-[54]
+[55]
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 55 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 56 undefined on inp
 ut line 100.
 
 ! Missing \endcsname inserted.
@@ -2422,13 +2383,13 @@ l.120 \end{lstlisting}
 The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
-[55]
+[56]
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 56 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 57 undefined on inp
 ut line 129.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 56 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 57 undefined on inp
 ut line 132.
 
 ! Use of \lstno@ doesn't match its definition.
@@ -2441,37 +2402,37 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[56]
+[57]
 
-LaTeX Warning: Citation `bishop2026printing' on page 57 undefined on input line
+LaTeX Warning: Citation `bishop2026printing' on page 58 undefined on input line
  179.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 57 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 58 undefined on inp
 ut line 179.
 
 
-LaTeX Warning: Citation `bishop2026printing' on page 57 undefined on input line
+LaTeX Warning: Citation `bishop2026printing' on page 58 undefined on input line
  183.
 
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 57 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 58 undefined on inp
 ut line 198.
 
 
-LaTeX Warning: Citation `bishop2026printing' on page 57 undefined on input line
+LaTeX Warning: Citation `bishop2026printing' on page 58 undefined on input line
  206.
 
 
-LaTeX Warning: Citation `krauskopf2005growing' on page 57 undefined on input li
+LaTeX Warning: Citation `krauskopf2005growing' on page 58 undefined on input li
 ne 222.
 
-[57]
+[58]
 
-LaTeX Warning: Citation `cabre2003parameterization' on page 58 undefined on inp
+LaTeX Warning: Citation `cabre2003parameterization' on page 59 undefined on inp
 ut line 264.
 
-) [58]
+) [59]
 ! Extra \else.
 \@include ...ediate \closeout \@partaux \fi \else 
                                                   \deadcycles \z@ \@nameuse ...
@@ -2479,7 +2440,7 @@ l.357 \include{chapters/ch09_dynamical_systems_3d}
                                                   
 I'm ignoring this; it doesn't match any \if.
 
-[59
+[60
 
 
 
@@ -2489,10 +2450,10 @@ I'm ignoring this; it doesn't match any \if.
  (./chapters/ch10_dna_storage.tex
 Chapter 10.
 
-LaTeX Warning: Citation `barlev2022dna' on page 60 undefined on input line 12.
+LaTeX Warning: Citation `barlev2022dna' on page 61 undefined on input line 12.
 
 
-LaTeX Warning: Citation `barlev2022dna' on page 60 undefined on input line 15.
+LaTeX Warning: Citation `barlev2022dna' on page 61 undefined on input line 15.
 
 ! Undefined control sequence.
 <recently read> \n 
@@ -2505,23 +2466,23 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[60
+[61
 
 
 ]
 
-LaTeX Warning: Citation `barlev2022dna' on page 61 undefined on input line 70.
+LaTeX Warning: Citation `barlev2022dna' on page 62 undefined on input line 70.
 
 
-LaTeX Warning: Citation `barlev2022dna' on page 61 undefined on input line 80.
+LaTeX Warning: Citation `barlev2022dna' on page 62 undefined on input line 80.
 
-[61]
+[62]
 
-LaTeX Warning: Citation `barlev2022dna' on page 62 undefined on input line 120.
+LaTeX Warning: Citation `barlev2022dna' on page 63 undefined on input line 120.
 
 
 
-LaTeX Warning: Citation `barlev2022dna' on page 62 undefined on input line 123.
+LaTeX Warning: Citation `barlev2022dna' on page 63 undefined on input line 123.
 
 
 ! Use of \lstno@ doesn't match its definition.
@@ -2534,31 +2495,31 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[62]
-
-LaTeX Warning: Citation `barlev2022dna' on page 63 undefined on input line 165.
-
-
 [63]
 
-LaTeX Warning: Citation `barlev2022dna' on page 64 undefined on input line 213.
+LaTeX Warning: Citation `barlev2022dna' on page 64 undefined on input line 165.
 
 
-) [64]
+[64]
+
+LaTeX Warning: Citation `barlev2022dna' on page 65 undefined on input line 213.
+
+
+) [65]
 \openout2 = `chapters/ch11_cyber_defense.aux'.
 
  (./chapters/ch11_cyber_defense.tex
 Chapter 11.
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 65 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 66 undefined on input line
  5.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 65 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 66 undefined on input line
  12.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 65 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 66 undefined on input line
  15.
 
 ! Undefined control sequence.
@@ -2573,14 +2534,14 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 65 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 66 undefined on input line
  22.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 65 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 66 undefined on input line
  36.
 
-[65
+[66
 
 
 
@@ -2597,11 +2558,11 @@ made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 66 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 67 undefined on input line
  71.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 66 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 67 undefined on input line
  79.
 
 ! Missing \endcsname inserted.
@@ -2626,7 +2587,7 @@ followed by the required stuff, so I'm ignoring it.
 Package Listings Warning: Text dropped after begin of listing on input line 85.
 
 
-[66]
+[67]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -2636,14 +2597,14 @@ The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 67 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 68 undefined on input line
  128.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 67 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 68 undefined on input line
  138.
 
-[67]
+[68]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -2675,27 +2636,27 @@ The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 68 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 69 undefined on input line
  179.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 68 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 69 undefined on input line
  185.
 
-[68]
+[69]
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 69 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 70 undefined on input line
  219.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 69 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 70 undefined on input line
  230.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 69 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 70 undefined on input line
  234.
 
-) [69]
+) [70]
 ! Extra \else.
 \@include ...ediate \closeout \@partaux \fi \else 
                                                   \deadcycles \z@ \@nameuse ...
@@ -2717,15 +2678,15 @@ e 366.
 (./chapters/ch11_cyber_defense.tex
 Chapter 12.
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 70 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 71 undefined on input line
  5.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 70 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 71 undefined on input line
  12.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 70 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 71 undefined on input line
  15.
 
 ! Undefined control sequence.
@@ -2740,14 +2701,14 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 70 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 71 undefined on input line
  22.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 70 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 71 undefined on input line
  36.
 
-[70
+[71
 
 
 
@@ -2763,11 +2724,11 @@ made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 71 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 72 undefined on input line
  71.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 71 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 72 undefined on input line
  79.
 
 ! Missing \endcsname inserted.
@@ -2792,7 +2753,7 @@ followed by the required stuff, so I'm ignoring it.
 Package Listings Warning: Text dropped after begin of listing on input line 85.
 
 
-[71]
+[72]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -2802,14 +2763,14 @@ The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 72 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 73 undefined on input line
  128.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 72 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 73 undefined on input line
  138.
 
-[72]
+[73]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -2841,41 +2802,41 @@ The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 73 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 74 undefined on input line
  179.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 73 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 74 undefined on input line
  185.
 
-[73]
+[74]
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 74 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 75 undefined on input line
  219.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 74 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 75 undefined on input line
  230.
 
 
-LaTeX Warning: Citation `emanuello2022cyber' on page 74 undefined on input line
+LaTeX Warning: Citation `emanuello2022cyber' on page 75 undefined on input line
  234.
 
-) [74]
+) [75]
 \openout2 = `chapters/ch12_operads_systems.aux'.
 
  (./chapters/ch12_operads_systems.tex
 Chapter 13.
 
-LaTeX Warning: Citation `baez2021operads' on page 75 undefined on input line 6.
+LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 6.
 
 
 
-LaTeX Warning: Citation `baez2021operads' on page 75 undefined on input line 13
+LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 13
 .
 
 
-LaTeX Warning: Citation `baez2021operads' on page 75 undefined on input line 16
+LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 16
 .
 
 ! Undefined control sequence.
@@ -2890,48 +2851,48 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `baez2021operads' on page 75 undefined on input line 34
+LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 34
 .
 
 
-LaTeX Warning: Citation `baez2021operads' on page 75 undefined on input line 41
+LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 41
 .
 
-[75
+[76
 
 
 ]
 
-LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 60
+LaTeX Warning: Citation `baez2021operads' on page 77 undefined on input line 60
 .
 
 
-LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 78
+LaTeX Warning: Citation `baez2021operads' on page 77 undefined on input line 78
 .
 
 
-LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 88
+LaTeX Warning: Citation `baez2021operads' on page 77 undefined on input line 88
 .
 
 
-LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 90
+LaTeX Warning: Citation `baez2021operads' on page 77 undefined on input line 90
 .
 
 
-LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 93
+LaTeX Warning: Citation `baez2021operads' on page 77 undefined on input line 93
 .
 
 
-LaTeX Warning: Citation `baez2021operads' on page 76 undefined on input line 99
+LaTeX Warning: Citation `baez2021operads' on page 77 undefined on input line 99
 .
 
-[76]
+[77]
 
-LaTeX Warning: Citation `baez2021operads' on page 77 undefined on input line 10
+LaTeX Warning: Citation `baez2021operads' on page 78 undefined on input line 10
 5.
 
 
-LaTeX Warning: Citation `baez2021operads' on page 77 undefined on input line 10
+LaTeX Warning: Citation `baez2021operads' on page 78 undefined on input line 10
 7.
 
 ! Missing \endcsname inserted.
@@ -2956,7 +2917,7 @@ followed by the required stuff, so I'm ignoring it.
 Package Listings Warning: Text dropped after begin of listing on input line 126
 .
 
-[77]
+[78]
 ! Missing \endcsname inserted.
 <to be read again> 
                    \protect 
@@ -2966,23 +2927,23 @@ The control sequence marked <to be read again> should
 not appear between \csname and \endcsname.
 
 
-LaTeX Warning: Citation `baez2021operads' on page 78 undefined on input line 18
+LaTeX Warning: Citation `baez2021operads' on page 79 undefined on input line 18
 1.
 
-[78]
+[79]
 
-LaTeX Warning: Citation `baez2021operads' on page 79 undefined on input line 22
+LaTeX Warning: Citation `baez2021operads' on page 80 undefined on input line 22
 2.
 
 
-LaTeX Warning: Citation `baez2021operads' on page 79 undefined on input line 22
+LaTeX Warning: Citation `baez2021operads' on page 80 undefined on input line 22
 6.
 
 
-LaTeX Warning: Citation `baez2021operads' on page 79 undefined on input line 23
+LaTeX Warning: Citation `baez2021operads' on page 80 undefined on input line 23
 4.
 
-) [79]
+) [80]
 ! Extra \else.
 \@include ...ediate \closeout \@partaux \fi \else 
                                                   \deadcycles \z@ \@nameuse ...
@@ -2990,7 +2951,7 @@ l.367 \include{chapters/ch12_operads_systems}
                                              
 I'm ignoring this; it doesn't match any \if.
 
-[80
+[81
 
 
 
@@ -3000,15 +2961,15 @@ I'm ignoring this; it doesn't match any \if.
  (./chapters/ch13_astronomy_inference.tex
 Chapter 14.
 
-LaTeX Warning: Citation `desouza2025astronomy' on page 81 undefined on input li
+LaTeX Warning: Citation `desouza2025astronomy' on page 82 undefined on input li
 ne 5.
 
 
-LaTeX Warning: Citation `desouza2025astronomy' on page 81 undefined on input li
+LaTeX Warning: Citation `desouza2025astronomy' on page 82 undefined on input li
 ne 12.
 
 
-LaTeX Warning: Citation `desouza2025astronomy' on page 81 undefined on input li
+LaTeX Warning: Citation `desouza2025astronomy' on page 82 undefined on input li
 ne 15.
 
 ! Undefined control sequence.
@@ -3023,27 +2984,27 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `desouza2025astronomy' on page 81 undefined on input li
+LaTeX Warning: Citation `desouza2025astronomy' on page 82 undefined on input li
 ne 24.
 
 
-LaTeX Warning: Citation `desouza2025astronomy' on page 81 undefined on input li
+LaTeX Warning: Citation `desouza2025astronomy' on page 82 undefined on input li
 ne 32.
 
 
-LaTeX Warning: Citation `desouza2025astronomy' on page 81 undefined on input li
+LaTeX Warning: Citation `desouza2025astronomy' on page 82 undefined on input li
 ne 35.
 
-[81
+[82
 
 
 ]
 
-LaTeX Warning: Citation `desouza2025astronomy' on page 82 undefined on input li
+LaTeX Warning: Citation `desouza2025astronomy' on page 83 undefined on input li
 ne 58.
 
 
-LaTeX Warning: Citation `desouza2025astronomy' on page 82 undefined on input li
+LaTeX Warning: Citation `desouza2025astronomy' on page 83 undefined on input li
 ne 61.
 
 ! Use of \lstno@ doesn't match its definition.
@@ -3056,38 +3017,38 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[82]
-
-LaTeX Warning: Citation `desouza2025astronomy' on page 83 undefined on input li
-ne 121.
-
-
-LaTeX Warning: Citation `desouza2025astronomy' on page 83 undefined on input li
-ne 124.
-
 [83]
 
 LaTeX Warning: Citation `desouza2025astronomy' on page 84 undefined on input li
-ne 153.
+ne 121.
 
 
 LaTeX Warning: Citation `desouza2025astronomy' on page 84 undefined on input li
+ne 124.
+
+[84]
+
+LaTeX Warning: Citation `desouza2025astronomy' on page 85 undefined on input li
+ne 153.
+
+
+LaTeX Warning: Citation `desouza2025astronomy' on page 85 undefined on input li
 ne 197.
 
-) [84]
+) [85]
 \openout2 = `chapters/ch14_fair_data.aux'.
 
  (./chapters/ch14_fair_data.tex
 Chapter 15.
 
-LaTeX Warning: Citation `bacher2026fair' on page 85 undefined on input line 4.
+LaTeX Warning: Citation `bacher2026fair' on page 86 undefined on input line 4.
 
 
-LaTeX Warning: Citation `bacher2026fair' on page 85 undefined on input line 12.
+LaTeX Warning: Citation `bacher2026fair' on page 86 undefined on input line 12.
 
 
 
-LaTeX Warning: Citation `bacher2026fair' on page 85 undefined on input line 15.
+LaTeX Warning: Citation `bacher2026fair' on page 86 undefined on input line 15.
 
 
 ! Undefined control sequence.
@@ -3101,14 +3062,14 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-[85
+[86
 
 
 
 
 ]
 
-LaTeX Warning: Citation `bacher2026fair' on page 86 undefined on input line 32.
+LaTeX Warning: Citation `bacher2026fair' on page 87 undefined on input line 32.
 
 
 ! Use of \lstno@ doesn't match its definition.
@@ -3121,7 +3082,7 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[86]
+[87]
 ! Use of \lstno@ doesn't match its definition.
 \lst@SetFirstNumber ...@intname \endcsname \relax 
                                                   \ifnum \@tempcnta =\z@ \el...
@@ -3133,38 +3094,38 @@ made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
 
-LaTeX Warning: Citation `bacher2026fair' on page 87 undefined on input line 129
-.
-
-[87]
-
-LaTeX Warning: Citation `bacher2026fair' on page 88 undefined on input line 151
-.
-
-
-LaTeX Warning: Citation `bacher2026fair' on page 88 undefined on input line 158
-.
-
-
-LaTeX Warning: Citation `bacher2026fair' on page 88 undefined on input line 159
+LaTeX Warning: Citation `bacher2026fair' on page 88 undefined on input line 129
 .
 
 [88]
 
-LaTeX Warning: Citation `bacher2026fair' on page 89 undefined on input line 200
+LaTeX Warning: Citation `bacher2026fair' on page 89 undefined on input line 151
 .
 
-) [89]
+
+LaTeX Warning: Citation `bacher2026fair' on page 89 undefined on input line 158
+.
+
+
+LaTeX Warning: Citation `bacher2026fair' on page 89 undefined on input line 159
+.
+
+[89]
+
+LaTeX Warning: Citation `bacher2026fair' on page 90 undefined on input line 200
+.
+
+) [90]
 \openout2 = `chapters/ch15_tomography.aux'.
 
  (./chapters/ch15_tomography.tex
 Chapter 16.
 
-LaTeX Warning: Citation `foschiatti2025tomography' on page 90 undefined on inpu
+LaTeX Warning: Citation `foschiatti2025tomography' on page 91 undefined on inpu
 t line 6.
 
 
-LaTeX Warning: Citation `foschiatti2025tomography' on page 90 undefined on inpu
+LaTeX Warning: Citation `foschiatti2025tomography' on page 91 undefined on inpu
 t line 16.
 
 ! Undefined control sequence.
@@ -3179,21 +3140,21 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 
-LaTeX Warning: Citation `foschiatti2025tomography' on page 90 undefined on inpu
+LaTeX Warning: Citation `foschiatti2025tomography' on page 91 undefined on inpu
 t line 25.
 
-[90
+[91
 
 
 
 
 ]
 
-LaTeX Warning: Citation `foschiatti2025tomography' on page 91 undefined on inpu
+LaTeX Warning: Citation `foschiatti2025tomography' on page 92 undefined on inpu
 t line 38.
 
 
-LaTeX Warning: Citation `foschiatti2025tomography' on page 91 undefined on inpu
+LaTeX Warning: Citation `foschiatti2025tomography' on page 92 undefined on inpu
 t line 45.
 
 ! Use of \lstno@ doesn't match its definition.
@@ -3206,7 +3167,7 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[91]
+[92]
 ! Use of \lstno@ doesn't match its definition.
 \lst@SetFirstNumber ...@intname \endcsname \relax 
                                                   \ifnum \@tempcnta =\z@ \el...
@@ -3227,7 +3188,7 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[92]
+[93]
 ! Use of \lstno@ doesn't match its definition.
 \lst@SetFirstNumber ...@intname \endcsname \relax 
                                                   \ifnum \@tempcnta =\z@ \el...
@@ -3239,23 +3200,23 @@ made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
 
-LaTeX Warning: Citation `foschiatti2025tomography' on page 93 undefined on inpu
+LaTeX Warning: Citation `foschiatti2025tomography' on page 94 undefined on inpu
 t line 182.
 
-[93] [94]
+[94] [95]
 
-LaTeX Warning: Citation `foschiatti2025tomography' on page 95 undefined on inpu
+LaTeX Warning: Citation `foschiatti2025tomography' on page 96 undefined on inpu
 t line 261.
 
 
-LaTeX Warning: Citation `foschiatti2025tomography' on page 95 undefined on inpu
+LaTeX Warning: Citation `foschiatti2025tomography' on page 96 undefined on inpu
 t line 265.
 
 
-LaTeX Warning: Citation `foschiatti2025tomography' on page 95 undefined on inpu
+LaTeX Warning: Citation `foschiatti2025tomography' on page 96 undefined on inpu
 t line 273.
 
-) [95] [96
+) [96] [97
 
 
 
@@ -3284,7 +3245,7 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[97
+[98
 
 
 ]
@@ -3318,7 +3279,7 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[98]
+[99]
 ! Use of \lstno@ doesn't match its definition.
 \lst@SetFirstNumber ...@intname \endcsname \relax 
                                                   \ifnum \@tempcnta =\z@ \el...
@@ -3339,7 +3300,7 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-[99]
+[100]
 ! Use of \lstno@ doesn't match its definition.
 \lst@SetFirstNumber ...@intname \endcsname \relax 
                                                   \ifnum \@tempcnta =\z@ \el...
@@ -3350,12 +3311,12 @@ put `1' after `\a', since control sequence names are
 made up of letters only. The macro here has not been
 followed by the required stuff, so I'm ignoring it.
 
-) [100]
+) [101]
 \openout2 = `chapters/appendix_b_linear_algebra.aux'.
 
  (./chapters/appendix_b_linear_algebra.tex
 Appendix B.
-[101
+[102
 
 
 
@@ -3364,7 +3325,7 @@ Appendix B.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-) [102] [103] (./ams_book.bbl [104
+) [103] [104] (./ams_book.bbl [105
 
 
 
@@ -3407,7 +3368,7 @@ and I'll forget about whatever was undefined.
 
 Package glossaries Warning: Glossary `' doesn't exist on input line 410.
 
-[105] (./ams_book.aux (./chapters/ch01_gaussian_elimination.aux)
+[106] (./ams_book.aux (./chapters/ch01_gaussian_elimination.aux)
 (./chapters/ch02_fewnomial_theory.aux) (./chapters/ch03_spectral_methods.aux)
 (./chapters/ch04_deep_learning_geometry.aux)
 (./chapters/ch05_equivariant_nn.aux) (./chapters/ch06_topological_ml.aux)
@@ -3443,9 +3404,9 @@ Package rerunfilecheck Info: File `ams_book.out' has not changed.
 (\end occurred when \ifnum on line 345 was incomplete)
 (\end occurred when \ifnum on line 337 was incomplete) 
 Here is how much of TeX's memory you used:
- 34837 strings out of 467525
- 635583 string characters out of 5408440
- 1617544 words of memory out of 5000000
+ 34838 strings out of 467525
+ 635591 string characters out of 5408440
+ 1617550 words of memory out of 5000000
  60888 multiletter control sequences out of 15000+600000
  818646 words of font info for 429 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -3487,10 +3448,10 @@ ve/20260301/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></opt/homebrew/Ce
 llar/texlive/20260301/share/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></opt/
 homebrew/Cellar/texlive/20260301/share/texmf-dist/fonts/type1/public/amsfonts/s
 ymbols/msbm10.pfb>
-Output written on ams_book.pdf (114 pages, 901855 bytes).
+Output written on ams_book.pdf (115 pages, 902492 bytes).
 PDF statistics:
- 3571 PDF objects out of 3580 (max. 8388607)
- 3364 compressed objects within 34 object streams
- 1784 named destinations out of 2073 (max. 500000)
+ 3576 PDF objects out of 3580 (max. 8388607)
+ 3368 compressed objects within 34 object streams
+ 1785 named destinations out of 2073 (max. 500000)
  100001 words of extra memory for PDF output out of 106986 (max. 10000000)
 

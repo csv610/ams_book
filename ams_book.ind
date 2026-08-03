@@ -1,132 +1,131 @@
 \begin{theindex}
 
-  \item affine spline, \hyperpage{23}
-  \item anomaly detection, \hyperpage{65}, \hyperpage{70}
-  \item autoencoders, \hyperpage{65}, \hyperpage{70}
+  \item affine spline, \hyperpage{24}
+  \item anomaly detection, \hyperpage{66}, \hyperpage{71}
+  \item autoencoders, \hyperpage{66}, \hyperpage{71}
 
   \indexspace
 
-  \item backward stability, \hyperpage{102}
-  \item Bancroft algorithm, \hyperpage{50}
-  \item batch normalization, \hyperpage{23}
-  \item Bayesian inference, astronomy, \hyperpage{81}
+  \item backward stability, \hyperpage{103}
+  \item Bancroft algorithm, \hyperpage{51}
+  \item batch normalization, \hyperpage{24}
+  \item Bayesian inference, astronomy, \hyperpage{82}
 
   \indexspace
 
-  \item centrality measures, \hyperpage{16}
-  \item Cholesky factorization, \hyperpage{102}
-  \item composition (operadic), \hyperpage{75}
-  \item condition number, \hyperpage{9}, \hyperpage{102}
-  \item conjugate gradient, \hyperpage{102}
-  \item constrained codes, \hyperpage{60}
+  \item centrality measures, \hyperpage{17}
+  \item Cholesky factorization, \hyperpage{103}
+  \item composition (operadic), \hyperpage{76}
+  \item condition number, \hyperpage{9}, \hyperpage{103}
+  \item conjugate gradient, \hyperpage{103}
+  \item constrained codes, \hyperpage{61}
 
   \indexspace
 
-  \item DARPA CASCADE, \hyperpage{75}
-  \item deep learning, geometry of, \hyperpage{27}
-  \item DeGroot model, \hyperpage{16}
-  \item differential equations, Julia, \hyperpage{100}
-  \item DNA storage, \hyperpage{60}
-  \item dynamical systems, \hyperpage{53}
+  \item DARPA CASCADE, \hyperpage{76}
+  \item deep learning, geometry of, \hyperpage{28}
+  \item DeGroot model, \hyperpage{17}
+  \item differential equations, Julia, \hyperpage{101}
+  \item DNA storage, \hyperpage{61}
+  \item dynamical systems, \hyperpage{54}
 
   \indexspace
 
-  \item edit distance codes, \hyperpage{61}
-  \item entropy (information theory), \hyperpage{43}
-  \item equivariant networks, \hyperpage{31}
-  \item Euler characteristic transform, \hyperpage{35}
+  \item edit distance codes, \hyperpage{62}
+  \item entropy (information theory), \hyperpage{44}
+  \item equivariant networks, \hyperpage{32}
+  \item Euler characteristic transform, \hyperpage{36}
 
   \indexspace
 
-  \item factorization, matrix, \hyperpage{102}
-  \item FAIR principles, \hyperpage{85}
-  \item filtered back-projection, \hyperpage{90}
+  \item factorization, matrix, \hyperpage{103}
+  \item FAIR principles, \hyperpage{86}
+  \item filtered back-projection, \hyperpage{91}
   \item floating-point arithmetic, \hyperpage{3}
-  \item forward error, \hyperpage{102}
-  \item Frobenius norm, \hyperpage{102}
+  \item forward error, \hyperpage{103}
+  \item Frobenius norm, \hyperpage{103}
 
   \indexspace
 
-  \item Gauss-Seidel, \hyperpage{102}
+  \item Gauss-Seidel, \hyperpage{103}
   \item Gaussian elimination, \hyperpage{2}
-  \item Gershgorin disks, \hyperpage{102}
-  \item GMRES, \hyperpage{102}
-  \item GPS (global positioning), \hyperpage{48}
-  \item group representations, \hyperpage{29}
-  \item growth factor, \hyperpage{2, 3}
+  \item Gershgorin disks, \hyperpage{103}
+  \item GMRES, \hyperpage{103}
+  \item GPS (global positioning), \hyperpage{49}
+  \item group representations, \hyperpage{30}
+  \item growth factor, \hyperpage{3}
 
   \indexspace
 
-  \item Herculaneum scrolls, \hyperpage{90}
+  \item Herculaneum scrolls, \hyperpage{91}
 
   \indexspace
 
-  \item invariant manifolds, \hyperpage{53}
-  \item iterative methods, \hyperpage{102}
+  \item invariant manifolds, \hyperpage{54}
+  \item iterative methods, \hyperpage{103}
 
   \indexspace
 
-  \item Jacobi method, \hyperpage{102}
-  \item Julia, quickstart, \hyperpage{100}
+  \item Jacobi method, \hyperpage{103}
+  \item Julia, quickstart, \hyperpage{101}
 
   \indexspace
 
-  \item Kushnirenko-Bernstein theorem, \hyperpage{10}
+  \item Kushnirenko-Bernstein theorem, \hyperpage{11}
 
   \indexspace
 
-  \item least squares, \hyperpage{102}
-  \item least squares, history of, \hyperpage{81}
-  \item linear algebra, GPS application, \hyperpage{48}
-  \item linear algebra, Julia, \hyperpage{100}
-  \item Lorenz system, \hyperpage{53}
+  \item least squares, \hyperpage{103}
+  \item least squares, history of, \hyperpage{82}
+  \item linear algebra, GPS application, \hyperpage{49}
+  \item linear algebra, Julia, \hyperpage{101}
+  \item Lorenz system, \hyperpage{54}
   \item LU factorization, \hyperpage{3}
-  \item LUP factorization, \hyperpage{102}
+  \item LUP factorization, \hyperpage{103}
 
   \indexspace
 
-  \item MCMC methods, \hyperpage{81}
+  \item MCMC methods, \hyperpage{82}
 
   \indexspace
 
-  \item normal equations, \hyperpage{102}
-  \item numerical stability, \hyperpage{102}
+  \item normal equations, \hyperpage{103}
+  \item numerical stability, \hyperpage{103}
 
   \indexspace
 
-  \item overdetermined systems, \hyperpage{102}
+  \item overdetermined systems, \hyperpage{103}
 
   \indexspace
 
-  \item packages, management, \hyperpage{100}
-  \item Perron-Frobenius theorem, \hyperpage{16}, \hyperpage{102}
-  \item persistent homology, \hyperpage{41}
-  \item pivoting, \hyperpage{2}
-  \item plotting, Julia, \hyperpage{100}
+  \item packages, management, \hyperpage{101}
+  \item Perron-Frobenius theorem, \hyperpage{17}, \hyperpage{103}
+  \item persistent homology, \hyperpage{42}
+  \item plotting, Julia, \hyperpage{101}
 
   \indexspace
 
-  \item QR factorization, \hyperpage{102}
+  \item QR factorization, \hyperpage{103}
 
   \indexspace
 
-  \item Radon transform, \hyperpage{91}
-  \item reinforcement learning, cybersecurity, \hyperpage{65}, 
-		\hyperpage{70}
-  \item ReLU networks, \hyperpage{23}
-  \item root counting, \hyperpage{10}
+  \item Radon transform, \hyperpage{92}
+  \item reinforcement learning, cybersecurity, \hyperpage{66}, 
+		\hyperpage{71}
+  \item ReLU networks, \hyperpage{24}
+  \item root counting, \hyperpage{11}
 
   \indexspace
 
-  \item satellite geometry, \hyperpage{48}
-  \item SE(3) equivariance, \hyperpage{31}
-  \item shape classification, \hyperpage{35}
-  \item spectral norm, \hyperpage{102}
-  \item SVD, \hyperpage{102}
-  \item symmetry in neural networks, \hyperpage{29}
+  \item satellite geometry, \hyperpage{49}
+  \item SE(3) equivariance, \hyperpage{32}
+  \item shape classification, \hyperpage{36}
+  \item spectral norm, \hyperpage{103}
+  \item SVD, \hyperpage{103}
+  \item symmetry in neural networks, \hyperpage{30}
 
   \indexspace
 
-  \item tropical geometry, \hyperpage{10}
+  \item tropical geometry, \hyperpage{11}
 
 \end{theindex}
