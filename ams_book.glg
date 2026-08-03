@@ -1,4 +1,7 @@
-Warning: File 'ams_book.glo' is empty.
-Have you used any entries defined in glossary 'main'?
-Remember to use package option 'nomain' if you
-don't want to use the main glossary.
+This is makeindex, version 2.18 [TeX Live 2026] (kpathsea + Thai support).
+Scanning style file ./ams_book.ist...........................done (27 attributes redefined, 0 ignored).
+Scanning input file ams_book.glo....done (2 entries accepted, 0 rejected).
+Sorting entries....done (2 comparisons).
+Generating output file ams_book.gls....done (9 lines written, 0 warnings).
+Output written in ams_book.gls.
+Transcript written in ams_book.glg.

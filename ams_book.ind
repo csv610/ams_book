@@ -16,7 +16,7 @@
   \item centrality measures, \hyperpage{17}
   \item Cholesky factorization, \hyperpage{103}
   \item composition (operadic), \hyperpage{76}
-  \item condition number, \hyperpage{103}
+  \item condition number, \hyperpage{9}, \hyperpage{103}
   \item conjugate gradient, \hyperpage{103}
   \item constrained codes, \hyperpage{61}
 
@@ -53,7 +53,7 @@
   \item GMRES, \hyperpage{103}
   \item GPS (global positioning), \hyperpage{49}
   \item group representations, \hyperpage{30}
-  \item growth factor, \hyperpage{2}
+  \item growth factor, \hyperpage{2, 3}
 
   \indexspace
 

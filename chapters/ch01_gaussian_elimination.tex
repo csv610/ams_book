@@ -31,7 +31,7 @@ This chapter is a guided tour through 75 years of answers:
 \begin{itemize}
     \item The \textbf{floating-point \index{floating-point arithmetic}model} and why exact arithmetic is impossibly slow
     \item \textbf{Backward stability}: the right way to measure algorithmic quality
-    \item The \textbf{growth factor} $\rho$: the single number that controls stability
+    \item The \textbf{growth factor}\index{growth factor} $\rho$: the single number that controls stability
     \item \textbf{Complete vs. partial pivoting}: theory vs. practice
     \item \textbf{Open problems}: what we still don't know after 75 years
 \end{itemize}
@@ -42,14 +42,14 @@ Along the way, we'll see Julia benchmarks showing why exact rational arithmetic 
 \section{What Is Gaussian Elimination?}
 \label{sec:ge:algorithm}
 
-Given an invertible matrix $\bm{A} \in \mathbb{R}^{n \times n}$ and a vector $\bm{b} \in \mathbb{R}^n$, Gaussian elimination solves $\bm{A}\bm{x} = \bm{b}$ in two stages:
+Given an invertible matrix \gls{mat} $\in \mathbb{R}^{n\times n}$ and a vector \gls{vec} $\in \mathbb{R}^n$, Gaussian elimination solves $A\mathbf{x} = \mathbf{b}$ in two stages:
 
 \begin{enumerate}
     \item \textbf{LU Factorization}: Factor $\bm{A} = \bm{L}\bm{U}$ where $\bm{L}$ is unit lower-triangular and $\bm{U}$ is upper-triangular.
     \item \textbf{Substitution}: Solve $\bm{L}\bm{y} = \bm{b}$ (forward) then $\bm{U}\bm{x} = \bm{y}$ (backward).
 \end{enumerate}
 
-The second stage is straightforward and numerically stable (conditional on the first). The heart of the algorithm---and the source of all instability---is the LU factorization.\index{LU factorization}
+The second stage is straightforward and numerically stable (conditional on the first). The heart of the algorithm---and the source of all instability---is the LU factorization\index{LU factorization}.
 
 The block-recursive formulation reveals the structure. Partition
 \[
@@ -362,7 +362,7 @@ Empirical results: for $n = 20$, partial pivoting gives $\mu \approx 10^3$, whil
 \end{solution}
 
 \begin{solution}
-\textbf{Exercise 2 (Condition number comparison):} For a matrix $A$ with condition number $\kappa(A) = 10^{12}$, the forward error bound is:
+\textbf{Exercise 2 (Condition number comparison):} For a matrix $A$ with condition number\index{condition number} $\kappa(A) = 10^{12}$, the forward error bound is:
 
 $$\frac{\|\delta x\|}{\|x\|} \leq \kappa(A) \cdot \frac{\|\delta b\|}{\|b\|} = 10^{12} \cdot \varepsilon_{\text{mach}}$$
 
