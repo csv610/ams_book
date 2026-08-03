@@ -55,15 +55,15 @@ The book is organized into six parts:
 
 ```bash
 # Generate PDF
-pdflatex ams_bool.tex
-bibtex ams_bool
-pdflatex ams_bool.tex
-pdflatex ams_bool.tex
+pdflatex ams_book.tex
+bibtex ams_book
+pdflatex ams_book.tex
+pdflatex ams_book.tex
 
 # Generate index
-makeindex ams_bool.idx
-pdflatex ams_bool.tex
-pdflatex ams_bool.tex
+makeindex ams_book.idx
+pdflatex ams_book.tex
+pdflatex ams_book.tex
 ```
 
 ### Companion Code

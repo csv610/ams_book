@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Homebrew) (preloaded format=pdflatex 2026.3.4)  2 AUG 2026 23:27
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Homebrew) (preloaded format=pdflatex 2026.3.4)  3 AUG 2026 07:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**ams_bool.tex
-(./ams_bool.tex
+**ams_book.tex
+(./ams_book.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
 
@@ -972,10 +972,10 @@ sty
 Package: makeidx 2021/10/04 v1.0m Standard LaTeX package
 )
 \@indexfile=\write3
-\openout3 = `ams_bool.idx'.
+\openout3 = `ams_book.idx'.
 
 
-Writing index file ams_bool.idx
+Writing index file ams_book.idx
 \c@theorem=\count392
 \c@exercise=\count393
 Package hyperref Info: Option `colorlinks' set `true' on input line 151.
@@ -990,7 +990,7 @@ File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ackend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count394
-) (./ams_bool.aux (./chapters/ch01_gaussian_elimination.aux)
+) (./ams_book.aux (./chapters/ch01_gaussian_elimination.aux)
 (./chapters/ch02_fewnomial_theory.aux) (./chapters/ch03_spectral_methods.aux)
 (./chapters/ch04_deep_learning_geometry.aux)
 (./chapters/ch05_equivariant_nn.aux) (./chapters/ch06_topological_ml.aux)
@@ -1053,7 +1053,7 @@ LaTeX Warning: Label `sec:cyber:exercises@cref' multiply defined.
 
 (./chapters/ch12_operads_systems.aux) (./chapters/ch13_astronomy_inference.aux)
 (./chapters/ch14_fair_data.aux) (./chapters/ch15_tomography.aux))
-\openout1 = `ams_bool.aux'.
+\openout1 = `ams_book.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 218.
 LaTeX Font Info:    ... okay on input line 218.
@@ -1124,9 +1124,9 @@ e
 ))
 \c@lstlisting=\count401
 Package hyperref Info: Link coloring ON on input line 218.
- (./ams_bool.out) (./ams_bool.out)
+ (./ams_book.out) (./ams_book.out)
 \@outlinefile=\write4
-\openout4 = `ams_bool.out'.
+\openout4 = `ams_book.out'.
 
 
 *geometry* driver: auto-detecting
@@ -1243,7 +1243,7 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 (/opt/homebrew/Cellar/texlive/20260301/share/texmf-dist/tex/latex/microtype/mt-
 msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-) (./ams_bool.toc
+) (./ams_book.toc
 pdfTeX warning (ext4): destination with the same identifier (name{page.i}) has 
 been already used, duplicate ignored
 <to be read again> 
@@ -1257,7 +1257,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 m-mathit.enc}{/opt/homebrew/Cellar/texlive/20260301/share/texmf-dist/fonts/enc/
 dvips/lm/lm-rm.enc}] [3] [4] [5])
 \tf@toc=\write5
-\openout5 = `ams_bool.toc'.
+\openout5 = `ams_book.toc'.
 
  [6]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
@@ -2058,13 +2058,13 @@ followed by the required stuff, so I'm ignoring it.
 
 
 
-] (./ams_bool.bbl [92
+] (./ams_book.bbl [92
 
 
-]) (./ams_bool.ind [93] [94
+]) (./ams_book.ind [93] [94
 
 ])
-(./ams_bool.aux (./chapters/ch01_gaussian_elimination.aux)
+(./ams_book.aux (./chapters/ch01_gaussian_elimination.aux)
 (./chapters/ch02_fewnomial_theory.aux) (./chapters/ch03_spectral_methods.aux)
 (./chapters/ch04_deep_learning_geometry.aux)
 (./chapters/ch05_equivariant_nn.aux) (./chapters/ch06_topological_ml.aux)
@@ -2084,7 +2084,7 @@ LaTeX Warning: There were undefined references.
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `ams_bool.out' has not changed.
+Package rerunfilecheck Info: File `ams_book.out' has not changed.
 (rerunfilecheck)             Checksum: 017C4C43BF96DA1EC4962143C3D14B34;36765.
  )
 (\end occurred when \ifnum on line 356 was incomplete)
@@ -2135,7 +2135,7 @@ type1/public/lm/lmtk10.pfb></opt/homebrew/Cellar/texlive/20260301/share/texmf-d
 ist/fonts/type1/public/lm/lmtt10.pfb></opt/homebrew/Cellar/texlive/20260301/sha
 re/texmf-dist/fonts/type1/public/lm/lmtti10.pfb></opt/homebrew/Cellar/texlive/2
 0260301/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on ams_bool.pdf (102 pages, 863054 bytes).
+Output written on ams_book.pdf (102 pages, 863054 bytes).
 PDF statistics:
  3435 PDF objects out of 3580 (max. 8388607)
  3241 compressed objects within 33 object streams
