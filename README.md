@@ -114,7 +114,7 @@ Articles reprinted with permission from *Notices of the American Mathematical So
 ## Repository
 
 - **Source:** https://github.com/csv610/ams_book
-- **PDF:** See `ams_bool.pdf`
+- **PDF:** See `ams_book.pdf`
 
 ## Related Projects
 
