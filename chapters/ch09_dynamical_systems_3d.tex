@@ -17,6 +17,8 @@ Stable and unstable manifolds organize the long-term behavior of dynamical syste
 
 %==============================================================================
 \section{Introduction: Why Print Manifolds?}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:3dp:intro}
 
 Consider the Lorenz \index{Lorenz system}system: \cite{bishop2026printing}
@@ -223,6 +225,30 @@ We've seen how to \emph{visualize} and \emph{fabricate} geometric objects from d
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:3dp:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (Lorenz stable manifold):} The Lorenz system at $\sigma = 10, \rho = 28, \beta = 8/3$ has a saddle fixed point at the origin. The stable manifold is 2D, tangent to the eigenvectors of the stable eigenvalues. At order 5 Taylor approximation, the manifold is:
+$$W^s_{\text{loc}} = \{(x,y,z) : z = h(x,y)\}$$
+where $h$ is computed by solving the homological equation.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (ACT system):} The Arneodo-Coullet-Tresser system has a homoclinic orbit to the origin for certain parameter values. The unstable manifold is computed by the Parameterization Method using Taylor series expansion.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (Homoclinic tangle):} The Smale horseshoe has a homoclinic tangle where the stable and unstable manifolds intersect transversally. For 3D printing, we approximate the manifold by a mesh of triangles, truncating at a minimum scale.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Research):} The Parameterization Method can be extended to higher dimensions and to invariant tori. The convergence is guaranteed by the implicit function theorem in Banach spaces.
+\end{solution}
+
 \label{sec:3dp:exercises}
 
 \begin{exercise}

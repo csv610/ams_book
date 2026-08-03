@@ -17,6 +17,8 @@ The Euler Characteristic Transform (ECT) converts a shape (simplicial complex) i
 
 %==============================================================================
 \section{Introduction: Topology as Inductive Bias}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:ect:intro}
 
 Deep learning excels at learning features from data. But what if we already know something about the \emph{structure} of the data? For shapes (3D meshes, point clouds, graphs), topology provides invariants that are robust to deformation, noise, and discretization, \cite{rieck2025topology}.
@@ -263,6 +265,28 @@ The ECT provides a \textbf{topological summary} of shape. Chapter 7 addresses a 
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:ect:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (ECT injectivity):} The Euler Characteristic Transform is injective for finite simplicial complexes by the inversion formula: $K$ can be recovered from $\text{ECT}(K)$ by evaluating at all directions and using the fact that $\chi$ is additive under union.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (Sigmoid approximation):} The sigmoid approximation to the Heaviside step function is $H_\epsilon(t) = \frac{1}{1 + e^{-t/\epsilon}}$. As $\epsilon \to 0$, $H_\epsilon \to H$. The derivative is $H_\epsilon'(t) = \frac{e^{-t/\epsilon}}{\epsilon(1+e^{-t/\epsilon})^2}$, which becomes a delta function as $\epsilon \to 0$.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (Shape classification):} The ECT of a shape $K$ is a function on $S^{d-1}$. To classify shapes, we can use the $L^2$ norm $\|\text{ECT}(K_1) - \text{ECT}(K_2)\|_{L^2}$ as a distance. This distance is a topological invariant and is robust to noise and discretization.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Persistent homology):} The ECT determines the persistent homology of a filtration by sublevel sets. The Euler characteristic of the sublevel set at height $t$ is a weighted sum of Betti numbers: $\chi(X_t) = \beta_0 - \beta_1 + \beta_2 - \cdots$.
+\end{solution}
+
 \label{sec:ect:exercises}
 
 \begin{exercise}

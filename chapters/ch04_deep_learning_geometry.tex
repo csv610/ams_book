@@ -17,6 +17,8 @@ This chapter develops a geometric theory of deep ReLU \index{ReLU networks}netwo
 
 %==============================================================================
 \section{Introduction: The Black Box Problem}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:dl:intro}
 
 Deep networks work astonishingly well but remain poorly understood. The standard view: black boxes optimized by SGD. This chapter proposes a \textbf{white-box} view:
@@ -243,6 +245,33 @@ Deep networks are affine splines. Equivariant networks (Chapter 5) constrain the
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:dl:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (1D ReLU):} For a 1D ReLU network with 2 neurons and slopes $m_1 = 3, m_2 = -2$, the output is $f(x) = 3\max(0,x) - 2\max(0,x-1)$. This gives a piecewise linear function with breakpoints at $x = 0$ and $x = 1$:
+\begin{itemize}
+    \item $x < 0$: $f(x) = 0$
+    \item $0 \leq x < 1$: $f(x) = 3x$
+    \item $x \geq 1$: $f(x) = 3x - 2(x-1) = x + 2$
+\end{itemize}
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (Tile count):} A ReLU network with $L$ layers and $n$ neurons per layer partitions $\mathbb{R}^d$ into at most $\prod_{l=1}^L (1 + n_l)$ tiles in 1D. For $d$ dimensions, the bound is $\sum_{j=0}^d \binom{N}{j}$ where $N = \sum n_l$ is the total number of neurons.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (SplineCam):} SplineCam visualizes the piecewise-affine structure by coloring each tile by the affine transformation applied. The implementation uses ray tracing: for each pixel, trace a ray through input space and identify which tile the ray passes through.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Research):} Deep networks with depth $L$ and width $n$ can represent functions with fractal-like decision boundaries. The number of linear regions grows exponentially with depth but only polynomially with width, explaining why deep narrow networks can be more expressive than shallow wide ones.
+\end{solution}
+
 \label{sec:dl:exercises}
 
 \begin{exercise}

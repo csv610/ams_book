@@ -1,0 +1,141 @@
+%==============================================================================
+% APPENDIX B: Linear Algebra Reference
+%==============================================================================
+\chapter{Linear Algebra Reference}
+\label{app:linalg}
+
+\begin{abstract}
+This appendix summarizes the linear algebra concepts used throughout this book. It covers matrix factorizations, eigenvalue theory, singular value decomposition, and numerical stability---the mathematical foundations underlying every chapter.
+\end{abstract}
+
+%------------------------------------------------------------------------------
+\section{Matrix Factorizations}
+\label{app:linalg:fact}
+
+\begin{description}
+    \item[LUP Factorization] $A = PLU$, where $P$ is a permutation, $L$ is unit lower-triangular, and $U$ is upper-triangular. The workhorse of numerical linear algebra; used in Gaussian elimination.
+
+    \item[QR Factorization] $A = QR$, where $Q$ is orthogonal and $R$ is upper-triangular. Numerically stable; used for least squares problems.
+
+    \item[Eigenvalue Decomposition] $A = V\Lambda V^{-1}$ for symmetric matrices. $\Lambda$ contains eigenvalues $\lambda_i$, $V$ contains eigenvectors.
+
+    \item[Singular Value Decomposition (SVD)] $A = U\Sigma V^T$ for any matrix. $\Sigma$ contains singular values $\sigma_i \geq 0$. Most important factorization in applied mathematics.
+
+    \item[Cholesky Factorization] $A = LL^T$ for symmetric positive definite matrices. Twice as fast as LUP; used in optimization and statistics.
+\end{description}
+
+%------------------------------------------------------------------------------
+\section{Eigenvalue Theory}
+\label{app:linalg:eigen}
+
+\begin{theorem}[Spectral Theorem]
+If $A$ is real symmetric, then all eigenvalues are real, eigenvectors can be chosen orthonormal, and $A = Q\Lambda Q^T$.
+\end{theorem}
+
+\begin{theorem}[Gershgorin Circle Theorem]
+Every eigenvalue of $A$ lies in at least one Gershgorin disk $D(a_{ii}, R_i)$ where $R_i = \sum_{j \neq i} |a_{ij}|$.
+\end{theorem}
+
+\begin{theorem}[Perron-Frobenius]
+If $A \geq 0$ is irreducible, then $\rho(A)$ is a simple eigenvalue with positive eigenvectors. All other eigenvalues satisfy $|\lambda| < \rho(A)$.
+\end{theorem}
+
+%------------------------------------------------------------------------------
+\section{Norms and Condition Numbers}
+\label{app:linalg:norms}
+
+\begin{description}
+    \item[Vector norms] $\|x\|_1 = \sum |x_i|$, $\|x\|_2 = \sqrt{\sum x_i^2}$, $\|x\|_\infty = \max |x_i|$.
+    \item[Induced matrix norms] $\|A\|_p = \sup_{x \neq 0} \|Ax\|_p / \|x\|_p$.
+    \item[Spectral norm] $\|A\|_2 = \sigma_{\max}(A)$.
+    \item[Frobenius norm] $\|A\|_F = \sqrt{\sum_{i,j} a_{ij}^2} = \sqrt{\text{tr}(A^TA)}$.
+    \item[Condition number] $\kappa(A) = \|A\| \cdot \|A^{-1}\| = \sigma_{\max}/\sigma_{\min}$.
+\end{description}
+
+\index{condition number}
+\index{spectral norm}
+\index{Frobenius norm}
+\index{Perron-Frobenius theorem}
+\index{Gershgorin disks}
+
+%------------------------------------------------------------------------------
+\section{Numerical Stability}
+\label{app:linalg:stability}
+
+\begin{definition}[Backward Stability]
+An algorithm is backward stable if the computed solution $\hat{x}$ is the exact solution to a slightly perturbed problem: $A\hat{x} = b + \delta b$ with $\|\delta b\| / \|b\| \leq O(\varepsilon)$.
+\end{definition}
+
+\begin{definition}[Forward Error]
+The forward error measures how far the computed solution is from the exact solution: $\|x - \hat{x}\| / \|x\|$.
+\end{definition}
+
+For a linear system $Ax = b$, the forward error satisfies:
+$$\frac{\|x - \hat{x}\|}{\|x\|} \leq \kappa(A) \cdot \frac{\|\delta b\|}{\|b\|}$$
+
+\index{backward stability}
+\index{forward error}
+\index{numerical stability}
+
+%------------------------------------------------------------------------------
+\section{Least Squares}
+\label{app:linalg:ls}
+
+For overdetermined systems $Ax \approx b$, the least squares solution minimizes $\|Ax - b\|_2$:
+$$x^* = \arg\min_x \|Ax - b\|_2$$
+
+\begin{itemize}
+    \item \textbf{Normal equations}: $x^* = (A^TA)^{-1}A^Tb$
+    \item \textbf{QR method}: Solve $Rx = Q^Tb$ where $A = QR$
+    \item \textbf{SVD method}: $x^* = V\Sigma^{-1}U^Tb$
+\end{itemize}
+
+The QR and SVD methods are numerically stable; normal equations should be avoided for ill-conditioned problems.
+
+\index{least squares}
+\index{normal equations}
+\index{overdetermined systems}
+
+%------------------------------------------------------------------------------
+\section{Iterative Methods}
+\label{app:linalg:iterative}
+
+For large sparse systems, direct factorization is impractical. Iterative methods compute $x^{(k)} \to x^*$:
+
+\begin{description}
+    \item[Jacobi method] $x_i^{(k+1)} = (b_i - \sum_{j \neq i} a_{ij}x_j^{(k)}) / a_{ii}$
+    \item[Gauss-Seidel] Uses newest values immediately: $x_i^{(k+1)} = (b_i - \sum_{j < i} a_{ij}x_j^{(k+1)} - \sum_{j > i} a_{ij}x_j^{(k)}) / a_{ii}$
+    \item[Krylov subspace methods] GMRES, CG, BiCGSTAB for large sparse systems.
+\end{description}
+
+\index{iterative methods}
+\index{Jacobi method}
+\index{Gauss-Seidel}
+\index{GMRES}
+\index{conjugate gradient}
+
+%------------------------------------------------------------------------------
+\section{Summary Table}
+\label{app:linalg:summary}
+
+\begin{table}[h]
+\centering
+\caption{Matrix factorizations and their uses}
+\begin{tabular}{lll}
+\hline
+\textbf{Factorization} & \textbf{Form} & \textbf{Use Case} \\
+\hline
+LUP & $A = PLU$ & General square systems \\
+QR & $A = QR$ & Least squares, orthogonal problems \\
+SVD & $A = U\Sigma V^T$ & Rank, conditioning, pseudoinverse \\
+Cholesky & $A = LL^T$ & Symmetric positive definite \\
+Eigenvalue & $A = V\Lambda V^{-1}$ & Symmetric matrices, dynamics \\
+\hline
+\end{tabular}
+\end{table}
+
+\index{factorization, matrix}
+\index{LUP factorization}
+\index{QR factorization}
+\index{SVD}
+\index{Cholesky factorization}

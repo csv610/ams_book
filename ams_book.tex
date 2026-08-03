@@ -59,6 +59,16 @@
 \newtheorem{algorithmthm}[theorem]{Algorithm}
 \newtheorem{problem}[theorem]{Problem}
 
+%------------------------------------------------------------------------------
+% Solution environment
+%------------------------------------------------------------------------------
+\newenvironment{solution}{%
+  \par\medskip
+  \noindent\textbf{Solution.}\ignorespaces
+}{%
+  \par\medskip
+}
+
 \theoremstyle{definition}
 \newtheorem{exercise}{Exercise}[chapter]
 
@@ -174,7 +184,8 @@
 %------------------------------------------------------------------------------
 % Glossary
 %------------------------------------------------------------------------------
-%\makeglossaries
+\makeglossaries
+\loadglsentries{styles/glossary}
 
 %------------------------------------------------------------------------------
 % Abstract environment for chapters
@@ -373,6 +384,14 @@ The articles have been lightly edited for consistency: notation is unified acros
 
 %\include{chapters/ch16_machine_assisted_proof}
 
+%==============================================================================
+% APPENDICES
+%==============================================================================
+\appendix
+
+\include{chapters/appendix_a_julia_quickstart}
+\include{chapters/appendix_b_linear_algebra}
+
 %------------------------------------------------------------------------------
 % Bibliography
 %------------------------------------------------------------------------------
@@ -384,5 +403,10 @@ The articles have been lightly edited for consistency: notation is unified acros
 % Index
 %------------------------------------------------------------------------------
 \printindex
+
+%------------------------------------------------------------------------------
+% Glossary
+%------------------------------------------------------------------------------
+\printglossary[title=Glossary, type=\mainglossary]
 
 \end{document}

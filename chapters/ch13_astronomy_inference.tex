@@ -17,6 +17,8 @@ From Hipparchus averaging solstice times to Hamiltonian Monte Carlo sampling cos
 
 %==============================================================================
 \section{Introduction: Astronomy as an Inference Engine}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:astro:intro}
 
 Astronomy is fundamentally an \textbf{inverse problem}: we observe photons (or gravitational waves, neutrinos) and infer the physical universe. Every major advance in data $\to$ model inference has an astronomical milestone: \cite{desouza2025astronomy}
@@ -155,6 +157,28 @@ Astronomy drives \emph{methodological} innovation. Chapter 14 shows how \emph{en
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:astro:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (Least squares):} For the Ceres orbit determination, Gauss used 6 observations to solve for 6 orbital elements. The normal equations $A^T A x = A^T b$ give the least squares solution.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (MCMC):} Hamiltonian Monte Carlo samples from posterior distributions using gradient information. The leapfrog integrator preserves the Hamiltonian structure, giving high acceptance rates.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (Nested sampling):} Nested sampling estimates the Bayesian evidence by sampling from nested likelihood contours. It is particularly useful for multimodal distributions.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Research):} Amortized inference uses neural networks to approximate the posterior. Once trained, inference is instantaneous, making it suitable for real-time applications.
+\end{solution}
+
 \label{sec:astro:exercises}
 
 \begin{exercise}

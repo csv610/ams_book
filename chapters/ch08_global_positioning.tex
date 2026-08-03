@@ -17,6 +17,8 @@ The Global Positioning System (GPS) \index{GPS (global positioning)}solves a sys
 
 %==============================================================================
 \section{Introduction: The Problem}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:gps:intro}
 
 Your phone receives signals from GPS satellites. Each satellite $i$ broadcasts: \cite{boutin2025gps}
@@ -224,6 +226,28 @@ GPS solves a \emph{static} nonlinear system by algebraic geometry. Chapter 9 add
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:gps:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (GPS with 4 satellites):} For satellites at $(\pm 20000, 0, 20000)$ and $(0, \pm 20000, 20000)$ with $\tau_i = 25000$, the user is at the origin with clock bias $b = 50$. The satellites lie on a sphere centered at the origin, which is a quadric with focus at the user. This gives two symmetric solutions: $(0,0,0)$ and a point far below the satellites.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (Sphere ambiguity):} If all satellites lie on a sphere centered at the user, the GPS equations have exactly two solutions. This is because the quadratic constraint $||X||^2 - 2\sigma \cdot X + ||\sigma||^2 = 0$ intersects the plane of linear solutions in two points.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (Rank-3 solver):} For coplanar satellites, the matrix $A$ has rank 3. The nullspace is spanned by the normal to the satellite plane. Substituting $X = X_0 + t v$ into the quadratic constraint gives a quadratic equation in $t$, yielding 0, 1, or 2 solutions.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Research):} The Bancroft algorithm provides a closed-form solution for 4 satellites. It solves the quartic equation arising from the quadratic constraint, giving up to 4 algebraic solutions. The physically meaningful solution is selected by requiring positive altitude and clock bias.
+\end{solution}
+
 \label{sec:gps:exercises}
 
 \begin{exercise}

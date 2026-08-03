@@ -18,6 +18,8 @@ X-ray computed tomography (CT) enables non-destructive reading of damaged scroll
 
 %==============================================================================
 \section{Introduction: The Virtual Unwrapping Problem}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:tom:intro}
 
 Damaged scrolls (Herculaneum \index{Herculaneum scrolls}papyri, En-Gedi scroll, medieval manuscripts) cannot be physically opened. X-ray CT provides a solution: \cite{foschiatti2025tomography}
@@ -231,6 +233,28 @@ Tomography reconstructs \emph{hidden structure} from projections. Chapter 14 sho
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:tom:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (Radon transform):} The Radon transform of a function $f(x,y)$ is $Rf(\theta, s) = \int_{-\infty}^{\infty} f(s\cos\theta - t\sin\theta, s\sin\theta + t\cos\theta) dt$. For a point source at $(x_0, y_0)$, the Radon transform is a delta function on the line $\theta, s$ such that $(x_0, y_0)$ lies on the line.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (Filtered back-projection):} The filtered back-projection formula is $f(x,y) = \int_0^{\pi} (Rf(\theta, \cdot) * h)(x\cos\theta + y\sin\theta) d\theta$ where $h$ is the Ram-Lak filter with frequency response $|\omega|$.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (MIP):} Maximum Intensity Projection assigns to each pixel the maximum intensity along the ray. For scroll unwrapping, MIP helps visualize text layers by suppressing background.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Research):)} The Archeolab framework combines multiple imaging modalities and segmentation algorithms. Future work includes automated text recognition and 3D visualization.
+\end{solution}
+
 \label{sec:tom:exercises}
 
 \begin{exercise}

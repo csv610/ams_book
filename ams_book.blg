@@ -20,6 +20,8 @@ A level-1 auxiliary file: chapters/ch12_operads_systems.aux
 A level-1 auxiliary file: chapters/ch13_astronomy_inference.aux
 A level-1 auxiliary file: chapters/ch14_fair_data.aux
 A level-1 auxiliary file: chapters/ch15_tomography.aux
+A level-1 auxiliary file: chapters/appendix_a_julia_quickstart.aux
+A level-1 auxiliary file: chapters/appendix_b_linear_algebra.aux
 The style file: amsplain.bst
 Database file #1: references.bib
 Warning--missing pages in bacher2026fair
@@ -39,7 +41,7 @@ Warning--missing pages in rojas2025fewnomial
 Warning--missing pages in urschel2025numerical
 You've used 19 entries,
             2213 wiz_defined-function locations,
-            602 strings with 6736 characters,
+            604 strings with 6814 characters,
 and the built_in function-call counts, 5115 in all, are:
 = -- 411
 > -- 277

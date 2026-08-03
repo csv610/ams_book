@@ -17,6 +17,8 @@ DNA storage offers ultra-dense, durable data archiving but introduces a unique e
 
 %==============================================================================
 \section{Introduction: Why DNA Storage?}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:dna:intro}
 
 DNA offers remarkable storage properties:
@@ -175,6 +177,28 @@ DNA storage coding theory solves \emph{channel-specific} problems. Chapter 11 ad
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:dna:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (Edit distance):} The edit distance between two DNA sequences is the minimum number of insertions, deletions, and substitutions needed to transform one into the other. For sequences of length $n$, the dynamic programming algorithm runs in $O(n^2)$ time.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (GC-content):} To enforce GC-content between 40\% and 60\%, we use run-length limited codes. A simple construction is to concatenate blocks of fixed composition and add parity bits.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (Sequence reconstruction):} The sequence reconstruction problem asks to recover a codeword from multiple noisy reads. For the deletion channel, the Berlekamp-Massey algorithm can be adapted to find the original sequence.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Research):)} The capacity of the DNA storage channel is an open problem. Recent work using information theory and combinatorial constructions has established lower bounds, but the exact capacity remains unknown.
+\end{solution}
+
 \label{sec:dna:exercises}
 
 \begin{exercise}

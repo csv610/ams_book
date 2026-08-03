@@ -17,6 +17,8 @@ Eigenvalues and eigenvectors are the hidden skeleton of networked systems. This 
 
 %==============================================================================
 \section{Introduction: Why Spectral Methods?}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:spec:intro}
 
 In microeconomics, agents interact: consumers learn from neighbors, firms compete on networks, banks lend to each other. These interactions are encoded in \textbf{matrices}. The spectral properties of these matrices---especially the dominant eigenvalue and eigenvector---determine the system's long-run behavior, \cite{golub2026spectral}.
@@ -210,6 +212,28 @@ Spectral methods analyze \textbf{linear} network dynamics: $\bm{x}(t+1) = \bm{W}
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:spec:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (Star network):} For the star graph with center node 1 and $n-1$ leaf nodes, the adjacency matrix has eigenvalues $\sqrt{n-1}$, $-\sqrt{n-1}$, and $0$ with multiplicity $n-2$. The stationary distribution is $\pi_1 = 1/2$ and $\pi_i = 1/(2(n-1))$ for $i \neq 1$.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (Katz-Bonacich):} The Katz-Bonacich centrality is $b = (I - \beta G)^{-1}\mathbf{1}$. In the DeGroot model with $G = W$ (row-stochastic), this gives $b = (I - \beta W)^{-1}\mathbf{1} = \sum_{k=0}^{\infty} \beta^k W^k \mathbf{1}$. Each term $\beta^k W^k \mathbf{1}$ represents $k$-step influence weighted by $\beta^k$.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (Wisdom test):} For $p_n = \log n / n$, the graph is connected with high probability, and the average degree is $\log n \to \infty$. The wisdom test holds: $\max_i \pi_i \to 0$. For $p_n = 1/\sqrt{n}$, the graph is disconnected with high probability, and the wisdom test fails.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Heterogeneous $\beta_i$):} For heterogeneous interaction strengths, the equilibrium is $x^* = (I - \text{diag}(\beta) G)^{-1} a$. A unique equilibrium exists when $\rho(\text{diag}(\beta) G) < 1$. This condition can be checked using the spectral radius.
+\end{solution}
+
 \label{sec:spec:exercises}
 
 \begin{exercise}

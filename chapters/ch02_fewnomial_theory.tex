@@ -18,6 +18,8 @@ A \textbf{fewnomial} is a polynomial with few monomial terms relative to its deg
 
 %==============================================================================
 \section{Introduction: Why Fewnomials?}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:few:intro}
 
 In grade school we learn to solve $ax+b=0$ and $ax^2+bx+c=0$. The quadratic formula handles any degree-2 polynomial. But what about
@@ -221,6 +223,32 @@ Fewnomial theory uses \textbf{Newton polytopes} and \textbf{mixed volumes} to co
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:few:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (Tropical variety):} For $f(x,y,z) = x^2 + 2y^3 - 3z + 4$, the exponent vectors are $\alpha_1 = (2,0,0)$, $\alpha_2 = (0,3,0)$, $\alpha_3 = (0,0,1)$, $\alpha_4 = (0,0,0)$. The tropical variety consists of planes where two terms are maximal:
+
+$$\text{Trop}_+(f) = \bigcup_{i<j} \{y : \alpha_i \cdot y + \log|c_i| = \alpha_j \cdot y + \log|c_j|, \text{ and term } i,j \text{ dominate}\}$$
+
+For 4 terms, there are $\binom{4}{2} = 6$ pairs, giving 6 cones (some may be empty).
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (Phosphorylation cycle):} The Michaelis-Menten phosphorylation cycle has species $S, S^*, P, P^*$ with total conservation $S + S^* = s_{tot}$. Each reaction gives a polynomial equation. The system has 4 variables and 2 conservation laws, reducing to 2 independent equations in 2 variables. Mixed volume computation gives upper bound on number of positive solutions.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (Descartes' rule):} A univariate $k$-nomial $f(x) = \sum_{i=1}^k c_i x^{a_i}$ with $a_1 < a_2 < \cdots < a_k$ has at most $k-1$ positive real roots by Descartes' rule of signs: the number of positive roots is at most the number of sign changes in the coefficient sequence. For negative roots, substitute $x \to -x$ and count sign changes.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Research):} Homotopy continuation with tropical start systems exploits the combinatorial structure of the polynomial. For the example $f(x,y) = x^3 + 2xy - 5y^2$, the tropical variety gives an initial guess near the actual roots. In practice, tropical starts reduce the number of homotopy paths by 50-80\% compared to random starts.
+\end{solution}
+
 \label{sec:few:exercises}
 
 \begin{exercise}

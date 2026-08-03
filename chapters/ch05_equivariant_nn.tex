@@ -17,6 +17,8 @@ Symmetry is everywhere in science: molecular structures, physical laws, images. 
 
 %==============================================================================
 \section{Introduction: Why Symmetry Matters}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:eq:intro}
 
 A molecule rotated in space is the \emph{same} molecule. A cat translated in an image is the same cat. The laws of physics are translation/rotation invariant. Yet a standard CNN must \emph{learn} translation invariance from data---a waste of parameters and samples.
@@ -244,6 +246,28 @@ Equivariant networks constrain the \textbf{symmetry} of the affine spline tessel
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:eq:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (SO(2) equivariance):} For a rotation $R_\theta$ in 2D, an equivariant function satisfies $f(R_\theta x) = R_\theta f(x)$. For a linear map $f(x) = Wx$, this requires $WR_\theta = R_\theta W$, meaning $W$ must be of the form $\begin{pmatrix} a & -b \\ b & a \end{pmatrix}$.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (Steerable filters):} A steerable filter bank satisfies $R_\theta \phi(x) = \sum_k c_k(\theta) \phi_k(x)$. For SO(2), the steerable basis functions are $e^{in\theta}$ for $n \in \mathbb{Z}$. The rotation coefficients $c_k(\theta)$ are trigonometric polynomials.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (Universal approximation):} The universal approximation theorem for equivariant networks states that any equivariant continuous function can be approximated by an equivariant neural network with sufficient width. The proof uses the fact that equivariant layers preserve the symmetry structure.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Research):} For non-compact groups like the Euclidean group SE(3), equivariant networks require convolution with steerable filters and pooling operations that respect the group structure. The computational cost is higher than for compact groups due to the infinite nature of translations.
+\end{solution}
+
 \label{sec:eq:exercises}
 
 \begin{exercise}

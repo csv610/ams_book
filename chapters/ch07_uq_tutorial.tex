@@ -17,6 +17,8 @@ Uncertainty Quantification (UQ) provides a systematic framework for characterizi
 
 %==============================================================================
 \section{Introduction: Why Quantify Uncertainty?}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:uq:intro}
 
 Mathematical models have imperfections:
@@ -220,6 +222,29 @@ UQ quantifies uncertainty in \emph{dynamical systems}. Chapter 8 applies algebra
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:uq:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (Entropy calculation):} For a Gaussian distribution $\mathcal{N}(\mu, \Sigma)$, the Shannon entropy is $H = \frac{1}{2}\log((2\pi e)^n |\Sigma|)$. For $\Sigma = I$, $H = \frac{n}{2}(1 + \log(2\pi))$.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (KL divergence):} For two Gaussians $P = \mathcal{N}(\mu_1, \Sigma_1)$ and $Q = \mathcal{N}(\mu_2, \Sigma_2)$, the KL divergence is:
+$$D_{KL}(P\|Q) = \frac{1}{2}\left[\text{tr}(\Sigma_2^{-1}\Sigma_1) + (\mu_2 - \mu_1)^T \Sigma_2^{-1}(\mu_2 - \mu_1) - n + \log\frac{|\Sigma_2|}{|\Sigma_1|}\right]$$
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (Ensemble Kalman):} For an ensemble of $N$ particles, the Kalman update is $x_i^a = x_i^f + K(y - Hx_i^f)$ where $K = P^f H^T(HP^fH^T + R)^{-1}$. The ensemble covariance $P^f$ is estimated from the sample covariance of the ensemble.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Research):} For turbulent PDEs, stochastic Galerkin methods project the solution onto a polynomial chaos basis. The convergence rate depends on the smoothness of the solution with respect to the random parameters.
+\end{solution}
+
 \label{sec:uq:exercises}
 
 \begin{exercise}

@@ -17,6 +17,8 @@ Cyber defense requires detecting anomalies in massive, heterogeneous data stream
 
 %==============================================================================
 \section{Introduction: Why Mathematics for Cyber?}
+
+\noindent\textit{Mathematical notation follows standard conventions. Key terms are defined in the glossary.}\n
 \label{sec:cyber:intro} \cite{emanuello2022cyber}
 
 Cyber attacks are not single events but \emph{campaigns}: multi-phase, adaptive, stealthy. Defenders face:
@@ -192,6 +194,28 @@ Cyber defense uses deep learning for \emph{pattern recognition} in dynamic syste
 
 %==============================================================================
 \section{Exercises}
+%==============================================================================
+% Solutions
+%==============================================================================
+\section{Solutions}
+\label{sec:cyber:solutions}
+
+\begin{solution}
+\textbf{Exercise 1 (Autoencoder):} An autoencoder with hidden dimension $k < n$ learns to compress log data. The reconstruction error $\|x - \hat{x}\|^2$ identifies anomalies: large errors indicate unusual patterns.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 2 (Word2Vec):} Word2Vec learns embeddings for categorical data (IP addresses, usernames). The cosine similarity between embeddings captures semantic relationships: similar IPs have similar usage patterns.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 3 (RL for defense):} A reinforcement learning agent learns to respond to attacks by maximizing a reward function. The state space includes network metrics; the action space includes firewall rules and alerts.
+\end{solution}
+
+\begin{solution}
+\textbf{Exercise 4 (Research):} Adversarial attacks on anomaly detection systems can fool autoencoders by adding small perturbations. Defense mechanisms include adversarial training and ensemble methods.
+\end{solution}
+
 \label{sec:cyber:exercises} \cite{emanuello2022cyber}
 
 \begin{exercise}

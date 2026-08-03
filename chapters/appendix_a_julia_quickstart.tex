@@ -1,0 +1,193 @@
+%==============================================================================
+% APPENDIX A: Julia Quickstart Reference
+%==============================================================================
+\chapter{Julia Quickstart Reference}
+\label{app:julia}
+
+\begin{abstract}
+This appendix provides a rapid-reference guide to Julia syntax for scientists and engineers. Every chapter in this book includes Julia code; this appendix ensures you can follow along even if you are new to the language.
+\end{abstract}
+
+%------------------------------------------------------------------------------
+\section{Basic Syntax}
+\label{app:julia:syntax}
+
+\begin{description}
+    \item[Variables] Assign with \texttt{=}. Types are inferred:
+    \begin{lstlisting}[language=Julia]
+x = 3.14          # Float64
+n = 42            # Int64
+s = "hello"       # String
+b = true          # Bool
+    \end{lstlisting}
+    \item[Comments] Use \texttt{\#} for single-line comments.
+    \item[Semicolons] \texttt{;} suppresses output in REPL.
+\end{description}
+
+%------------------------------------------------------------------------------
+\section{Arrays and Matrices}
+\label{app:julia:arrays}
+
+\begin{lstlisting}[language=Julia]
+# Vectors
+v = [1, 2, 3]              # Column vector
+w = [1.0, 2.0, 3.0]        # Float vector
+
+# Matrices
+A = [1 2 3; 4 5 6; 7 8 9]  # 3x3 matrix
+I = Matrix(Identity, 3)     # 3x3 identity
+
+# Operations
+B = A'                     # Transpose
+C = A * v                  # Matrix-vector product
+D = A \ v                  # Solve Ax = v
+
+# Element-wise operations
+x = w .^ 2                 # Square each element
+y = log.(v)                # Element-wise log
+    \end{lstlisting}
+
+\section{Functions}
+\label{app:julia:functions}
+
+\begin{lstlisting}[language=Julia]
+# Function definition
+function f(x::Float64)
+    return x^2 + 1
+end
+
+# One-liner
+g(x) = x^2 + 1
+
+# Anonymous function
+h = x -> x^2 + 1
+
+# Multiple dispatch
+foo(x::Int) = "integer"
+foo(x::String) = "string"
+    \end{lstlisting}
+
+\section{Loops and Comprehensions}
+\label{app:julia:loops}
+
+\begin{lstlisting}[language=Julia]
+# For loop
+for i in 1:10
+    println(i)
+end
+
+# While loop
+i = 1
+while i < 10
+    i += 1
+end
+
+# Array comprehension
+squares = [i^2 for i in 1:10]
+
+# Filtered comprehension
+evens = [i for i in 1:20 if iseven(i)]
+    \end{lstlisting}
+
+\section{Linear Algebra}
+\label{app:julia:linalg}
+
+\begin{lstlisting}[language=Julia]
+using LinearAlgebra
+
+A = rand(3, 3)
+b = rand(3)
+
+# Factorization
+F = lu(A)
+x = F \ b
+
+# Eigenvalues
+vals, vecs = eigvals(A), eigvecs(A)
+
+# SVD
+U, S, V = svd(A)
+
+# Sparse matrices
+using SparseArrays
+S = sprand(100, 100, 0.01)
+    \end{lstlisting}
+
+\section{Plotting}
+\label{app:julia:plotting}
+
+\begin{lstlisting}[language=Julia]
+using Plots
+
+# Basic plot
+x = linspace(0, 2pi, 100)
+plot(x, sin.(x), label="sin(x)")
+scatter!(x, cos.(x), label="cos(x)")
+savefig("plot.png")
+
+# 3D surface
+using PyPlot
+x = y = linspace(-2, 2, 50)
+[X, Y] = meshgrid(x, y)
+Z = X.*exp.(-X.^2 - Y.^2)
+surface(X, Y, Z)
+    \end{lstlisting}
+
+\section{Differential Equations}
+\label{app:julia:ode}
+
+\begin{lstlisting}[language=Julia]
+using DifferentialEquations
+
+# Lorenz system
+function lorenz(u, p, t)
+    sigma, rho, beta = p
+    du1 = sigma * (u2 - u1)
+    du2 = u1 * (rho - u3) - u2
+    du3 = u1 * u2 - beta * u3
+    return [du1, du2, du3]
+end
+
+u0 = [1.0, 0.0, 0.0]
+p = [10.0, 28.0, 8/3]
+tspan = (0.0, 100.0)
+prob = ODEProblem(lorenz, u0, tspan, p)
+sol = solve(prob, Tsit5())
+    \end{lstlisting}
+
+\section{Package Management}
+\label{app:julia:pkg}
+
+\begin{lstlisting}[language=Julia]
+using Pkg
+
+# Add packages
+Pkg.add("LinearAlgebra")
+Pkg.add("Plots")
+Pkg.add("DifferentialEquations")
+
+# Instantiate environment
+Pkg.instantiate()
+
+# Update all packages
+Pkg.update()
+    \end{lstlisting}
+
+%------------------------------------------------------------------------------
+\section{Summary}
+\label{app:julia:summary}
+
+Key Julia features for scientific computing:
+\begin{enumerate}
+    \item \textbf{Multiple dispatch}: Functions specialize on argument types.
+    \item \textbf{Type stability}: Write code that the compiler can optimize.
+    \item \textbf{Arrays are 1-indexed}: Unlike Python/MATLAB.
+    \item \textbf{Vectorized operations}: Use dot notation (\texttt{.}) for element-wise ops.
+    \item \textbf{Unicode support}: \texttt{x\_1}, \texttt{\\alpha} work in identifiers.
+\end{enumerate}
+
+\index{Julia, quickstart}
+\index{packages, management}
+\index{differential equations, Julia}
+\index{linear algebra, Julia}
+\index{plotting, Julia}
