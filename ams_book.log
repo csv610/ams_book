@@ -1348,6 +1348,32 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 12.
 
+! Package glossaries Error: Glossary entry `growth factor' has not been defined
+.
+
+See the glossaries package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.15 ...r\index{growth factor}\gls{growth factor}s
+                                                  , pivoting\index{pivoting}...
+
+You need to define a glossary entry before you can use it.
+
+
+! Package glossaries Error: Glossary entry `pivoting strategies' has not been d
+efined.
+
+See the glossaries package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.15 ...ting} strategies\gls{pivoting strategies},
+                                                   and the surprising fact t...
+
+You need to define a glossary entry before you can use it.
+
+
 LaTeX Warning: Citation `urschel2025numerical' on page 2 undefined on input lin
 e 15.
 
