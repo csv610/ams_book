@@ -5,72 +5,72 @@
 \indexentry{growth factor|hyperpage}{3}
 \indexentry{LU factorization|hyperpage}{3}
 \indexentry{condition number|hyperpage}{9}
-\indexentry{root counting|hyperpage}{11}
-\indexentry{tropical geometry|hyperpage}{11}
-\indexentry{Kushnirenko-Bernstein theorem|hyperpage}{11}
-\indexentry{Perron-Frobenius theorem|hyperpage}{17}
-\indexentry{centrality measures|hyperpage}{17}
-\indexentry{DeGroot model|hyperpage}{17}
-\indexentry{affine spline|hyperpage}{24}
-\indexentry{ReLU networks|hyperpage}{24}
-\indexentry{batch normalization|hyperpage}{24}
-\indexentry{deep learning, geometry of|hyperpage}{28}
-\indexentry{symmetry in neural networks|hyperpage}{30}
-\indexentry{group representations|hyperpage}{30}
-\indexentry{equivariant networks|hyperpage}{32}
-\indexentry{SE(3) equivariance|hyperpage}{32}
-\indexentry{Euler characteristic transform|hyperpage}{36}
-\indexentry{shape classification|hyperpage}{36}
-\indexentry{persistent homology|hyperpage}{42}
-\indexentry{entropy (information theory)|hyperpage}{44}
-\indexentry{GPS (global positioning)|hyperpage}{49}
-\indexentry{satellite geometry|hyperpage}{49}
-\indexentry{linear algebra, GPS application|hyperpage}{49}
-\indexentry{Bancroft algorithm|hyperpage}{51}
-\indexentry{dynamical systems|hyperpage}{54}
-\indexentry{invariant manifolds|hyperpage}{54}
-\indexentry{Lorenz system|hyperpage}{54}
-\indexentry{DNA storage|hyperpage}{61}
-\indexentry{constrained codes|hyperpage}{61}
-\indexentry{edit distance codes|hyperpage}{62}
-\indexentry{autoencoders|hyperpage}{66}
-\indexentry{anomaly detection|hyperpage}{66}
-\indexentry{reinforcement learning, cybersecurity|hyperpage}{66}
-\indexentry{autoencoders|hyperpage}{71}
-\indexentry{anomaly detection|hyperpage}{71}
-\indexentry{reinforcement learning, cybersecurity|hyperpage}{71}
-\indexentry{composition (operadic)|hyperpage}{76}
-\indexentry{DARPA CASCADE|hyperpage}{76}
-\indexentry{least squares, history of|hyperpage}{82}
-\indexentry{Bayesian inference, astronomy|hyperpage}{82}
-\indexentry{MCMC methods|hyperpage}{82}
-\indexentry{FAIR principles|hyperpage}{86}
-\indexentry{filtered back-projection|hyperpage}{91}
-\indexentry{Herculaneum scrolls|hyperpage}{91}
-\indexentry{Radon transform|hyperpage}{92}
-\indexentry{Julia, quickstart|hyperpage}{101}
-\indexentry{packages, management|hyperpage}{101}
-\indexentry{differential equations, Julia|hyperpage}{101}
-\indexentry{linear algebra, Julia|hyperpage}{101}
-\indexentry{plotting, Julia|hyperpage}{101}
-\indexentry{condition number|hyperpage}{103}
-\indexentry{spectral norm|hyperpage}{103}
-\indexentry{Frobenius norm|hyperpage}{103}
-\indexentry{Perron-Frobenius theorem|hyperpage}{103}
-\indexentry{Gershgorin disks|hyperpage}{103}
-\indexentry{backward stability|hyperpage}{103}
-\indexentry{forward error|hyperpage}{103}
-\indexentry{numerical stability|hyperpage}{103}
-\indexentry{least squares|hyperpage}{103}
-\indexentry{normal equations|hyperpage}{103}
-\indexentry{overdetermined systems|hyperpage}{103}
-\indexentry{iterative methods|hyperpage}{103}
-\indexentry{Jacobi method|hyperpage}{103}
-\indexentry{Gauss-Seidel|hyperpage}{103}
-\indexentry{GMRES|hyperpage}{103}
-\indexentry{conjugate gradient|hyperpage}{103}
-\indexentry{factorization, matrix|hyperpage}{103}
-\indexentry{LUP factorization|hyperpage}{103}
-\indexentry{QR factorization|hyperpage}{103}
-\indexentry{SVD|hyperpage}{103}
-\indexentry{Cholesky factorization|hyperpage}{103}
+\indexentry{root counting|hyperpage}{10}
+\indexentry{tropical geometry|hyperpage}{10}
+\indexentry{Kushnirenko-Bernstein theorem|hyperpage}{10}
+\indexentry{Perron-Frobenius theorem|hyperpage}{16}
+\indexentry{centrality measures|hyperpage}{16}
+\indexentry{DeGroot model|hyperpage}{16}
+\indexentry{affine spline|hyperpage}{23}
+\indexentry{ReLU networks|hyperpage}{23}
+\indexentry{batch normalization|hyperpage}{23}
+\indexentry{deep learning, geometry of|hyperpage}{27}
+\indexentry{symmetry in neural networks|hyperpage}{29}
+\indexentry{group representations|hyperpage}{29}
+\indexentry{equivariant networks|hyperpage}{31}
+\indexentry{SE(3) equivariance|hyperpage}{31}
+\indexentry{Euler characteristic transform|hyperpage}{35}
+\indexentry{shape classification|hyperpage}{35}
+\indexentry{persistent homology|hyperpage}{41}
+\indexentry{entropy (information theory)|hyperpage}{43}
+\indexentry{GPS (global positioning)|hyperpage}{48}
+\indexentry{satellite geometry|hyperpage}{48}
+\indexentry{linear algebra, GPS application|hyperpage}{48}
+\indexentry{Bancroft algorithm|hyperpage}{50}
+\indexentry{dynamical systems|hyperpage}{53}
+\indexentry{invariant manifolds|hyperpage}{53}
+\indexentry{Lorenz system|hyperpage}{53}
+\indexentry{DNA storage|hyperpage}{60}
+\indexentry{constrained codes|hyperpage}{60}
+\indexentry{edit distance codes|hyperpage}{61}
+\indexentry{autoencoders|hyperpage}{65}
+\indexentry{anomaly detection|hyperpage}{65}
+\indexentry{reinforcement learning, cybersecurity|hyperpage}{65}
+\indexentry{autoencoders|hyperpage}{70}
+\indexentry{anomaly detection|hyperpage}{70}
+\indexentry{reinforcement learning, cybersecurity|hyperpage}{70}
+\indexentry{composition (operadic)|hyperpage}{75}
+\indexentry{DARPA CASCADE|hyperpage}{75}
+\indexentry{least squares, history of|hyperpage}{81}
+\indexentry{Bayesian inference, astronomy|hyperpage}{81}
+\indexentry{MCMC methods|hyperpage}{81}
+\indexentry{FAIR principles|hyperpage}{85}
+\indexentry{filtered back-projection|hyperpage}{90}
+\indexentry{Herculaneum scrolls|hyperpage}{90}
+\indexentry{Radon transform|hyperpage}{91}
+\indexentry{Julia, quickstart|hyperpage}{100}
+\indexentry{packages, management|hyperpage}{100}
+\indexentry{differential equations, Julia|hyperpage}{100}
+\indexentry{linear algebra, Julia|hyperpage}{100}
+\indexentry{plotting, Julia|hyperpage}{100}
+\indexentry{condition number|hyperpage}{102}
+\indexentry{spectral norm|hyperpage}{102}
+\indexentry{Frobenius norm|hyperpage}{102}
+\indexentry{Perron-Frobenius theorem|hyperpage}{102}
+\indexentry{Gershgorin disks|hyperpage}{102}
+\indexentry{backward stability|hyperpage}{102}
+\indexentry{forward error|hyperpage}{102}
+\indexentry{numerical stability|hyperpage}{102}
+\indexentry{least squares|hyperpage}{102}
+\indexentry{normal equations|hyperpage}{102}
+\indexentry{overdetermined systems|hyperpage}{102}
+\indexentry{iterative methods|hyperpage}{102}
+\indexentry{Jacobi method|hyperpage}{102}
+\indexentry{Gauss-Seidel|hyperpage}{102}
+\indexentry{GMRES|hyperpage}{102}
+\indexentry{conjugate gradient|hyperpage}{102}
+\indexentry{factorization, matrix|hyperpage}{102}
+\indexentry{LUP factorization|hyperpage}{102}
+\indexentry{QR factorization|hyperpage}{102}
+\indexentry{SVD|hyperpage}{102}
+\indexentry{Cholesky factorization|hyperpage}{102}
