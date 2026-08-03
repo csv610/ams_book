@@ -1,0 +1,262 @@
+%==============================================================================
+% CHAPTER 4: Geometry of Deep Learning
+%==============================================================================
+\chapter{On the Geometry of Deep Learning}
+\label{ch:dl_geometry}
+
+\begin{flushright}
+\textit{Randall Balestriero, Ahmed Imtiaz Humayun, Richard G. Baraniuk}\\
+Communicated by \textit{Notices} Associate Editor Reza Malek-Madani
+\end{flushright}
+
+\epigraph{``Deep networks are affine spline \index{affine spline}operators. They tessellate input space into convex polytopes, and on each tile they act as an affine transformation.''}{--- Balestriero, Humayun, Baraniuk}
+
+\begin{abstract}
+This chapter develops a geometric theory of deep ReLU \index{ReLU networks}networks: they are \textbf{affine spline mappings} that partition input space into convex polytopes (tiles) and apply a distinct affine transformation on each. This perspective explains generalization, batch normalization, \index{batch normalization}grokking, and generative model bias---and yields practical tools like SplineCam for visualization and MaGNET for debiasing, \cite{balestriero2025geometry}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: The Black Box Problem}
+\label{sec:dl:intro}
+
+Deep networks work astonishingly well but remain poorly understood. The standard view: black boxes optimized by SGD. This chapter proposes a \textbf{white-box} view:
+
+\begin{center}
+\textbf{A deep ReLU network = an affine spline operator.} \cite{balestriero2025geometry}
+\end{center}
+
+\begin{itemize}
+    \item Input space $\mathbb{R}^d$ is tiled into convex polytopes $\Omega = \{\Omega_j\}$.
+    \item On each tile $\Omega_j$, the network computes $\bm{x} \mapsto \bm{A}_j \bm{x} + \bm{b}_j$.
+    \item The tiles and transforms depend on weights/biases and change during training.
+\end{itemize}
+
+This is not an approximation---it is an \emph{exact} mathematical equivalence for any finite-width ReLU network, \cite{balestriero2025geometry}.
+
+%==============================================================================
+\section{Affine Splines in 1D}
+\label{sec:dl:1d}
+
+A 1D continuous piecewise linear function (affine spline) is defined by:
+\begin{itemize}
+    \item Knots: $t_1 < t_2 < \dots < t_K$
+    \item Slopes: $m_0, m_1, \dots, m_K$
+    \item Intercepts: $b_0, b_1, \dots, b_K$
+\end{itemize}
+with continuity constraints $m_i t_{i+1} + b_i = m_{i+1} t_{i+1} + b_{i+1}$.
+
+A ReLU layer with $n$ neurons computes \cite{balestriero2025geometry}
+\[
+\bm{y} = \relu(\bm{W}\bm{x} + \bm{b}), \quad \bm{W} \in \mathbb{R}^{n \times d}.
+\]
+Each neuron $i$ creates a hyperplane $\{\bm{x} : \bm{w}_i^\top \bm{x} + b_i = 0\}$ dividing space into two halfspaces. The arrangement of $n$ hyperplanes creates a tessellation into convex polytopes.
+
+%==============================================================================
+\section{Deep Network Tessellation}
+\label{sec:dl:tess}
+
+\begin{theorem}[Deep Network = Affine Spline]
+\label{thm:dl:affine_spline}
+For a depth-$L$ ReLU network $f: \mathbb{R}^d \to \mathbb{R}^m$, there exists a finite tessellation $\Omega = \{\Omega_j\}_{j=1}^N$ of $\mathbb{R}^d$ into convex polytopes and affine maps $\bm{A}_j \in \mathbb{R}^{m \times d}, \bm{b}_j \in \mathbb{R}^m$ such that \cite{balestriero2025geometry}
+\[
+f(\bm{x}) = \bm{A}_j \bm{x} + \bm{b}_j \quad \text{for all } \bm{x} \in \Omega_j.
+\]
+The polytopes are the \emph{linear regions} of the network.
+\end{theorem}
+
+\begin{proof}[Sketch]
+Induction on layers. Base: one ReLU layer creates a hyperplane arrangement (convex polytopes). Inductive step: each subsequent layer pulls back its hyperplanes through the previous layer's affine maps, which \emph{folds} the existing tiles, creating a finer tessellation. The affine map on each tile composes with the new layer's affine map, \cite{balestriero2025geometry}.
+\end{proof}
+
+\begin{example}[Number of tiles]
+For a 2D input, 2-hidden-layer network with widths 20, the tessellation can have $\sim 10^4$ tiles. For deep networks, the number grows exponentially with depth (Montúfar et al., 2014).
+\end{example}
+
+%==============================================================================
+\section{Geometry of the Loss Landscape}
+\label{sec:dl:loss}
+
+For squared error $\mathcal{L}(\bm{\theta}) = \frac{1}{2}\|f_{\bm{\theta}}(\bm{X}) - \bm{Y}\|_F^2$, the loss landscape as a function of parameters $\bm{\theta}$ is a \textbf{piecewise quadratic function}. On each region where the input-space tessellation is constant, $\mathcal{L}$ is quadratic in $\bm{\theta}$.
+
+\begin{theorem}[ResNet vs. ConvNet conditioning]
+The condition number of the local Hessian for a ResNet (with skip connections) is \emph{bounded} independent of depth, while for a plain ConvNet it \emph{grows exponentially} with depth.
+\end{theorem}
+
+This explains why ResNets train faster and more reliably: their loss landscape is better conditioned.
+
+%==============================================================================
+\section{Batch Normalization as Data-Adaptive Tessellation}
+\label{sec:dl:batchnorm}
+
+BatchNorm replaces $\bm{x}^{(\ell)} \mapsto \bm{W}^{(\ell)}\bm{x}^{(\ell)} + \bm{b}^{(\ell)}$ with
+\[
+\bm{x}^{(\ell)} \mapsto \bm{\gamma} \odot \frac{\bm{W}^{(\ell)}\bm{x}^{(\ell)} - \bm{\mu}}{\bm{\sigma}} + \bm{\beta},
+\]
+where $\bm{\mu}, \bm{\sigma}$ are batch statistics.
+
+\begin{theorem}[BatchNorm Geometry]
+At initialization, BatchNorm \emph{adapts the hyperplane arrangement} to concentrate tile boundaries near the training data. Without BatchNorm, tiles are randomly oriented; with BatchNorm, hyperplanes align to data density.
+\end{theorem}
+
+This is why BatchNorm accelerates training: it gives the network a \emph{data-aware initialization} of its tessellation.
+
+%==============================================================================
+\section{The Dynamics of Learning: Grokking}
+\label{sec:dl:grokking}
+
+\textbf{Grokking} (Power et al., 2022): A network trained well past zero training error suddenly improves test accuracy---the tessellation \emph{migrates} from overfitting (many small tiles around training points) to generalizing (fewer, larger tiles focused on decision boundaries).
+
+\begin{definition}[Local Complexity]
+For a point $\bm{x}$ in input space, the \textbf{local complexity} is the number of tiles intersecting a neighborhood $\mathcal{N}_\epsilon(\bm{x})$.
+\end{definition}
+
+During grokking, local complexity \emph{decreases} around training data and \emph{increases} at decision boundaries.
+
+\begin{lstlisting}[style=python,caption=SplineCam: Visualizing network tessellation]
+import torch
+import numpy as np
+from splinecam import SplineCam
+
+# Load trained model
+model = torch.load('mnist_mlp.pt')
+
+# Compute tessellation on a 2D slice defined by 3 training points
+sc = SplineCam(model)
+slice_2d = sc.compute_slice(points=[img1, img2, img3], grid_size=200)
+
+# Visualize
+sc.plot_tessellation(slice_2d, color_by='tile_id')
+sc.plot_affine_maps(slice_2d)
+sc.plot_decision_boundary(slice_2d)
+\end{lstlisting}
+
+%==============================================================================
+\section{Generative Models: MaGNET Debiasing}
+\label{sec:dl:magnet}
+
+A ReLU generative model $G: \mathbb{R}^k \to \mathbb{R}^d$ maps a low-dimensional latent space to a \emph{piecewise affine manifold} in data space. Each latent tile $\Omega_j$ maps affinely to a manifold tile $G(\Omega_j)$, \cite{balestriero2025geometry}.
+
+\begin{theorem}[Volume distortion]
+The volume scaling factor from latent tile $\Omega_j$ to data tile $G(\Omega_j)$ is $|\det \bm{A}_j|$ where $\bm{A}_j$ is the affine map's linear part.
+\end{theorem}
+
+\textbf{MaGNET} (Balestriero et al., 2022): To sample uniformly from the data manifold, sample latent points with probability $\propto 1/|\det \bm{A}_j|$. This corrects for the \emph{mode collapse} and \emph{bias} of standard uniform latent sampling.
+
+\begin{lstlisting}[style=python,caption=MaGNET debiasing for StyleGAN]
+import torch
+from magnett import magnet_sampler
+
+# Load pretrained StyleGAN2
+G = load_stylegan2('ffhq.pkl')
+
+# Compute Jacobian determinants on a grid
+latent_grid = torch.randn(10000, 512)
+with torch.no_grad():
+    jac_dets = batch_jacobian_det(G, latent_grid)
+
+# MaGNET importance weights
+weights = 1.0 / (jac_dets + 1e-8)
+weights = weights / weights.sum()
+
+# Sample debiased latents
+debiased_latents = latent_grid[torch.multinomial(weights, 1000)]
+
+# Generate fair samples
+fair_images = G(debiased_latents)
+\end{lstlisting}
+
+%==============================================================================
+\section{Code: Affine Spline Layer}
+\label{sec:dl:code}
+
+\begin{lstlisting}[style=julia,caption=Exact affine spline representation of a ReLU layer] \cite{balestriero2025geometry}
+using LinearAlgebra, SparseArrays
+
+struct AffineSplineLayer
+    tiles::Vector{HPolyhedron}  # Convex polytopes (H-representation)
+    A::Vector{Matrix{Float64}}  # Linear maps per tile
+    b::Vector{Vector{Float64}}  # Biases per tile
+end
+
+function relu_layer_to_spline(W, b)
+    n, d = size(W)
+    tiles = HPolyhedron[]
+    A_list = Matrix{Float64}[]
+    b_list = Vector{Float64}[]
+    
+    # Enumerate all 2^n sign patterns
+    for signs in Iterators.product(fill([-1, 1], n)...)
+        # sign_i = 1 means w_i^T x + b_i >= 0 (active)
+        # sign_i = -1 means w_i^T x + b_i <= 0 (inactive)
+        H = []
+        h = []
+        for i in 1:n
+            if signs[i] == 1
+                push!(H, W[i, :])
+                push!(h, b[i])
+            else
+                push!(H, -W[i, :])
+                push!(h, -b[i])
+            end
+        end
+        # Check feasibility (non-empty polytope)
+        if is_feasible(H, h)
+            poly = HPolyhedron(hcat(H...), h)
+            push!(tiles, poly)
+            
+            # Affine map on this tile: y = D(Wx + b) where D = diag(max(sign, 0))
+            D = Diagonal([s == 1 ? 1.0 : 0.0 for s in signs])
+            push!(A_list, D * W)
+            push!(b_list, D * b)
+        end
+    end
+    return AffineSplineLayer(tiles, A_list, b_list)
+end
+
+function evaluate_spline(spline::AffineSplineLayer, x)
+    for (i, tile) in enumerate(spline.tiles)
+        if x in tile
+            return spline.A[i] * x + spline.b[i]
+        end
+    end
+    error("Point not in any tile")
+end
+\end{lstlisting}
+
+%==============================================================================
+\section{Bridge to Chapter 5}
+\label{sec:dl:bridge}
+
+Deep networks are affine splines. Equivariant networks (Chapter 5) constrain these splines to respect symmetries: the tessellation and affine maps must commute with group actions. Topological deep learning (\index{deep learning, geometry of}Chapter 6) uses invariants like the Euler characteristic to classify the shapes these splines produce, \cite{balestriero2025geometry}.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:dl:refs}
+
+\begin{itemize}
+    \item Balestriero, Humayun, Baraniuk (2025). \textit{On the Geometry of Deep Learning}. Notices, 72(4).
+    \item Montúfar et al. (2014). \textit{On the Number of Linear Regions of Deep Neural Networks}. NIPS.
+    \item Balestriero et al. (2022). \textit{MaGNET: Maximum Entropy Generative Network}. ICML.
+    \item SplineCam: \url{https://github.com/randall-b/splinecam}
+    \item MaGNET: \url{https://github.com/randall-b/magnet}
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:dl:exercises}
+
+\begin{exercise}
+For a 1-hidden-layer ReLU network with 3 neurons in 2D, draw the hyperplane arrangement and label the affine map on each tile, \cite{balestriero2025geometry}.
+\end{exercise}
+
+\begin{exercise}
+Implement the exact affine spline representation of a 2-layer ReLU network. Verify that evaluating the spline matches the network output for random inputs, \cite{balestriero2025geometry}.
+\end{exercise}
+
+\begin{exercise}
+Use SplineCam to visualize the tessellation of a trained MNIST classifier. How does the tile structure differ between correctly and incorrectly classified examples?
+\end{exercise}
+
+\begin{exercise}[Research]
+Prove that the number of linear regions of a deep ReLU network is upper-bounded by $\prod_{\ell=1}^L \sum_{j=0}^d \binom{n_\ell}{j}$ where $n_\ell$ is the width of layer $\ell$, \cite{balestriero2025geometry}.
+\end{exercise}

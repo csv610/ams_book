@@ -1,0 +1,101 @@
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{10}
+
+\bibitem{bacher2026fair}
+Thomas Bacher, Mario Garrote-L{\'o}pez, Christian G{\"o}rgen, and Matthias~J.
+  Neubert, \emph{Making mathematical online resources fair}, Notices of the
+  American Mathematical Society \textbf{73} (2026), no.~5.
+
+\bibitem{baez2021operads}
+John~C. Baez and James~D. Foley, \emph{Operads for designing systems of
+  systems}, Notices of the American Mathematical Society \textbf{68} (2021),
+  no.~6.
+
+\bibitem{balestriero2025geometry}
+Randall Balestriero, Ali~I. Humayun, and Richard~G. Baraniuk, \emph{On the
+  geometry of deep learning}, Notices of the American Mathematical Society
+  \textbf{72} (2025), no.~4.
+
+\bibitem{bancroft1985algebraic}
+Stephen Bancroft, \emph{An algebraic solution of the gps equations}, IEEE
+  Transactions on Aerospace and Electronic Systems \textbf{21} (1985), no.~1,
+  56--59.
+
+\bibitem{barlev2022dna}
+Dan Bar-Lev, Omer Sabary, and Eitan Yaakobi, \emph{Exciting coding problems for
+  dna-based storage systems}, Notices of the American Mathematical Society
+  \textbf{69} (2022), no.~11.
+
+\bibitem{bishop2026printing}
+Patrick~R. Bishop, Summer Chenoweth, Emmanuel Fleurantin, Alonso Ogueda-Oliva,
+  Evelyn Sander, and Julia Seay, \emph{3d printing of invariant manifolds in
+  dynamical systems}, Notices of the American Mathematical Society \textbf{73}
+  (2026), no.~1.
+
+\bibitem{boutin2025gps}
+Mireille Boutin and Gregor Kemper, \emph{New developments in global
+  positioning}, Notices of the American Mathematical Society \textbf{72}
+  (2025), no.~8.
+
+\bibitem{cabre2003parameterization}
+Xavier Cabre, Ernest Fontich, and Rafael de~la Llave, \emph{The
+  parameterization method for invariant manifolds}, Journal of Differential
+  Equations \textbf{190} (2003), no.~1, 1--30.
+
+\bibitem{chen2025uq}
+Ning Chen, Steve Wiggins, and Maria Andreou, \emph{Taming uncertainty in a
+  complex world: The rise of uncertainty quantification}, Notices of the
+  American Mathematical Society \textbf{72} (2025), no.~3.
+
+\bibitem{desouza2025astronomy}
+Rafael~S. de~Souza, Emille E.~O. Ishida, and Alberto Krone-Martins, \emph{A
+  brief history of inference in astronomy}, Notices of the American
+  Mathematical Society \textbf{72} (2025), no.~10.
+
+\bibitem{emanuello2022cyber}
+Joseph~A. Emanuello and Aaron Ridley, \emph{The mathematics of cyber defense},
+  Notices of the American Mathematical Society \textbf{69} (2022), no.~6.
+
+\bibitem{foschiatti2025tomography}
+Simone Foschiatti, Andreas Kittenberger, and Otmar Scherzer, \emph{Deciphering
+  scrolls with tomography}, Notices of the American Mathematical Society
+  \textbf{72} (2025), no.~10.
+
+\bibitem{golub2026spectral}
+Benjamin Golub, \emph{Spectral methods in microeconomics}, Notices of the
+  American Mathematical Society \textbf{73} (2026), no.~6.
+
+\bibitem{krauskopf2005growing}
+Bernd Krauskopf and Hinke~M. Osinga, \emph{Growing 1d and quasi-2d unstable
+  manifolds}, Nonlinearity \textbf{18} (2005), no.~5, 1837.
+
+\bibitem{lim2023equivariant}
+Lek-Heng Lim and Bradley~J. Nelson, \emph{What is... an equivariant neural
+  network?}, Notices of the American Mathematical Society \textbf{70} (2023),
+  no.~4.
+
+\bibitem{rieck2025topology}
+Bastian Rieck, \emph{Topology meets machine learning: An introduction using the
+  euler characteristic transform}, Notices of the American Mathematical Society
+  \textbf{72} (2025), no.~7.
+
+\bibitem{rojas2025fewnomial}
+J.~Maurice Rojas, \emph{An introduction to algorithmic fewnomial theory over
+  $\mathbb{R}$}, Notices of the American Mathematical Society \textbf{72}
+  (2025), no.~5.
+
+\bibitem{strang1997gps}
+Gilbert Strang and Kai Borre, \emph{Linear algebra, geodesy, and gps},
+  Wellesley-Cambridge Press, 1997.
+
+\bibitem{urschel2025numerical}
+John Urschel, \emph{Numerical stability in gaussian elimination}, Notices of
+  the American Mathematical Society \textbf{72} (2025), no.~6.
+
+\end{thebibliography}

@@ -1,0 +1,81 @@
+This is BibTeX, Version 0.99e (TeX Live 2026/Homebrew)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: ams_bool.aux
+A level-1 auxiliary file: chapters/ch01_gaussian_elimination.aux
+A level-1 auxiliary file: chapters/ch02_fewnomial_theory.aux
+A level-1 auxiliary file: chapters/ch03_spectral_methods.aux
+White space in argument---line 26 of file chapters/ch03_spectral_methods.aux
+ : \citation{\endcsname
+ :                      }
+I'm skipping whatever remains of this command
+A level-1 auxiliary file: chapters/ch04_deep_learning_geometry.aux
+A level-1 auxiliary file: chapters/ch05_equivariant_nn.aux
+A level-1 auxiliary file: chapters/ch06_topological_ml.aux
+A level-1 auxiliary file: chapters/ch07_uq_tutorial.aux
+A level-1 auxiliary file: chapters/ch08_global_positioning.aux
+A level-1 auxiliary file: chapters/ch09_dynamical_systems_3d.aux
+A level-1 auxiliary file: chapters/ch10_dna_storage.aux
+A level-1 auxiliary file: chapters/ch11_cyber_defense.aux
+A level-1 auxiliary file: chapters/ch12_operads_systems.aux
+A level-1 auxiliary file: chapters/ch13_astronomy_inference.aux
+A level-1 auxiliary file: chapters/ch14_fair_data.aux
+A level-1 auxiliary file: chapters/ch15_tomography.aux
+The style file: amsplain.bst
+Database file #1: references.bib
+Warning--missing pages in bacher2026fair
+Warning--missing pages in baez2021operads
+Warning--missing pages in balestriero2025geometry
+Warning--missing pages in barlev2022dna
+Warning--missing pages in bishop2026printing
+Warning--missing pages in boutin2025gps
+Warning--missing pages in chen2025uq
+Warning--missing pages in desouza2025astronomy
+Warning--missing pages in emanuello2022cyber
+Warning--missing pages in foschiatti2025tomography
+Warning--missing pages in golub2026spectral
+Warning--missing pages in lim2023equivariant
+Warning--missing pages in rieck2025topology
+Warning--missing pages in rojas2025fewnomial
+Warning--missing pages in urschel2025numerical
+You've used 19 entries,
+            2213 wiz_defined-function locations,
+            602 strings with 6736 characters,
+and the built_in function-call counts, 5115 in all, are:
+= -- 411
+> -- 277
+< -- 0
++ -- 114
+- -- 90
+* -- 512
+:= -- 872
+add.period$ -- 19
+call.type$ -- 19
+change.case$ -- 102
+chr.to.int$ -- 0
+cite$ -- 34
+duplicate$ -- 210
+empty$ -- 401
+format.name$ -- 90
+if$ -- 996
+int.to.chr$ -- 0
+int.to.str$ -- 19
+missing$ -- 39
+newline$ -- 67
+num.names$ -- 38
+pop$ -- 121
+preamble$ -- 1
+purify$ -- 83
+quote$ -- 0
+skip$ -- 102
+stack$ -- 0
+substring$ -- 147
+swap$ -- 34
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 74
+warning$ -- 15
+while$ -- 43
+width$ -- 21
+write$ -- 164
+(There was 1 error message)

@@ -1,0 +1,229 @@
+%==============================================================================
+% CHAPTER 3: Spectral Methods in Microeconomics
+%==============================================================================
+\chapter{Spectral Methods in Microeconomics}
+\label{ch:spectral} \cite{golub2026spectral}
+
+\begin{flushright}
+\textit{Benjamin Golub}\\
+Communicated by \textit{Notices} Associate Editor Daniela De Silva
+\end{flushright}
+
+\epigraph{``Matrices often appear in formal models of social and economic behavior... Spectral theory offers powerful tools for understanding matrices, and economic modelers have leveraged these tools to gain considerable insight.''}{--- Benjamin Golub}
+
+\begin{abstract}
+Eigenvalues and eigenvectors are the hidden skeleton of networked systems. This chapter shows how Perron-Frobenius \index{Perron-Frobenius theorem}theory, Katz-Bonacich centrality, \index{centrality measures}and spectral decomposition unify opinion dynamics, network games, and market equilibrium. The same mathematics describes how beliefs spread, how firms compete, and how central banks should act, \cite{golub2026spectral}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: Why Spectral Methods?}
+\label{sec:spec:intro}
+
+In microeconomics, agents interact: consumers learn from neighbors, firms compete on networks, banks lend to each other. These interactions are encoded in \textbf{matrices}. The spectral properties of these matrices---especially the dominant eigenvalue and eigenvector---determine the system's long-run behavior, \cite{golub2026spectral}.
+
+Consider a row-stochastic matrix $\bm{W}$ (nonnegative, rows sum to 1) representing social influence. The DeGroot \index{DeGroot model}model of opinion dynamics:
+\[
+\bm{x}(t+1) = \bm{W} \bm{x}(t).
+\]
+If $\bm{W}$ is irreducible and aperiodic, $\bm{x}(t) \to \bm{\pi}^\top \bm{x}(0) \bm{1}$ where $\bm{\pi}$ is the \textbf{left Perron vector} (stationary distribution). Convergence rate is governed by $|\lambda_2|$, the second-largest eigenvalue modulus.
+
+This single fact unifies:
+\begin{itemize}
+    \item \textbf{Opinion dynamics}: How fast do beliefs converge?
+    \item \textbf{Centrality}: Who is influential? (Katz-Bonacich = Perron vector)
+    \item \textbf{Network games}: Equilibrium actions = $(\bm{I} - \beta \bm{G})^{-1} \bm{a}$; spectral radius of $\beta \bm{G}$ determines uniqueness, \cite{golub2026spectral}.
+    \item \textbf{Information aggregation}: ``Wisdom of crowds'' iff $\max_i \pi_i \to 0$ as $n \to \infty$.
+\end{itemize}
+
+%==============================================================================
+\section{Perron-Frobenius Theory for Economists} \cite{golub2026spectral}
+\label{sec:spec:pf}
+
+\begin{theorem}[Perron-Frobenius (Irreducible Nonnegative)] \cite{golub2026spectral}
+Let $\bm{A} \in \mathbb{R}^{n \times n}$, $a_{ij} \ge 0$, irreducible. Then:
+\begin{enumerate}
+    \item $\rho(\bm{A}) > 0$ is a simple eigenvalue (the \textbf{Perron root}).
+    \item There exist $\bm{u} > 0$, $\bm{v} > 0$ (right/left Perron vectors) with $\bm{A}\bm{u} = \rho\bm{u}$, $\bm{v}^\top\bm{A} = \rho\bm{v}^\top$.
+    \item All other eigenvalues satisfy $|\lambda| < \rho$.
+    \item For any $\bm{x} > 0$, $\bm{A}^t \bm{x} / \rho^t \to \bm{u} (\bm{v}^\top \bm{x} / \bm{v}^\top \bm{u})$.
+\end{enumerate}
+\end{theorem}
+
+\begin{definition}[Irreducibility]
+$\bm{A}$ is \textbf{irreducible} iff its directed graph is strongly connected: for any $i,j$, there is a path $i \to j$. Equivalently, no permutation makes $\bm{A}$ block upper-triangular.
+\end{definition}
+
+In economics, irreducibility = ``the network is connected.'' If the economy has isolated sectors, spectral theory applies block by block, \cite{golub2026spectral}.
+
+%==============================================================================
+\section{Application 1: DeGroot Learning and Social Influence}
+\label{sec:spec:degroot}
+
+Agents update beliefs by averaging neighbors:
+\[
+x_i(t+1) = \sum_j w_{ij} x_j(t), \quad \bm{W} \text{ row-stochastic}.
+\]
+
+\begin{proposition}
+If $\bm{W}$ is irreducible and aperiodic, $\bm{x}(t) \to \bm{\pi}^\top \bm{x}(0) \bm{1}$ where $\bm{\pi}$ is the unique stationary distribution ($\bm{\pi}^\top \bm{W} = \bm{\pi}^\top$, $\bm{\pi} > 0$, $\sum \pi_i = 1$).
+\end{proposition}
+
+The \textbf{social influence} of agent $i$ is $\pi_i$. This is exactly \textbf{eigenvector centrality} (left Perron vector of $\bm{W}$).
+
+\begin{example}[Star network]
+Agent 1 at center, all others peripheral. $\bm{W}_{1j} = 1/(n-1)$, $\bm{W}_{i1} = 1$ for $i>1$. Then $\pi_1 = 1/2$, $\pi_i = 1/(2n-2)$ for $i>1$. The center has influence $\sim 1/2$ regardless of $n$!
+\end{example}
+
+\begin{definition}[Wisdom of Crowds]
+A sequence of networks is \textbf{wise} if $\max_i \pi_i^{(n)} \to 0$. Golub-Jackson (2010): wisdom holds iff no agent has ``disproportionate influence.''
+\end{definition}
+
+%==============================================================================
+\section{Application 2: Network Games and Bonacich Centrality}
+\label{sec:spec:games}
+
+Agents choose actions $a_i \in \mathbb{R}$. Payoff:
+\[
+u_i(a_i, \bm{a}_{-i}) = a_i \left( \alpha_i - \frac{1}{2} a_i + \beta \sum_j g_{ij} a_j \right).
+\]
+Best response: $a_i = \alpha_i + \beta \sum_j g_{ij} a_j$. In vector form:
+\[
+\bm{a} = \bm{\alpha} + \beta \bm{G} \bm{a} \quad \Rightarrow \quad \bm{a}^* = (\bm{I} - \beta \bm{G})^{-1} \bm{\alpha},
+\]
+provided $\rho(\beta \bm{G}) < 1$.
+
+\begin{definition}[Katz-Bonacich Centrality]
+For $\bm{G} \ge 0$ and $\beta < 1/\rho(\bm{G})$,
+\[
+\bm{b}(\beta, \bm{G}) = (\bm{I} - \beta \bm{G})^{-1} \bm{1} = \sum_{k=0}^\infty \beta^k \bm{G}^k \bm{1}.
+\]
+Entry $b_i$ counts weighted walks starting at $i$; longer walks discounted by $\beta^k$.
+\end{definition}
+
+The equilibrium action is $\bm{a}^* = \bm{b}(\beta, \bm{G}) \odot \bm{\alpha}$ (if $\bm{\alpha}$ is scalar). \textbf{Equilibrium actions are proportional to centrality.}
+
+%==============================================================================
+\section{Application 3: Wisdom, Centralization, and Policy}
+\label{sec:spec:policy}
+
+The Golub-Jackson \textbf{prominent sequence} concept: a family of networks $(\bm{W}^{(n)})$ with $n$ agents. They are wise iff the most influential agent's weight $\to 0$.
+
+\begin{theorem}[Wisdom Criterion]
+$(\bm{W}^{(n)})$ is wise iff $\max_i \pi_i^{(n)} \to 0$. For symmetric $\bm{W}$, this is equivalent to $\lambda_2(\bm{W}) \to 1$ (the spectral gap closes), \cite{golub2026spectral}.
+\end{theorem}
+
+Policy insight: if a regulator wants to improve information aggregation, they should \textbf{reduce the spectral gap}---i.e., make the network less centralized. This contradicts the intuition that ``more connectivity is always better.'' A star network is highly connected but unwise; a line network is poorly connected but wise, \cite{golub2026spectral}.
+
+%==============================================================================
+\section{Code: Spectral Analysis of Networks}
+\label{sec:spec:code}
+
+\begin{lstlisting}[style=julia,caption=Network spectral analysis] \cite{golub2026spectral}
+using LinearAlgebra, SparseArrays, LightGraphs
+using Statistics
+
+function analyze_network(W; tol=1e-12)
+    n = size(W, 1)
+    
+    # Check irreducibility
+    G = DiGraph(W .> tol)
+    is_irred = is_strongly_connected(G)
+    
+    # Perron-Frobenius (left eigenvector for row-stochastic) \cite{golub2026spectral}
+    eig = eigen(W')
+    idx = argmax(abs.(eig.values))
+    lambda1 = real(eig.values[idx])
+    pi = real(eig.vectors[:, idx])
+    pi = pi / sum(pi)  # normalize
+    
+    # Second eigenvalue modulus
+    lambda2 = maximum(abs.(eig.values[setdiff(1:end, idx)]))
+    spectral_gap = lambda1 - lambda2 \cite{golub2026spectral}
+    
+    # Katz-Bonacich centrality for beta < 1/rho(G)
+    # Assuming G is the adjacency (not stochastic)
+    function katz_centrality(G, beta)
+        rho = maximum(abs.(eigvals(G)))
+        if beta >= 1/rho
+            error("beta too large: beta*rho = $(beta*rho)")
+        end
+        (I - beta*G) \ ones(n)
+    end
+    
+    # Wisdom metrics
+    max_influence = maximum(pi)
+    herfindahl = sum(pi.^2)  # concentration index
+    
+    return (
+        lambda1 = lambda1,
+        lambda2 = lambda2,
+        spectral_gap = spectral_gap, \cite{golub2026spectral}
+        pi = pi,
+        max_influence = max_influence,
+        herfindahl = herfindahl,
+        is_irred = is_irred
+    )
+end
+
+# Example: Star network
+n = 10
+W = zeros(n,n)
+W[1, 2:end] .= 1/(n-1)
+for i = 2:n
+    W[i, 1] = 1.0
+end
+
+res = analyze_network(W)
+println("Star network: max_influence = ", res.max_influence)
+println("Spectral gap = ", res.spectral_gap) \cite{golub2026spectral}
+
+# Example: Line network
+W2 = zeros(n,n)
+for i = 1:n
+    neighbors = []
+    i > 1 && push!(neighbors, i-1)
+    i < n && push!(neighbors, i+1)
+    W2[i, neighbors] .= 1/length(neighbors)
+end
+res2 = analyze_network(W2)
+println("Line network: max_influence = ", res2.max_influence)
+println("Spectral gap = ", res2.spectral_gap) \cite{golub2026spectral}
+\end{lstlisting}
+
+%==============================================================================
+\section{Bridge to Chapter 4}
+\label{sec:spec:bridge}
+
+Spectral methods analyze \textbf{linear} network dynamics: $\bm{x}(t+1) = \bm{W}\bm{x}(t)$. Chapter 4 introduces \textbf{nonlinear} network dynamics: deep neural networks. Remarkably, ReLU networks are \emph{piecewise linear}---on each linear region, they are exactly a matrix multiplication. The geometry of deep learning is the geometry of how these linear regions tessellate the input space.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:spec:refs}
+
+\begin{itemize}
+    \item Golub, B. (2025). \textit{Spectral Methods in Microeconomics}. Notices of the AMS, 72(6).
+    \item Golub, B., Jackson, M.O. (2010). \textit{Naive Learning in Social Networks and the Wisdom of Crowds}. American Economic Journal: Microeconomics.
+    \item Ballester, C., Calvó-Armengol, A., Zenou, Y. (2006). \textit{Who's Who in Networks. Wanted: The Key Player}. Econometrica.
+    \item Jackson, M.O. (2010). \textit{Social and Economic Networks}. Princeton University Press.
+    \item Bonacich, P. (1987). \textit{Power and Centrality: A Family of Measures}. American Journal of Sociology.
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:spec:exercises}
+
+\begin{exercise}
+For the star network with $n$ agents, compute the exact stationary distribution $\pi$ and verify $\pi_1 = 1/2$ for all $n \ge 3$.
+\end{exercise}
+
+\begin{exercise}
+Show that for a row-stochastic matrix $\bm{W}$, the Katz-Bonacich centrality with $\bm{G} = \bm{W}$ and $\beta < 1$ is $\bm{b} = (\bm{I} - \beta\bm{W})^{-1}\bm{1}$. What does this represent in the DeGroot model?
+\end{exercise}
+
+\begin{exercise}
+Implement the Golub-Jackson wisdom test: generate a sequence of Erdős-Rényi graphs $G(n, p_n)$ with $p_n = \log n / n$ and $p_n = 1/\sqrt{n}$. Which sequence is wise?
+\end{exercise}
+
+\begin{exercise}[Research]
+Extend the network game to heterogeneous $\beta_i$ (different interaction strengths). When does a unique equilibrium exist?
+\end{exercise}

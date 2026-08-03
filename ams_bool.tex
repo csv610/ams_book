@@ -1,0 +1,388 @@
+%==============================================================================
+% AMS Notices Book: Applied Mathematics for Scientists and Engineers
+%==============================================================================
+\documentclass[11pt,oneside]{book}
+
+%------------------------------------------------------------------------------
+% Packages
+%------------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,amsfonts,mathtools,bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{algorithm,algpseudocode}
+
+% Fix hyperref anchor conflicts for algorithmic lines
+\makeatletter
+\renewcommand{\theHALG@line}{ALG@line.\thealgorithm.\theALG@line}
+\makeatother
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{epigraph}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{tocloft}
+\usepackage{enumitem}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{subcaption}
+\usepackage{csquotes}
+\usepackage{glossaries}
+\usepackage{acronym}
+\usepackage{makeidx}
+\makeindex
+\sloppy
+
+%------------------------------------------------------------------------------
+% Geometry
+%------------------------------------------------------------------------------
+\geometry{margin=1in,headheight=25.2232pt}
+
+%------------------------------------------------------------------------------
+% Theorem environments
+%------------------------------------------------------------------------------
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{algorithmthm}[theorem]{Algorithm}
+\newtheorem{problem}[theorem]{Problem}
+
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise}[chapter]
+
+%------------------------------------------------------------------------------
+% Listings
+%------------------------------------------------------------------------------
+\definecolor{codebg}{rgb}{0.95,0.95,0.95}
+\definecolor{keyword}{rgb}{0.13,0.29,0.53}
+\definecolor{comment}{rgb}{0.54,0.54,0.54}
+\definecolor{string}{rgb}{0.31,0.60,0.02}
+
+% Define Julia language for listings
+\lstdefinelanguage{Julia}{
+    morekeywords={function,end,return,if,else,elseif,for,while,do,in,let,local,global,const,struct,mutable,abstract,primitive,using,import,export,module,baremodule,try,catch,finally,throw,break,continue,quote,macro,quote,esc,eval,include,require,include_string},
+    morekeywords=[2]{Int,Float64,Bool,String,Array,Vector,Matrix,Dict,Set,Tuple,Nothing,Union,Any,Number,Real,Integer,AbstractArray,AbstractVector,AbstractMatrix,AbstractDict,AbstractSet,Iterable,Iterator,Base,Core,Main},
+    sensitive=true,
+    morecomment=[l]{\#},
+    morecomment=[s]{\#=}{=\#},
+    morestring=[b]",
+    morestring=[s]{""""}{""""},
+    morestring=[m]',
+}
+
+% Define JSON language for listings
+\lstdefinelanguage{JSON}{
+    morekeywords={true,false,null},
+    sensitive=true,
+    morecomment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    morestring=[b]",
+    morestring=[s]{""""}{""""},
+}
+
+\lstdefinestyle{julia}{
+    language=Julia,
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{keyword}\bfseries,
+    commentstyle=\color{comment}\itshape,
+    stringstyle=\color{string},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=4
+}
+
+\lstdefinestyle{python}{
+    language=Python,
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{keyword}\bfseries,
+    commentstyle=\color{comment}\itshape,
+    stringstyle=\color{string},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=4
+}
+
+\lstdefinestyle{json}{
+    language=JSON,
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{keyword}\bfseries,
+    commentstyle=\color{comment}\itshape,
+    stringstyle=\color{string},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    frame=single,
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=4
+}
+
+%------------------------------------------------------------------------------
+% Hyperref
+%------------------------------------------------------------------------------
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=red!70!black,
+    urlcolor=blue!70!black,
+    pdfauthor={Various AMS Notices Authors},
+    pdftitle={Applied Mathematics from the Notices of the AMS},
+    pdfsubject={Computational Mathematics for Scientists and Engineers}
+}
+
+%------------------------------------------------------------------------------
+% Headers/Footers
+%------------------------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L,R]{\thepage}
+\fancyhead[L]{\leftmark}
+\fancyhead[R]{\rightmark}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+%------------------------------------------------------------------------------
+% Chapter formatting
+%------------------------------------------------------------------------------
+\titleformat{\chapter}[display]
+    {\normalfont\huge\bfseries\filcenter}
+    {\titlerule\vspace{2pt}\MakeUppercase{\chaptertitlename}\ \thechapter}
+    {12pt}
+    {\titlerule\vspace{6pt}\Huge}
+    [\vspace{6pt}\titlerule]
+
+%------------------------------------------------------------------------------
+% Glossary
+%------------------------------------------------------------------------------
+%\makeglossaries
+
+%------------------------------------------------------------------------------
+% Abstract environment for chapters
+%------------------------------------------------------------------------------
+\newenvironment{abstract}{%
+  \par\small
+  \noindent\textbf{Abstract.}\ignorespaces
+}{%
+  \par\medskip
+}
+
+%------------------------------------------------------------------------------
+% Custom commands
+%------------------------------------------------------------------------------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\KL}{\operatorname{D}_{\mathrm{KL}}}
+\newcommand{\Ent}{\operatorname{H}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\conv}{\operatorname{conv}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Trop}{\operatorname{Trop}}
+\newcommand{\relu}{\operatorname{ReLU}}
+\newcommand{\softmax}{\operatorname{softmax}}
+\newcommand{\argmin}{\operatorname{argmin}}
+\newcommand{\argmax}{\operatorname{argmax}}
+\newcommand{\fl}{\operatorname{fl}}
+
+%\loadglsentries{styles/glossary}
+
+%==============================================================================
+% Document
+%==============================================================================
+\begin{document}
+
+%------------------------------------------------------------------------------
+% Front matter
+%------------------------------------------------------------------------------
+\frontmatter
+
+% Title page
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+
+{\Huge\bfseries Applied Mathematics from the\\ Notices of the AMS}\\[1.5cm]
+
+{\Large\itshape Selected Articles for Scientists and Engineers}\\[2cm]
+
+{\large Edited and adapted from \textit{Notices of the American Mathematical Society}\\ 2000--2025}\\[2cm]
+
+\vfill
+
+%\includegraphics[width=0.3\textwidth]{ams_logo.png}\\[1cm]
+
+{\large A Computational Mathematics Book Series}\\[0.5cm]
+
+{\today}
+
+\vspace{2cm}
+\end{titlepage}
+
+% Copyright page
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+\noindent
+Copyright \copyright\ 2025 American Mathematical Society. All rights reserved.\\[0.5cm]
+
+Articles reprinted with permission from \textit{Notices of the American Mathematical Society}.\\[0.5cm]
+
+Original articles:
+\begin{itemize}
+    \item Urschel, J. (2025). Numerical Stability in Gaussian Elimination. \textit{Notices}, 72(6).
+    \item Rojas, J.M. (2025). An Introduction to Algorithmic Fewnomial Theory Over $\mathbb{R}$. \textit{Notices}, 72(5).
+    \item Golub, B. (2026). Spectral Methods in Microeconomics. \textit{Notices}, 73(6).
+    \item Balestriero, R., Humayun, A.I., Baraniuk, R.G. (2025). On the Geometry of Deep Learning. \textit{Notices}, 72(4).
+    \item Lim, L.-H., Nelson, B.J. (2023). What Is... an Equivariant Neural Network? \textit{Notices}, 70(4).
+    \item Rieck, B. (2025). Topology Meets Machine Learning: An Introduction Using the Euler Characteristic Transform. \textit{Notices}, 72(7).
+    \item Chen, N., Wiggins, S., Andreou, M. (2025). Taming Uncertainty in a Complex World: The Rise of Uncertainty Quantification. \textit{Notices}, 72(3).
+    \item Boutin, M., Kemper, G. (2025). New Developments in Global Positioning. \textit{Notices}, 72(8).
+    \item Bishop, P.R., Chenoweth, S., Fleurantin, E., Ogueda-Oliva, A., Sander, E., Seay, J. (2026). 3D Printing of Invariant Manifolds in Dynamical Systems. \textit{Notices}, 73(1).
+    \item Bar-Lev, D., Sabary, O., Yaakobi, E. (2022). Exciting Coding Problems for DNA-based Storage Systems. \textit{Notices}, 69(11).
+    \item Emanuello, J.A., Ridley, A. (2022). The Mathematics of Cyber Defense. \textit{Notices}, 69(6).
+    \item Baez, J.C., Foley, J.D. (2021). Operads for Designing Systems of Systems. \textit{Notices}, 68(6).
+    \item de Souza, R.S., Ishida, E.E.O., Krone-Martins, A. (2025). A Brief History of Inference in Astronomy. \textit{Notices}, 72(10).
+    \item Bacher, T., Garrote-López, M., Görgen, C., Neubert, M.J. (2026). Making Mathematical Online Resources FAIR. \textit{Notices}, 73(5).
+    \item Foschiatti, S., Kittenberger, A., Scherzer, O. (2025). Deciphering Scrolls with Tomography. \textit{Notices}, 72(10).
+    \item Tao, T. (2025). Machine-Assisted Proof. \textit{Notices}, 72(1).
+\end{itemize}
+
+ISBN: XXX-X-XXXX-XXXX-X
+
+%------------------------------------------------------------------------------
+% Table of Contents
+%------------------------------------------------------------------------------
+\tableofcontents
+
+%------------------------------------------------------------------------------
+% Preface
+%------------------------------------------------------------------------------
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+This book collects fifteen articles from the \textit{Notices of the American Mathematical Society} (2000--2025) that are exceptionally valuable for applied scientists and engineers. Each article was chosen for three criteria:
+
+\begin{enumerate}
+    \item \textbf{Computational substance}: The article presents algorithms, code, or numerical methods---not just theory.
+    \item \textbf{Engineering relevance}: The mathematics solves or illuminates real problems in physics, biology, data science, security, or engineering.
+    \item \textbf{Accessibility}: Written for a broad mathematical audience; no specialized background beyond advanced calculus/linear algebra is assumed.
+\end{enumerate}
+
+The articles have been lightly edited for consistency: notation is unified across chapters, cross-references are added, and each chapter includes \textbf{Julia/Python code} demonstrating the key algorithms. A companion repository at \url{https://github.com/ams-notices-book/code} contains runnable notebooks.
+
+\begin{center}
+\textbf{How to use this book}
+\end{center}
+
+\begin{itemize}
+    \item \textbf{As a reference}: Each chapter is self-contained. Dip in for the topic you need.
+    \item \textbf{As a course text}: Chapters 1--3 (numerical linear algebra, fewnomials, spectral methods) form a ``computational foundations'' sequence. Chapters 4--6 (ML geometry, equivariance, topological ML) are a ``geometric deep learning'' module. Chapters 7--9 (UQ, GNSS, dynamical systems) are ``uncertainty and dynamics.'' Chapters 10--12 (DNA storage, cyber defense, operads) are ``modern applications.'' Chapters 13--15 (astronomy, FAIR data, tomography) are ``data-intensive science.'' Chapter 15 (machine-assisted proof) looks forward.
+    \item \textbf{As a code cookbook}: Every algorithm shown in the text has a runnable implementation in the companion repo.
+\end{itemize}
+
+\begin{flushright}
+--- The Editors
+\end{flushright}
+
+%------------------------------------------------------------------------------
+% Main matter
+%------------------------------------------------------------------------------
+\mainmatter
+
+%==============================================================================
+% PART I: COMPUTATIONAL FOUNDATIONS
+%==============================================================================
+\part{Computational Foundations}
+\label{part:foundations}
+
+\include{chapters/ch01_gaussian_elimination}
+\include{chapters/ch02_fewnomial_theory}
+\include{chapters/ch03_spectral_methods}
+
+%==============================================================================
+% PART II: GEOMETRIC MACHINE LEARNING
+%==============================================================================
+\part{Geometric Machine Learning}
+\label{part:geom_ml}
+
+\include{chapters/ch04_deep_learning_geometry}
+\include{chapters/ch05_equivariant_nn}
+\include{chapters/ch06_topological_ml}
+
+%==============================================================================
+% PART III: UNCERTAINTY, DYNAMICS, AND INVERSE PROBLEMS
+%==============================================================================
+\part{Uncertainty, Dynamics, and Inverse Problems}
+\label{part:uq_dynamics}
+
+\include{chapters/ch07_uq_tutorial}
+\include{chapters/ch08_global_positioning}
+\include{chapters/ch09_dynamical_systems_3d}
+
+%==============================================================================
+% PART IV: MODERN APPLICATIONS
+%==============================================================================
+\part{Modern Applications}
+\label{part:applications}
+
+\include{chapters/ch10_dna_storage}
+\include{chapters/ch11_cyber_defense}
+\include{chapters/ch12_operads_systems}
+
+%==============================================================================
+% PART V: DATA-INTENSIVE SCIENCE
+%==============================================================================
+\part{Data-Intensive Science}
+\label{part:data_science}
+
+\include{chapters/ch13_astronomy_inference}
+\include{chapters/ch14_fair_data}
+\include{chapters/ch15_tomography}
+
+%==============================================================================
+% PART VI: THE FUTURE
+%==============================================================================
+\part{The Future}
+\label{part:future}
+
+%\include{chapters/ch16_machine_assisted_proof}
+
+%------------------------------------------------------------------------------
+% Bibliography
+%------------------------------------------------------------------------------
+\backmatter
+\bibliographystyle{amsplain}
+\bibliography{references}
+
+%------------------------------------------------------------------------------
+% Index
+%------------------------------------------------------------------------------
+\printindex
+
+\end{document}

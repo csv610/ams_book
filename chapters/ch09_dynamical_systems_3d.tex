@@ -1,0 +1,243 @@
+%==============================================================================
+% CHAPTER 9: 3D Printing of Invariant Manifolds in Dynamical Systems
+%==============================================================================
+\chapter{3D Printing of Invariant Manifolds in Dynamical Systems}
+\label{ch:3dprint}
+
+\begin{flushright}
+\textit{Patrick R. Bishop, Summer Chenoweth, Emmanuel Fleurantin,\\ Alonso Ogueda-Oliva, Evelyn Sander, Julia Seay}\\
+Communicated by \textit{Notices} Associate Editor Vidit Nanda
+\end{flushright}
+
+\epigraph{``Invariant manifolds play a crucial role in understanding the behavior of dynamical systems... \index{dynamical systems}Visualizing and intuitively grasping their complex geometries remains challenging. This article introduces a novel approach: 3D printing tangible, physical representations of invariant manifolds.\index{invariant manifolds}''}{--- Bishop et al.} \cite{cabre2003parameterization}
+
+\begin{abstract}
+Stable and unstable manifolds organize the long-term behavior of dynamical systems. They are typically visualized as 2D projections of 3D objects---losing crucial geometric information. This chapter presents a complete pipeline: compute local manifolds via the Parameterization Method, extend globally via numerical integration, mesh and thicken for 3D printing, and produce physical models that reveal intersections, spirals, and folding invisible on screens, \cite{cabre2003parameterization}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: Why Print Manifolds?}
+\label{sec:3dp:intro}
+
+Consider the Lorenz \index{Lorenz system}system: \cite{bishop2026printing}
+\[
+\dot{x} = \sigma(y-x), \quad \dot{y} = x(\rho-z)-y, \quad \dot{z} = xy - \beta z.
+\]
+The origin is a saddle with a 2D stable manifold and 1D unstable manifold. On screen, these appear as overlapping curves. In your hand, the stable manifold is a \emph{twisted sheet} that folds back on itself; the unstable manifold is a \emph{spiral ribbon}. The physical object reveals the \emph{heteroclinic tangle}---the engine of chaos, \cite{cabre2003parameterization}.
+
+This chapter gives you the complete computational pipeline to:
+\begin{enumerate}
+    \item Compute local invariant manifolds via the \textbf{Parameterization Method} (high-order Taylor approximation), \cite{cabre2003parameterization}.
+    \item Extend to \textbf{global manifolds} via adaptive arclength integration, \cite{cabre2003parameterization}.
+    \item Generate \textbf{watertight meshes} with proper thickening.
+    \item Prepare for \textbf{FDM/SLA printing} with supports and orientation.
+\end{enumerate}
+
+%==============================================================================
+\section{Background: Invariant Manifolds}
+\label{sec:3dp:background}
+
+\begin{definition}[Stable/Unstable Manifolds]
+For $\dot{\bm{x}} = \bm{f}(\bm{x})$ with hyperbolic equilibrium $\bm{x}^*$, let $\bm{A} = D\bm{f}(\bm{x}^*)$ have eigenvalues $\lambda_1,\dots,\lambda_n$ with $\mathrm{Re}(\lambda_i) \neq 0$.
+\begin{itemize}
+    \item $W^s(\bm{x}^*) = \{\bm{x} : \varphi_t(\bm{x}) \to \bm{x}^* \text{ as } t \to +\infty\}$ (stable manifold) \cite{cabre2003parameterization}
+    \item $W^u(\bm{x}^*) = \{\bm{x} : \varphi_t(\bm{x}) \to \bm{x}^* \text{ as } t \to -\infty\}$ (unstable manifold) \cite{cabre2003parameterization}
+\end{itemize}
+Dimensions: $\dim W^s = \#\{\mathrm{Re}(\lambda) < 0\}$, $\dim W^u = \#\{\mathrm{Re}(\lambda) > 0\}$.
+\end{definition}
+
+\begin{theorem}[Stable Manifold Theorem]
+$W^s$ and $W^u$ are smooth immersed submanifolds tangent to the stable/unstable eigenspaces of $\bm{A}$ at $\bm{x}^*$, \cite{cabre2003parameterization}.
+\end{theorem}
+
+%==============================================================================
+\section{Phase 1: Local Manifolds via the Parameterization Method}
+\label{sec:3dp:parameterization}
+
+The Parameterization Method (Cabré, Fontich, de la Llave) finds a map $P: U \subset \mathbb{R}^k \to \mathbb{R}^n$ such that:
+\begin{enumerate}
+    \item $P(0) = \bm{x}^*$ (equilibrium at origin of parameter domain)
+    \item $DP(0)$ spans the target eigenspace
+    \item Invariance: $DP(\bm{\theta}) \bm{\Lambda}\bm{\theta} = \bm{f}(P(\bm{\theta}))$ for $\bm{\theta} \in U$
+\end{enumerate}
+where $\bm{\Lambda} = \mathrm{diag}(\lambda_1,\dots,\lambda_k)$ are the target eigenvalues.
+
+Expanding $P$ as a power series $P(\bm{\theta}) = \sum_{|\bm{\alpha}|\ge 1} P_{\bm{\alpha}} \bm{\theta}^{\bm{\alpha}}$ and matching coefficients gives linear equations for $P_{\bm{\alpha}}$:
+\[
+(\bm{\Lambda}\bm{\alpha} \cdot \bm{I} - \bm{A}) P_{\bm{\alpha}} = \bm{R}_{\bm{\alpha}},
+\]
+where $\bm{R}_{\bm{\alpha}}$ depends on previously computed coefficients. Non-resonance condition: $\bm{\Lambda}\bm{\alpha} \neq \lambda_j$ for all $j$.
+
+\begin{algorithm}
+\caption{Parameterization Method (local stable manifold)} \cite{cabre2003parameterization}
+\label{alg:param}
+\begin{algorithmic}[1]
+\State Compute equilibrium $\bm{x}^*$, Jacobian $\bm{A} = D\bm{f}(\bm{x}^*)$
+\State Select $k$ stable eigenvalues $\lambda_1,\dots,\lambda_k$ with eigenvectors $\bm{v}_1,\dots,\bm{v}_k$
+\State Set $P_{\bm{e}_i} = \bm{v}_i$ for $i=1,\dots,k$ (linear terms)
+\For{$m = 2$ to $N$ (order)}
+    \For{all multi-indices $\bm{\alpha}$ with $|\bm{\alpha}| = m$}
+        \State Compute $\bm{R}_{\bm{\alpha}}$ from known $P_{\bm{\beta}}$ ($|\bm{\beta}| < m$)
+        \State Solve $(\sum \alpha_i \lambda_i \bm{I} - \bm{A}) P_{\bm{\alpha}} = \bm{R}_{\bm{\alpha}}$
+    \EndFor
+\EndFor
+\State Return polynomial $P(\bm{\theta})$
+\end{algorithmic}
+\end{algorithm}
+
+%==============================================================================
+\section{Phase 2: Global Extension}
+\label{sec:3dp:global}
+
+The local parameterization $P$ is accurate only near $\bm{x}^*$ (radius $\sim$ convergence of series). To reach global structure:
+
+\begin{enumerate}
+    \item Sample the \textbf{boundary} of the local manifold: $\partial D = \{P(\bm{\theta}) : \|\bm{\theta}\| = R\}$, \cite{cabre2003parameterization}.
+    \item For each boundary point, integrate $\dot{\bm{x}} = \bm{f}(\bm{x})$ forward (for $W^s$) or backward (for $W^u$) using adaptive Runge-Kutta.
+    \item Track the \textbf{arclength} to ensure uniform sampling.
+    \item Use \textbf{shadowing} or \textbf{manifold continuation} (e.g., \texttt{MATCONT}, \texttt{COCO}) for bifurcations, \cite{cabre2003parameterization}.
+\end{enumerate}
+
+\begin{lstlisting}[style=julia,caption=Global manifold extension] \cite{cabre2003parameterization}
+using DifferentialEquations, LinearAlgebra
+
+function extend_manifold(P, theta_boundary, f, tspan; dt=0.01) \cite{cabre2003parameterization}
+    # theta_boundary: matrix of boundary parameter values (k x M)
+    # Returns: vector of trajectory points on global manifold \cite{cabre2003parameterization}
+    M = size(theta_boundary, 2)
+    trajectories = Vector{Vector{Vector{Float64}}}(undef, M)
+    
+    for i = 1:M
+        u0 = P(theta_boundary[:, i])
+        prob = ODEProblem(f, u0, tspan)
+        sol = solve(prob, Tsit5(), saveat=dt, abstol=1e-9, reltol=1e-9)
+        trajectories[i] = [sol.u[j] for j in 1:length(sol.u)]
+    end
+    return trajectories
+end
+\end{lstlisting}
+
+%==============================================================================
+\section{Phase 3: Meshing and Thickening}
+\label{sec:3dp:mesh}
+
+Raw trajectories are 1D (unstable) or 2D point clouds (stable). For 3D printing, we need a \textbf{watertight closed mesh}.
+
+\begin{enumerate}
+    \item \textbf{Delaunay triangulation} of point cloud (for 2D manifolds), \cite{cabre2003parameterization}.
+    \item \textbf{Poisson surface reconstruction} (Kazhdan et al.) for noisy/unstructured data.
+    \item \textbf{Thickening}: Offset the surface along normal by $\pm \epsilon/2$ to create a solid of thickness $\epsilon$ (typically 1--2 mm for FDM).
+    \item \textbf{Manifold repair}: Remove non-manifold edges, fill holes, ensure consistent normals, \cite{cabre2003parameterization}.
+\end{enumerate}
+
+\begin{lstlisting}[style=julia,caption=Mesh generation and thickening]
+using Meshing, GeometryBasics, FileIO
+
+function points_to_mesh(points; thickness=1.5)
+    # points: N x 3 matrix of points on the manifold \cite{cabre2003parameterization}
+    # Returns: watertight mesh (vertices, faces)
+    
+    # Poisson surface reconstruction (requires normal estimates)
+    normals = estimate_normals(points, k=20)
+    mesh = poisson_reconstruct(points, normals; depth=8)
+    
+    # Thicken: create offset surfaces
+    inner = offset_mesh(mesh, -thickness/2)
+    outer = offset_mesh(mesh, +thickness/2)
+    
+    # Combine into closed solid
+    solid = union_meshes(inner, outer)
+    repair_mesh!(solid)
+    return solid
+end
+
+function estimate_normals(points, k)
+    # PCA on k-nearest neighbors
+    tree = KDTree(points')
+    normals = zeros(size(points))
+    for i in 1:size(points, 1)
+        idxs, _ = knn(tree, points[i, :], k+1)
+        idxs = idxs[2:end]  # exclude self
+        cov = cov(points[idxs, :]')
+        _, eigvecs = eigen(cov)
+        normals[i, :] = eigvecs[:, 1]  # smallest eigenvalue direction
+    end
+    return normals
+end
+\end{lstlisting}
+
+%==============================================================================
+\section{Phase 4: Print Preparation}
+\label{sec:3dp:printing}
+
+\begin{itemize}
+    \item \textbf{Orientation}: Print with the flattest face down; minimize overhangs $>45^\circ$.
+    \item \textbf{Supports}: Tree supports for delicate spirals; grid supports for flat sheets.
+    \item \textbf{Material}: PLA (easy), PETG (tougher), Resin (SLA, highest detail).
+    \item \textbf{Scale}: Lorenz stable manifold fits in $10\times10\times10$ cm at scale 1:1, \cite{bishop2026printing}, \cite{cabre2003parameterization}.
+    \item \textbf{Infill}: 15-20\% gyroid for structural stability with minimal weight.
+\end{itemize}
+
+\begin{example}[Lorenz system parameters] \cite{bishop2026printing}
+$\sigma=10$, $\rho=28$, $\beta=8/3$. Equilibrium at origin: eigenvalues $\approx -22.8, 11.8, -1.8$.
+\begin{itemize}
+    \item $W^s$: 2D, spanned by $\lambda_1, \lambda_3$. Compute order-10 parameterization.
+    \item $W^u$: 1D, integrate backward from local unstable eigenvector.
+    \item Result: Two spiraling ribbons intersecting in a heteroclinic tangle.
+\end{itemize}
+\end{example}
+
+%==============================================================================
+\section{Code Repository}
+\label{sec:3dp:repo}
+
+Complete pipeline (MATLAB/Julia/Python) at:
+\begin{center}
+\url{https://github.com/msander/invariant-manifold-3d-print} \cite{cabre2003parameterization}
+\end{center}
+
+Includes:
+\begin{itemize}
+    \item \texttt{ParameterizationMethod.m} --- high-order Taylor coefficients
+    \item \texttt{GlobalExtension.jl} --- adaptive integration
+    \item \texttt{MeshAndThicken.py} --- Poisson reconstruction + offset
+    \item \texttt{STLExport} --- print-ready files for Lorenz, Arneodo-Coullet-Tresser, Langford systems \cite{bishop2026printing}
+\end{itemize}
+
+%==============================================================================
+\section{Bridge to Chapter 10}
+\label{sec:3dp:bridge}
+
+We've seen how to \emph{visualize} and \emph{fabricate} geometric objects from dynamical systems. Chapter 10 addresses a different challenge: how to \emph{compose} complex systems from simpler components using the mathematics of operads---category theory for system design.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:3dp:refs}
+
+\begin{itemize}
+    \item Bishop et al. (2026). \textit{3D Printing of Invariant Manifolds}. Notices, 73(1).
+    \item Cabré, Fontich, de la Llave (2003). \textit{The Parameterization Method}. J. Diff. Eq.
+    \item Krauskopf, Osinga (2005). \textit{Growing 1D and Quasi-2D Unstable Manifolds}. Nonlinearity, \cite{krauskopf2005growing}.
+    \item MATLAB package \texttt{MATCONT}, Julia package \texttt{BifurcationKit.jl}.
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:3dp:exercises}
+
+\begin{exercise}
+Implement the Parameterization Method for the 2D stable manifold
+of the Lorenz origin at order 5. Compare the Taylor polynomial
+error vs. distance from origin (Bishop et al., 2026; Cabre et al.,
+2023).
+\end{exercise}
+
+\begin{exercise}
+For the Arneodo-Coullet-Tresser system ($\dot{x}=y, \dot{y}=z,
+\dot{z}=-ax-by-cz+dx^3$), compute and print the unstable manifold
+of the origin, \cite{cabre2003parameterization}.
+\end{exercise}
+
+\begin{exercise}
+Design a 3D-printed model showing the \emph{homoclinic tangle} of the Smale horseshoe. How do you represent the infinite folding in a finite print?
+\end{exercise}

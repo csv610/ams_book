@@ -1,0 +1,282 @@
+%==============================================================================
+% CHAPTER 6: Topology Meets Machine Learning - Euler Characteristic Transform \cite{rieck2025topology}
+%==============================================================================
+\chapter{Topology Meets Machine Learning: The Euler Characteristic Transform} \cite{rieck2025topology}
+\label{ch:ect}
+
+\begin{flushright}
+\textit{Bastian Rieck}\\
+Communicated by \textit{Notices} Associate Editor Emilie Purvine
+\end{flushright}
+
+\epigraph{``The Euler Characteristic Transform serves as a sufficient shape statistic, yielding an injective mapping for finite geometric simplicial complexes.''}{--- Bastian Rieck} \cite{rieck2025topology}
+
+\begin{abstract}
+The Euler Characteristic Transform (ECT) converts a shape (simplicial complex) into a function on the sphere: for each direction, filter the shape by height and compute the Euler characteristic. \index{Euler characteristic transform}The ECT is invertible, differentiable (via sigmoid approximation), and provides a topological inductive bias for deep learning. This chapter introduces the ECT, its mathematical foundations, and applications to shape classification \index{shape classification}and point cloud reconstruction, \cite{rieck2025topology}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: Topology as Inductive Bias}
+\label{sec:ect:intro}
+
+Deep learning excels at learning features from data. But what if we already know something about the \emph{structure} of the data? For shapes (3D meshes, point clouds, graphs), topology provides invariants that are robust to deformation, noise, and discretization, \cite{rieck2025topology}.
+
+The \textbf{Euler Characteristic Transform (ECT)} bridges topology and machine learning: \cite{rieck2025topology}
+\begin{itemize}
+    \item Input: a geometric simplicial complex $K \subset \mathbb{R}^d$
+    \item \textbf{Topological}: Based on Euler characteristic $\chi = \beta_0 - \beta_1 + \beta_2 - \cdots$
+    \item \textbf{Multiscale}: Filtration by direction gives a curve, not just a number
+    \item \textbf{Complete}: The ECT is injective (Turner et al., 2014; Ghrist et al., 2018)
+    \item \textbf{Differentiable}: Sigmoid approximation enables gradient-based learning
+    \item \textbf{Efficient}: $O(\text{faces} \times \text{directions})$, trivial to parallelize
+\end{itemize}
+
+%==============================================================================
+\section{The Euler Characteristic} \cite{rieck2025topology}
+\label{sec:ect:euler}
+
+\begin{definition}[Euler Characteristic] \cite{rieck2025topology}
+For a finite simplicial complex $K$ with $f_k$ simplices of dimension $k$:
+\[
+\chi(K) = \sum_{k=0}^d (-1)^k f_k = \sum_{k=0}^d (-1)^k \beta_k.
+\]
+$\beta_k$ are Betti numbers (ranks of homology groups). $\chi$ is a homotopy invariant.
+\end{definition}
+
+\begin{example}[Platonic Solids]
+All five Platonic solids are homeomorphic to $S^2$, so $\chi = 2$.
+\begin{center}
+\begin{tabular}{lccc}
+ & Vertices & Edges & Faces \\
+Tetrahedron & 4 & 6 & 4 \\
+Cube & 8 & 12 & 6 \\
+Octahedron & 6 & 12 & 8 \\
+Dodecahedron & 20 & 30 & 12 \\
+Icosahedron & 12 & 30 & 20 \\
+\end{tabular}
+\end{center}
+$V - E + F = 2$ for all.
+\end{example}
+
+%==============================================================================
+\section{The Euler Characteristic Transform} \cite{rieck2025topology}
+\label{sec:ect:definition}
+
+Let $K \subset \mathbb{R}^d$ be a geometric simplicial complex. For a direction $\bm{v} \in S^{d-1}$ and threshold $t \in \mathbb{R}$, define the \textbf{sublevel set}
+\[
+K_{\bm{v}, t} = \{\sigma \in K : \max_{\bm{x} \in \sigma} \langle \bm{v}, \bm{x} \rangle \le t\}.
+\]
+
+\begin{definition}[Euler Characteristic Curve (ECC)] \cite{rieck2025topology}
+The ECC in direction $\bm{v}$ is the function
+\[
+\mathrm{ECC}_K(\bm{v}, t) = \chi(K_{\bm{v}, t}).
+\]
+\end{definition}
+
+\begin{definition}[Euler Characteristic Transform (ECT)] \cite{rieck2025topology}
+The ECT is the map
+\[
+\mathrm{ECT}_K: S^{d-1} \to \{S^{d-1} \to \mathbb{Z}\}, \quad \bm{v} \mapsto \mathrm{ECC}_K(\bm{v}, \cdot).
+\]
+It assigns to each direction its Euler Characteristic Curve, \cite{rieck2025topology}.
+\end{definition}
+
+\begin{theorem}[Invertibility of ECT]
+\label{thm:ect:invertible}
+For finite geometric simplicial complexes in $\mathbb{R}^d$, the ECT is injective: $\mathrm{ECT}_K = \mathrm{ECT}_L \implies K = L$. Moreover, a \emph{finite} number of directions suffices (Curry et al., 2022).
+\end{theorem}
+
+The proof uses Euler calculus: the ECT is a \textbf{Radon transform} of the indicator function, invertible by the Euler integral.
+
+%==============================================================================
+\section{Discretization and Machine Learning}
+\label{sec:ect:discretize}
+
+For computation, we discretize:
+\begin{enumerate}
+    \item \textbf{Directions}: Sample $D$ directions $\bm{v}_1,\dots,\bm{v}_D \in S^{d-1}$.
+    \item \textbf{Thresholds}: For each direction, sample $T$ thresholds $t_1 < \dots < t_T$.
+\end{enumerate}
+
+The ECT becomes a $D \times T$ matrix (image). Each column is an ECC.
+
+\begin{lstlisting}[style=python,caption=Discretized ECT computation]
+import numpy as np
+from scipy.spatial import Delaunay
+
+def compute_ect(vertices, faces, directions, thresholds):
+    """
+    vertices: N x 3 array
+    faces: M x 3 array of vertex indices (triangles)
+    directions: D x 3 array (unit vectors)
+    thresholds: T array of heights
+    Returns: D x T matrix of Euler characteristics
+    """
+    D, T = len(directions), len(thresholds)
+    ect = np.zeros((D, T), dtype=int)
+    
+    for d, v in enumerate(directions):
+        # Project vertices onto direction
+        heights = vertices @ v  # N array
+        
+        for t_idx, t in enumerate(thresholds):
+            # Vertices below threshold
+            v_below = heights <= t
+            
+            # Edges below threshold
+            edges = set()
+            for face in faces:
+                for i, j in [(0,1), (1,2), (2,0)]:
+                    edges.add(tuple(sorted((face[i], face[j]))))
+            edges = np.array(list(edges))
+            e_below = np.all(v_below[edges], axis=1)
+            f1 = np.sum(e_below)
+            
+            # Faces below threshold
+            f_below = np.all(v_below[faces], axis=1)
+            f2 = np.sum(f_below)
+            
+            f0 = np.sum(v_below)
+            ect[d, t_idx] = f0 - f1 + f2
+    
+    return ect
+
+# Example: Tetrahedron
+verts = np.array([[1,1,1], [-1,-1,1], [-1,1,-1], [1,-1,-1]]) / np.sqrt(3)
+faces = np.array([[0,1,2], [0,1,3], [0,2,3], [1,2,3]])
+directions = np.random.randn(100, 3)
+directions = directions / np.linalg.norm(directions, axis=1, keepdims=True)
+thresholds = np.linspace(-1, 1, 50)
+
+ect_matrix = compute_ect(verts, faces, directions, thresholds)
+print("ECT shape:", ect_matrix.shape)  # (100, 50)
+\end{lstlisting}
+
+%==============================================================================
+\section{Differentiable ECT for Deep Learning}
+\label{sec:ect:diff}
+
+The ECC is a step function (changes only when threshold crosses a vertex height). To use in deep learning, we need a \textbf{smooth approximation}.
+
+\begin{proposition}[Sigmoid Approximation]
+Replace the indicator $\mathbb{1}_{h \le t}$ with $\sigma_\beta(t - h) = (1 + e^{-\beta(t-h)})^{-1}$. Then
+\[
+\widetilde{\mathrm{ECC}}_K(\bm{v}, t) = \sum_{\sigma \in K} (-1)^{\dim \sigma} \prod_{\bm{x} \in \sigma} \sigma_\beta(t - \langle \bm{v}, \bm{x} \rangle).
+\]
+As $\beta \to \infty$, $\widetilde{\mathrm{ECC}} \to \mathrm{ECC}$ pointwise.
+\end{proposition}
+
+This makes the ECT a \textbf{differentiable layer} in a neural network. The input is a point cloud/mesh; the output is an ECT matrix; gradients flow back to vertex positions.
+
+%==============================================================================
+\section{Applications}
+\label{sec:ect:apps}
+
+\begin{enumerate}
+    \item \textbf{Shape Classification}: ECT matrix as feature vector $\to$ SVM or CNN. Competitive with graph neural networks on geometric graphs (Rieck et al., 2024).
+    \item \textbf{Point Cloud Reconstruction}: Learn vertex positions by minimizing ECT distance to target (Rieck, 2025).
+    \item \textbf{Topological Regularization}: Add ECT loss to enforce shape priors in generative models.
+    \item \textbf{Protein Shape Analysis}: ECT of molecular surfaces for binding site prediction.
+\end{enumerate}
+
+\begin{lstlisting}[style=python,caption=ECT-based shape classification]
+import torch
+import torch.nn as nn
+
+class ECTClassifier(nn.Module):
+    def __init__(self, n_directions=100, n_thresholds=50, n_classes=10):
+        super().__init__()
+        self.ect_layer = DifferentiableECT(n_directions, n_thresholds)
+        self.classifier = nn.Sequential(
+            nn.Flatten(),
+            nn.Linear(n_directions * n_thresholds, 256),
+            nn.ReLU(),
+            nn.Linear(256, n_classes)
+        )
+    
+    def forward(self, vertices, faces):
+        # vertices: [B, N, 3], faces: [B, M, 3]
+        ect = self.ect_layer(vertices, faces)  # [B, D, T]
+        return self.classifier(ect)
+
+# Differentiable ECT layer (using sigmoid approximation)
+class DifferentiableECT(nn.Module):
+    def __init__(self, n_directions, n_thresholds, beta=10.0):
+        super().__init__()
+        # Random directions on sphere
+        dirs = torch.randn(n_directions, 3)
+        self.register_buffer('directions', dirs / dirs.norm(dim=1, keepdim=True))
+        self.register_buffer('thresholds', torch.linspace(-1, 1, n_thresholds))
+        self.beta = beta
+    
+    def forward(self, vertices, faces):
+        B, N, _ = vertices.shape
+        D, T = len(self.directions), len(self.thresholds)
+        
+        ect = torch.zeros(B, D, T, device=vertices.device)
+        
+        for d, v in enumerate(self.directions):
+            heights = vertices @ v  # [B, N]
+            
+            for t_idx, t in enumerate(self.thresholds):
+                # Sigmoid approximation for vertices
+                v_below = torch.sigmoid(self.beta * (t - heights))  # [B, N]
+                f0 = v_below.sum(dim=1)  # [B]
+                
+                # For edges/faces, need to multiply sigmoids
+                # Simplified: this is a sketch; real implementation uses batched ops
+                # ... (full implementation computes edges/faces similarly)
+                
+                ect[:, d, t_idx] = f0  # + edge/face terms
+        
+        return ect
+\end{lstlisting}
+
+%==============================================================================
+\section{Code Repository}
+\label{sec:ect:repo}
+
+\begin{itemize}
+    \item Python package: \texttt{pip install ect} (\url{https://github.com/bastianrieck/ect})
+    \item Differentiable ECT in PyTorch: \url{https://github.com/bastianrieck/diffect}
+    \item Tutorial notebooks: \url{https://topology.rocks/ect} \cite{rieck2025topology}
+\end{itemize}
+
+%==============================================================================
+\section{Bridge to Chapter 7}
+\label{sec:ect:bridge}
+
+The ECT provides a \textbf{topological summary} of shape. Chapter 7 addresses a different kind of summary: \textbf{uncertainty quantification}. Instead of describing a shape, UQ describes what we \emph{don't know} about a model's predictions. Both are ``compression'' operations: ECT compresses geometry into curves; UQ compresses probability distributions into entropy/KL divergence.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:ect:refs}
+
+\begin{itemize}
+    \item Rieck (2025). \textit{Topology Meets Machine Learning: An Introduction Using the Euler Characteristic Transform}. Notices, 72(7), \cite{rieck2025topology}.
+    \item Turner et al. (2014). \textit{Euler Integral Transforms}. J. Appl. Comput. Topol.
+    \item Ghrist et al. (2018). \textit{Persistent Homology and Euler Integral Transforms}. J. Appl. Comput. Topol.
+    \item Curry et al. (2022). \textit{How Many Directions Determine a Shape?} Trans. AMS.
+    \item Munch (2025). \textit{The Euler Characteristic Transform}. Notices (overview), \cite{rieck2025topology}.
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:ect:exercises}
+
+\begin{exercise}
+Compute the ECT of a cube with vertices at $(\pm 1, \pm 1, \pm 1)$ for directions $(\pm 1,0,0)$, $(0,\pm 1,0)$, $(0,0,\pm 1)$. Verify $\chi = 2$ for all thresholds beyond the cube extent.
+\end{exercise}
+
+\begin{exercise}
+Implement the exact (non-differentiable) ECT for a triangle mesh. Compare the ECT matrices of a sphere and a torus. How many directions are needed to distinguish them?
+\end{exercise}
+
+\begin{exercise}
+Use the differentiable ECT to reconstruct a point cloud of a chair from its ECT matrix. Initialize with random points and optimize via gradient descent.
+\end{exercise}
+
+\begin{exercise}[Research]
+Prove that the ECT of a simplicial complex determines its persistent homology (\index{persistent homology}or vice versa), \cite{rieck2025topology}.
+\end{exercise}

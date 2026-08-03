@@ -1,0 +1,250 @@
+%==============================================================================
+% CHAPTER 13: Deciphering Scrolls with Tomography
+%==============================================================================
+\chapter{Deciphering Scrolls with Tomography: A Training Experiment}
+\label{ch:tomography}
+\cite{foschiatti2025tomography}
+
+\begin{flushright}
+\textit{Sonia Foschiatti, Axel Kittenberger, Otmar Scherzer}\\
+Communicated by \textit{Notices} Associate Editor Krystal Taylor
+\end{flushright}
+
+\epigraph{``Virtual unwrapping uses software to reveal text that was hidden for centuries, thereby making it accessible to mankind.''}{--- Foschiatti, Kittenberger, Scherzer}
+
+\begin{abstract}
+X-ray computed tomography (CT) enables non-destructive reading of damaged scrolls. This chapter presents a complete didactic pipeline: from simulated X-ray projections (using visible light and transparent films) through filtered back-projection, \index{filtered back-projection}manual segmentation, and Maximum Intensity Projection (MIP) to readable text. Includes Arduino-controlled rotation stage, Python/MATLAB reconstruction code, and the Archeolab software framework, \cite{foschiatti2025tomography}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: The Virtual Unwrapping Problem}
+\label{sec:tom:intro}
+
+Damaged scrolls (Herculaneum \index{Herculaneum scrolls}papyri, En-Gedi scroll, medieval manuscripts) cannot be physically opened. X-ray CT provides a solution: \cite{foschiatti2025tomography}
+\begin{enumerate}
+    \item \textbf{Scan}: Rotate scroll, collect projections (radiographs)
+    \item \textbf{Reconstruct}: Filtered back-projection $\to$ 3D volume
+    \item \textbf{Segment}: Identify individual layers in the volume
+    \item \textbf{Texture/Map}: Assign intensity values to surface points
+    \item \textbf{Flatten}: Map 3D surface $\to$ 2D image
+    \item \textbf{Merge}: Combine segments into complete text
+\end{enumerate}
+
+This chapter implements the full pipeline as an \textbf{educational laboratory} using visible light instead of X-rays.
+
+%==============================================================================
+\section{The Mathematical Model: Radon Transform} \cite{foschiatti2025tomography}
+\label{sec:tom:radon}
+
+Let $f(x,y)$ be the attenuation coefficient in a slice. A parallel-beam projection at angle $\theta$:
+\[
+p_\theta(s) = \int_{-\infty}^{\infty} f(s\cos\theta - t\sin\theta, s\sin\theta + t\cos\theta) dt.
+\]
+This is the \textbf{Radon transform\index{Radon transform}} $\mathcal{R}f(\theta, s)$, \cite{foschiatti2025tomography}.
+
+\textbf{Inversion} (filtered back-projection):
+\[
+f(x,y) = \int_0^\pi \left[ p_\theta * h \right](x\cos\theta + y\sin\theta) d\theta,
+\]
+where $h$ is the \textbf{Ram-Lak filter} (ramp filter in Fourier domain): $\hat{h}(\omega) = |\omega|$.
+
+%==============================================================================
+\section{Experimental Setup: Visible-Light Tomography}
+\label{sec:tom:setup}
+
+\textbf{Hardware}:
+\begin{itemize}
+    \item Arduino-controlled stepper motor (rotation stage)
+    \item Projector (visible light source) + Fresnel lens (collimation)
+    \item Camera (detector) + white screen
+    \item Transparent cellulose acetate sheets with printed text (phantom scroll)
+\end{itemize}
+
+\textbf{Acquisition}:
+\begin{lstlisting}[style=python,caption=Arduino stepper control + camera sync]
+# Arduino sketch (simplified)
+#include <Stepper.h>
+const int stepsPerRevolution = 200;
+Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
+int nProjections = 800;
+
+void setup() {
+    myStepper.setSpeed(10);  // rpm
+    Serial.begin(9600);
+}
+
+void loop() {
+    if (Serial.available()) {
+        char cmd = Serial.read();
+        if (cmd == 's') {  // start acquisition
+            for (int i = 0; i < nProjections; i++) {
+                myStepper.step(stepsPerRevolution / nProjections);
+                delay(500);  // settle
+                Serial.println("CAPTURE");  // trigger camera
+                delay(500);
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+%==============================================================================
+\section{Reconstruction Pipeline}
+\label{sec:tom:pipeline}
+
+\subsection{1. Preprocessing}
+\begin{itemize}
+    \item Dark/flat field correction
+    \item Rotation axis determination (cross-correlation of $0^\circ$ and $180^\circ$ projections)
+    \item Cropping to region of interest
+\end{itemize}
+
+\subsection{2. Filtered Back-Projection (FBP)}
+\begin{lstlisting}[style=python,caption=FBP reconstruction using iradon]
+import numpy as np
+from skimage.transform import iradon
+
+# projections: (n_angles, n_pixels) array
+# angles: in degrees
+reconstruction = iradon(projections, theta=angles, 
+                        filter='ramp',  # Ram-Lak
+                        interpolation='linear',
+                        circle=False)
+
+# Post-process: circular mask to remove edge artifacts
+from skimage.draw import disk
+mask = np.zeros_like(reconstruction)
+rr, cc = disk((n/2, n/2), n/2 - 5)
+mask[rr, cc] = 1
+reconstruction *= mask
+\end{lstlisting}
+
+\subsection{3. Segmentation: Finding Layers}
+Each slice is a cross-section through the scroll. The layers appear as concentric curved lines.
+
+\begin{lstlisting}[style=python,caption=Spiral segmentation via genetic algorithm]
+import numpy as np
+from scipy.optimize import differential_evolution
+
+def spiral_model(theta, params):
+    # params = [center_x, center_y, a, b]
+    cx, cy, a, b = params
+    r = a + b * theta
+    return cx + r * np.cos(theta), cy + r * np.sin(theta)
+
+def segmentation_loss(params, slice_img):
+    # Generate spiral mask from params
+    # Compare to image gradients
+    # Return negative correlation
+    pass
+
+# Optimize per slice
+result = differential_evolution(segmentation_loss, bounds,
+                                args=(slice_img,), maxiter=100)
+best_spiral = result.x
+\end{lstlisting}
+
+\subsection{4. Texture Mapping and Flattening}
+For each layer, extract intensity values along the spiral, map to a rectangular image.
+
+\begin{lstlisting}[style=python,caption=Layer flattening]
+def flatten_layer(volume, spiral_params, layer_thickness=3):
+    """Extract and flatten one layer from 3D volume."""
+    h, w, d = volume.shape
+    flattened = np.zeros((d, n_points))
+    
+    for z in range(d):
+        slice_img = volume[:, :, z]
+        cx, cy, a, b = spiral_params[z]
+        
+        # Sample along spiral
+        theta = np.linspace(0, 4*np.pi, n_points)
+        x = cx + (a + b*theta) * np.cos(theta)
+        y = cy + (a + b*theta) * np.sin(theta)
+        
+        # Interpolate
+        from scipy.ndimage import map_coordinates
+        flattened[z, :] = map_coordinates(slice_img, [y, x], order=1)
+    
+    return flattened
+\end{lstlisting}
+
+\subsection{5. Maximum Intensity Projection (MIP)}
+Combine multiple layers into one readable image:
+\[
+\mathrm{MIP}(u,v) = \max_{z} I_z(u,v).
+\]
+Invert if text is dark-on-light.
+
+%==============================================================================
+\section{Results: Reconstructing the Herculaneum Scrolls} \cite{foschiatti2025tomography}
+\label{sec:tom:results}
+
+The article demonstrates reconstruction of:
+\begin{itemize}
+    \item \textbf{Greek}: Homer, \textit{Hymni Homerici XV} (Hercules hymn)
+    \item \textbf{Latin}: Lucretius, \textit{De Rerum Natura} (Book 1, lines 72--74)
+\end{itemize}
+
+%\begin{figure}[ht]
+%\centering
+%\includegraphics[width=0.8\textwidth]{figures/greek_reconstruction.png}
+%\caption{Greek scroll reconstruction: original (left), MIP reconstruction (right).}
+%\end{figure}
+
+%==============================================================================
+\section{Code Repository: Archeolab}
+\label{sec:tom:archeolab}
+
+Complete pipeline (MATLAB + Python) at:
+\begin{center}
+\url{https://gitlab.com/csc1/archeolab/}
+\end{center}
+
+Includes:
+\begin{itemize}
+    \item \texttt{guiAxisFinder.m} --- rotation axis detection
+    \item \texttt{guiSegment.m} --- manual + genetic algorithm segmentation
+    \item \texttt{FBP\_reconstruction.m} --- filtered back-projection
+    \item \texttt{MIP\_flattening.m} --- texture mapping + flattening
+    \item Jupyter notebooks for Python equivalents
+    \item Pre-acquired datasets for testing without hardware
+\end{itemize}
+
+%==============================================================================
+\section{Bridge to Chapter 14}
+\label{sec:tom:bridge}
+
+Tomography reconstructs \emph{hidden structure} from projections. Chapter 14 shows how \emph{FAIR principles} reconstruct \emph{usable knowledge} from legacy mathematical software. Both are inverse problems: from fragmented observations to coherent understanding.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:tom:refs}
+
+\begin{itemize}
+    \item Foschiatti, Kittenberger, Scherzer (2025). \textit{Deciphering Scrolls with Tomography}. Notices, 72(10).
+    \item Seales et al. (2016). \textit{From Damage to Discovery via Virtual Unwrapping}. Science Advances.
+    \item Natterer (2001). \textit{The Mathematics of Computerized Tomography}. SIAM.
+    \item Feeman (2015). \textit{The Mathematics of Medical Imaging}. Springer.
+    \item Vesuvius Challenge: \url{https://vesuviuschallenge.org}
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:tom:exercises}
+
+\begin{exercise}
+Implement the Radon transform and its adjoint (back-projection) from scratch in NumPy. Verify $\mathcal{R}^*\mathcal{R}$ is a convolution with $1/|x|$, \cite{foschiatti2025tomography}.
+\end{exercise}
+
+\begin{exercise}
+Build the visible-light tomography setup (projector + camera + Arduino stage). Acquire 180 projections of a printed spiral phantom and reconstruct with FBP, \cite{foschiatti2025tomography}.
+\end{exercise}
+
+\begin{exercise}
+The Ram-Lak filter amplifies high-frequency noise. Implement a \emph{windowed} ramp filter (Hann, Hamming, Shepp-Logan) and compare reconstruction quality vs. noise amplification.
+\end{exercise}
+
+\begin{exercise}[Research]
+The Herculaneum scrolls have carbon-based ink (low X-ray contrast). Develop a phase-contrast CT simulation and reconstruction pipeline. How much does phase retrieval improve ink visibility? \cite{foschiatti2025tomography}
+\end{exercise}

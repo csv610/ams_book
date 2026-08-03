@@ -1,0 +1,95 @@
+\begin{theindex}
+
+  \item affine spline, \hyperpage{22}
+  \item anomaly detection, \hyperpage{61}, \hyperpage{66}
+  \item autoencoders, \hyperpage{61}, \hyperpage{66}
+
+  \indexspace
+
+  \item Bancroft algorithm, \hyperpage{48}
+  \item batch normalization, \hyperpage{22}
+  \item Bayesian inference, astronomy, \hyperpage{77}
+
+  \indexspace
+
+  \item centrality measures, \hyperpage{16}
+  \item composition (operadic), \hyperpage{71}
+  \item constrained codes, \hyperpage{57}
+
+  \indexspace
+
+  \item DARPA CASCADE, \hyperpage{71}
+  \item deep learning, geometry of, \hyperpage{26}
+  \item DeGroot model, \hyperpage{16}
+  \item DNA storage, \hyperpage{57}
+  \item dynamical systems, \hyperpage{51}
+
+  \indexspace
+
+  \item edit distance codes, \hyperpage{58}
+  \item entropy (information theory), \hyperpage{41}
+  \item equivariant networks, \hyperpage{29}
+  \item Euler characteristic transform, \hyperpage{34}
+
+  \indexspace
+
+  \item FAIR principles, \hyperpage{81}
+  \item filtered back-projection, \hyperpage{86}
+  \item floating-point arithmetic, \hyperpage{3}
+
+  \indexspace
+
+  \item Gaussian elimination, \hyperpage{2}
+  \item GPS (global positioning), \hyperpage{46}
+  \item group representations, \hyperpage{28}
+  \item growth factor, \hyperpage{2}
+
+  \indexspace
+
+  \item Herculaneum scrolls, \hyperpage{86}
+
+  \indexspace
+
+  \item invariant manifolds, \hyperpage{51}
+
+  \indexspace
+
+  \item Kushnirenko-Bernstein theorem, \hyperpage{10}
+
+  \indexspace
+
+  \item least squares, history of, \hyperpage{77}
+  \item linear algebra, GPS application, \hyperpage{46}
+  \item Lorenz system, \hyperpage{51}
+  \item LU factorization, \hyperpage{3}
+
+  \indexspace
+
+  \item MCMC methods, \hyperpage{77}
+
+  \indexspace
+
+  \item Perron-Frobenius theorem, \hyperpage{16}
+  \item persistent homology, \hyperpage{39}
+  \item pivoting, \hyperpage{2}
+
+  \indexspace
+
+  \item Radon transform, \hyperpage{87}
+  \item reinforcement learning, cybersecurity, \hyperpage{61}, 
+		\hyperpage{66}
+  \item ReLU networks, \hyperpage{22}
+  \item root counting, \hyperpage{10}
+
+  \indexspace
+
+  \item satellite geometry, \hyperpage{46}
+  \item SE(3) equivariance, \hyperpage{30}
+  \item shape classification, \hyperpage{34}
+  \item symmetry in neural networks, \hyperpage{28}
+
+  \indexspace
+
+  \item tropical geometry, \hyperpage{10}
+
+\end{theindex}

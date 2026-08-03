@@ -1,0 +1,174 @@
+%==============================================================================
+% CHAPTER 13: A Brief History of Inference in Astronomy
+%==============================================================================
+\chapter{A Brief History of Inference in Astronomy}
+\label{ch:astronomy} \cite{desouza2025astronomy}
+
+\begin{flushright}
+\textit{Rafael S. de Souza, Emille E. O. Ishida, Alberto Krone-Martins}\\
+Communicated by \textit{Notices} Associate Editor Richard A. Levine
+\end{flushright}
+
+\epigraph{``Throughout history, methods of inference have been deeply linked to advances in astronomy.''}{--- de Souza, Ishida, Krone-Martins} \cite{desouza2025astronomy}
+
+\begin{abstract}
+From Hipparchus averaging solstice times to Hamiltonian Monte Carlo sampling cosmological parameters, astronomy has driven the development of statistical inference. This chapter traces the arc: least squares (\index{least squares, history of}Gauss/Ceres), Bayesian \index{Bayesian inference, astronomy}revival (Jeffreys), MCMC (\index{MCMC methods}cosmology), to modern likelihood-free and amortized inference. The lesson: astronomical data challenges force statistical innovation, \cite{desouza2025astronomy}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: Astronomy as an Inference Engine}
+\label{sec:astro:intro}
+
+Astronomy is fundamentally an \textbf{inverse problem}: we observe photons (or gravitational waves, neutrinos) and infer the physical universe. Every major advance in data $\to$ model inference has an astronomical milestone: \cite{desouza2025astronomy}
+
+\begin{center}
+\begin{tabular}{ll}
+Hipparchus (190--120 BC) & Averaging $\to$ noise reduction \\
+Tycho Brahe (1546--1601) & Repeated observations $\to$ precision \\
+Gauss (1801) & Least squares $\to$ orbit of Ceres \\
+Laplace (1812) & Central Limit Theorem $\to$ error theory \\
+Jeffreys (1939) & Bayesian theory $\to$ cosmology \\ \cite{desouza2025astronomy}
+MCMC (1990s--) & Cosmological parameter estimation \\
+HMC/Nested Sampling (2000s--) & High-dimensional posteriors \\
+Likelihood-free (2010s--) & Simulator-based inference \\ \cite{desouza2025astronomy}
+Amortized (2020s--) & Neural posterior estimation
+\end{tabular}
+\end{center}
+
+%==============================================================================
+\section{Linear Regression and Least Squares}
+\label{sec:astro:leastsq}
+
+Gauss (1801) predicted the orbit of Ceres using \textbf{least squares}. The problem: fit an ellipse to noisy angular observations.
+
+Model: $\bm{y} = \bm{X}\bm{\theta} + \bm{\epsilon}$, $\bm{\epsilon} \sim \mathcal{N}(0, \bm{\Sigma})$.
+
+MLE/least squares: $\hat{\bm{\theta}} = (\bm{X}^\top \bm{\Sigma}^{-1} \bm{X})^{-1} \bm{X}^\top \bm{\Sigma}^{-1} \bm{y}$.
+
+This is still the workhorse for:
+\begin{itemize}
+    \item Hubble diagram (distance vs. redshift)
+    \item Black hole mass scaling relations
+    \item Spectral line fitting
+\end{itemize}
+
+%==============================================================================
+\section{Bayesian Inference in Cosmology} \cite{desouza2025astronomy}
+\label{sec:astro:bayes}
+
+Type Ia supernovae (1998) revealed cosmic acceleration. The inference problem: \cite{desouza2025astronomy}
+\begin{itemize}
+    \item Data: $\{\mu_i, z_i\}$ = distance modulus + redshift
+    \item Model: $\mu(z; \Omega_m, \Omega_\Lambda, H_0)$ from Friedmann eqs
+    \item Posterior: $p(\bm{\theta}|\mathcal{D}) \propto p(\mathcal{D}|\bm{\theta}) p(\bm{\theta})$
+\end{itemize}
+
+\textbf{Computational challenge}: 6--10 parameters, multimodal, degenerate. MCMC (Metropolis-Hastings) became standard.
+
+%==============================================================================
+\section{Modern Sampling: HMC and Nested Sampling}
+\label{sec:astro:modern}
+
+\begin{description}
+    \item[Hamiltonian Monte Carlo] Uses gradient of log-posterior to propose distant states with high acceptance. Essential for $\sim 100$-parameter models (e.g., Planck CMB).
+    \item[Nested Sampling] Computes evidence $Z = \int p(\mathcal{D}|\bm{\theta}) p(\bm{\theta}) d\bm{\theta}$ for model comparison (e.g., $\Lambda$CDM vs. $w$CDM).
+\end{description}
+
+\begin{lstlisting}[style=python,caption=HMC for cosmological parameters]
+import numpy as np
+import jax.numpy as jnp
+from jax import grad, jit
+import numpyro
+import numpyro.distributions as dist
+from numpyro.infer import MCMC, NUTS
+
+def cosmological_model(obs_mu, obs_z, obs_sigma):
+    # Flat priors
+    Omega_m = numpyro.sample('Omega_m', dist.Uniform(0.0, 1.0))
+    Omega_L = numpyro.sample('Omega_L', dist.Uniform(0.0, 1.0))
+    H0 = numpyro.sample('H0', dist.Uniform(50.0, 80.0))
+    
+    # Distance modulus from cosmology
+    def dist_modulus(z):
+        # Simplified; real version integrates Friedmann eq
+        return 5*jnp.log10(luminosity_distance(z, Omega_m, Omega_L, H0)) + 25
+    
+    mu_pred = jnp.array([dist_modulus(z) for z in obs_z])
+    
+    # Likelihood
+    numpyro.sample('obs', dist.Normal(mu_pred, obs_sigma), obs=obs_mu)
+
+# Run NUTS (HMC)
+kernel = NUTS(cosmological_model)
+mcmc = MCMC(kernel, num_warmup=1000, num_samples=2000)
+mcmc.run(jax.random.PRNGKey(0), obs_mu, obs_z, obs_sigma)
+samples = mcmc.get_samples()
+\end{lstlisting}
+
+%==============================================================================
+\section{Likelihood-Free Inference (LFI)}
+\label{sec:astro:lfi}
+
+Many astronomical models have \emph{intractable likelihoods} but are easy to \emph{simulate}:
+\begin{itemize}
+    \item Galaxy formation (hydrodynamics + gravity)
+    \item Gravitational waveforms (numerical relativity)
+    \item Strong lensing (ray tracing)
+\end{itemize}
+
+\textbf{Simulation-based inference}: Learn $p(\bm{\theta}|\mathcal{D})$ without evaluating $p(\mathcal{D}|\bm{\theta})$, \cite{desouza2025astronomy}.
+
+\begin{description}
+    \item[Approximate Bayesian Computation (ABC)] Accept $\bm{\theta}$ if $d(\mathcal{D}_{\text{sim}}, \mathcal{D}_{\text{obs}}) < \epsilon$ \cite{desouza2025astronomy}
+    \item[Neural Density Estimation] Train normalizing flow on $(\bm{\theta}, \mathcal{D}_{\text{sim}})$ pairs
+    \item[Score-based] Learn score function $\nabla_{\mathcal{D}} \log p(\mathcal{D}|\bm{\theta})$
+\end{description}
+
+%==============================================================================
+\section{Amortized Inference}
+\label{sec:astro:amortized}
+
+\textbf{Amortization}: Instead of running MCMC for each new dataset, train a neural network once to output the posterior:
+\[
+\phi^* = \arg\min_\phi \mathbb{E}_{\bm{\theta}, \mathcal{D} \sim p(\bm{\theta})p(\mathcal{D}|\bm{\theta})} \left[ D_{\text{KL}}(p(\bm{\theta}|\mathcal{D}) \| q_\phi(\bm{\theta}|\mathcal{D})) \right].
+\]
+
+Examples: \texttt{swyft}, \texttt{sbi}, \texttt{zuko} packages. Critical for LSST (10M alerts/night) and gravitational wave real-time analysis.
+
+%==============================================================================
+\section{Bridge to Chapter 14}
+\label{sec:astro:bridge}
+
+Astronomy drives \emph{methodological} innovation. Chapter 14 shows how \emph{engineering} principles (FAIR) preserve the software that implements these methods. Both are about \emph{longevity}: astronomical methods last centuries; FAIR ensures code lasts decades.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:astro:refs}
+
+\begin{itemize}
+    \item de Souza, Ishida, Krone-Martins (2025). \textit{A Brief History of Inference in Astronomy}. Notices, 72(10).
+    \item Stigler (1986). \textit{The History of Statistics}. Harvard.
+    \item Trotta (2017). \textit{Bayesian Methods in Cosmology}. arXiv:1701.01467, \cite{desouza2025astronomy}.
+    \item Alsing et al. (2019). \textit{Simulation-Based Inference}. arXiv:1903.00007.
+    \item Cranmer et al. (2020). \textit{The Frontier of Simulation-Based Inference}. PNAS.
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:astro:exercises}
+
+\begin{exercise}
+Implement least-squares orbit fitting for a synthetic asteroid with 6 observations. Compare to Gauss's original method.
+\end{exercise}
+
+\begin{exercise}
+Run MCMC on the Union2.1 supernova dataset (580 SNe Ia) to constrain $\Omega_m, \Omega_\Lambda$. Plot the confidence contours.
+\end{exercise}
+
+\begin{exercise}
+Train a normalizing flow (RealNVP) to approximate the posterior of a 2D cosmological model. Compare to MCMC samples.
+\end{exercise}
+
+\begin{exercise}[Research]
+Design an amortized inference pipeline for real-time gravitational wave parameter estimation (latency $< 1$ second), \cite{desouza2025astronomy}.
+\end{exercise}

@@ -1,0 +1,211 @@
+%==============================================================================
+% CHAPTER 12: Operads for Designing Systems of Systems
+%==============================================================================
+\chapter{Operads for Designing Systems of Systems}
+\label{ch:operads}
+\cite{baez2021operads}
+
+\begin{flushright}
+\textit{John C. Baez, John D. Foley}\\
+Communicated by \textit{Notices} Associate Editor Emilie Purvine
+\end{flushright}
+
+\epigraph{``Analogous to how a group abstracts the symmetries of an object, an operad abstracts operations that compose many objects into a single object.''}{--- Baez \& Foley} \cite{baez2021operads}
+
+\begin{abstract}
+``Systems of systems'' engineering composes independent systems (radar, comms, weapons, sensors) into a larger capability. This chapter introduces \textbf{operads}---a categorical tool that formalizes the \emph{syntax} of composition (\index{composition (operadic)}how things plug together) and their \emph{algebras} (the concrete semantics). Applied to network design, search-and-rescue planning, and task coordination, \cite{baez2021operads}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: The Composition Problem}
+\label{sec:op:intro}
+
+A smartphone is a system of systems: touchscreen, camera, CPU, radio, GPS, battery... The \emph{design} is a blueprint for how components connect. The \emph{behavior} depends on the specific hardware.
+
+In defense (DARPA \index{DARPA CASCADE}CASCADE program), we need to compose:
+\begin{itemize}
+    \item Aircraft with range-limited comms
+    \item Ships, helicopters, drones for search-and-rescue
+    \item Sensors, effectors, decision-makers for task planning
+\end{itemize}
+
+\textbf{Challenge}: The composition rules (syntax) are different from the physical realization (semantics). Operads separate these, \cite{baez2021operads}.
+
+%==============================================================================
+\section{What Is an Operad?}
+\label{sec:op:def}
+
+\begin{definition}[Colored Operad]
+An \textbf{operad} $\mathcal{O}$ consists of: \cite{baez2021operads}
+\begin{itemize}
+    \item A set of \textbf{types} (colors) $\mathrm{Ob}(\mathcal{O})$
+    \item For each tuple $(X_1,\dots,X_n; Y)$ with $X_i, Y \in \mathrm{Ob}(\mathcal{O})$, a set of \textbf{operations} $\mathcal{O}(X_1,\dots,X_n; Y)$
+    \item \textbf{Composition}: Given $f \in \mathcal{O}(X_1,\dots,X_n; Y)$ and $g_i \in \mathcal{O}(Z_{i1},\dots,Z_{ik_i}; X_i)$,
+        \[
+        f \circ (g_1,\dots,g_n) \in \mathcal{O}(Z_{11},\dots,Z_{nk_n}; Y)
+        \]
+    \item \textbf{Identities}: $\mathrm{id}_X \in \mathcal{O}(X; X)$
+    \item \textbf{Symmetric group actions}: Permuting inputs
+\end{itemize}
+Satisfying associativity, identity, equivariance axioms.
+\end{definition}
+
+\begin{definition}[Operad Algebra]
+An \textbf{algebra} of $\mathcal{O}$ assigns to each type $X$ a set $A(X)$ and to each operation $f \in \mathcal{O}(X_1,\dots,X_n; Y)$ a function
+\[
+A(f): A(X_1) \times \cdots \times A(X_n) \to A(Y)
+\]
+preserving composition, identities, and symmetries, \cite{baez2021operads}.
+\end{definition}
+
+\textbf{Intuition}: Operad = \emph{syntax} (how to compose); Algebra = \emph{semantics} (what the components actually are).
+
+%==============================================================================
+\section{Network Operads}
+\label{sec:op:network}
+
+\begin{example}[Aircraft Communication Network]
+\textbf{Types}: Number of aircraft $n \in \mathbb{N}$.
+
+\textbf{Operations}: $\mathcal{O}(n_1,\dots,n_k; m)$ = graphs with $n_1+\cdots+n_k$ input vertices and $m$ output vertices. An operation tells you \emph{which new edges to add} to connect the sub-networks.
+
+\textbf{Algebra}: For each $n$, $A(n)$ = set of possible states of $n$ aircraft (positions, velocities, comms status). An operation acts by adding comms links between aircraft that are in range.
+\end{example}
+
+\begin{theorem}[Network Operad Construction]
+For any class of networks (graphs, directed graphs, typed edges, etc.), there is a network operad whose operations are ``ways to connect networks by adding edges.'' \cite{baez2021operads}
+\end{theorem}
+
+%==============================================================================
+\section{Application: Search and Rescue}
+\label{sec:op:sar}
+
+Problem: Distribute search assets (ships, planes, helicopters, small boats) to cover a large area after a disaster (Fastnet Race 1979, Sydney-Hobart 1998).
+
+\begin{enumerate}
+    \item \textbf{Design operad}: Assets have ``slots'' (helicopter carries 3 boats). Operations = ways to nest assets, \cite{baez2021operads}.
+    \item \textbf{Algebra}: Actual assets at actual locations with fuel constraints.
+    \item \textbf{Optimization}: Search over operad operations to maximize ``search effort'' (area covered per time) within budget, \cite{baez2021operads}.
+\end{enumerate}
+
+The operad structure lets you \emph{search the space of designs} algorithmically, \cite{baez2021operads}.
+
+%==============================================================================
+\section{From Design to Tasking}
+\label{sec:op:tasking}
+
+Same operad, different algebra: \cite{baez2021operads}
+\begin{itemize}
+    \item \textbf{Design algebra}: Assets at locations $\to$ network structure
+    \item \textbf{Tasking algebra}: Primitive tasks (``fly to'', ``search'', ``rescue'') composed into mission plans
+\end{itemize}
+
+\textbf{Catalyst operads} (Baez et al.): Some operations enable other operations (a ``catalyst'' agent coordinates multiple agents). Used for multi-agent task plans, \cite{baez2021operads}.
+
+Translation to \textbf{constraint programming} (MILP/CPLEX): Each operation $\to$ decision variables; composition $\to$ constraints, \cite{baez2021operads}.
+
+%==============================================================================
+\section{Levels of Abstraction}
+\label{sec:op:abstraction}
+
+A system design proceeds through levels:
+\begin{enumerate}
+    \item \textbf{Abstract}: ``Network of boats with comms''
+    \item \textbf{Concrete}: ``3 RHIBs, 2 helicopters, SATCOM links''
+    \item \textbf{Detailed}: Specific models, frequencies, protocols
+\end{enumerate}
+
+\textbf{Operad homomorphisms} and \textbf{algebra homomorphisms} formalize moving between levels. This is \emph{change of abstraction}.
+
+%==============================================================================
+\section{Code: Simple Operad in Python}
+\label{sec:op:code}
+
+\begin{lstlisting}[style=python,caption=Network operad sketch] \cite{baez2021operads}
+from dataclasses import dataclass
+from typing import List, Dict, Set, Callable
+from abc import ABC, abstractmethod
+
+@dataclass
+class NetworkOperation:
+    """Operation: connect input networks by adding edges"""
+    input_types: List[int]  # sizes of input networks
+    output_type: int        # size of output network
+    edges: Set[tuple]       # (source_idx, target_idx) where idx is global
+    
+    def __call__(self, *networks):
+        # Compose networks according to edges
+        # networks[i] has size input_types[i]
+        pass
+
+class Operad:
+    def __init__(self):
+        self.operations: Dict[tuple, List[NetworkOperation]] = {}
+    
+    def add(self, op: NetworkOperation):
+        key = (tuple(op.input_types), op.output_type)
+        self.operations.setdefault(key, []).append(op)
+    
+    def compose(self, outer: NetworkOperation, inners: List[NetworkOperation]):
+        # Build composed operation
+        # Offset inner edge indices by input network sizes
+        pass
+
+class Algebra:
+    def __init__(self, interpret_type: Callable[[int], set]):
+        self.interpret_type = interpret_type  # n -> set of n-aircraft states
+    
+    def apply(self, op: NetworkOperation, *states):
+        # Apply operation to concrete states
+        pass
+
+# Example: Aircraft comms
+network_operad = Operad() \cite{baez2021operads}
+# Add operations for connecting networks...
+
+# Algebra: real aircraft positions and comms ranges
+def aircraft_states(n):
+    # Return set of possible states for n aircraft
+    # Each state: positions, velocities, comms equipment
+    pass
+
+aircraft_algebra = Algebra(aircraft_states)
+\end{lstlisting}
+
+%==============================================================================
+\section{Bridge to Chapter 13}
+\label{sec:op:bridge}
+
+Operads provide a \emph{static} compositional structure for system design. Chapter 13 applies \emph{dynamic} Bayesian inference to a different domain: astronomy. Both deal with \emph{hierarchical structure}---operads explicitly, astronomy through the hierarchy of data $\to$ model $\to$ cosmology, \cite{baez2021operads}.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:op:refs}
+
+\begin{itemize}
+    \item Baez, Foley (2021). \textit{Operads for Designing Systems of Systems}. Notices, 68(6).
+    \item Baez, Foley, Moeller, Pollard (2020). \textit{Network Models}. Theory Appl. Categ.
+    \item Spivak (2013). \textit{The Operad of Wiring Diagrams}. arXiv:1305.0297.
+    \item Spivak (2014). \textit{Category Theory for the Sciences}. MIT Press.
+    \item Yau (2018). \textit{Operads of Wiring Diagrams}. Springer.
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:op:exercises}
+
+\begin{exercise}
+Define the operad of \emph{wiring diagrams} for digital circuits. Types = natural numbers (wire count). Operations = circuits with given input/output wires, \cite{baez2021operads}.
+\end{exercise}
+
+\begin{exercise}
+For the aircraft comms operad, define an algebra where $A(n)$ is the set of possible communication graphs on $n$ aircraft with given range constraints, \cite{baez2021operads}.
+\end{exercise}
+
+\begin{exercise}
+Design a ``catalyst'' operation for a search-and-rescue scenario where a helicopter coordinates the deployment of 3 small boats.
+\end{exercise}
+
+\begin{exercise}[Research]
+Extend the network operad to include \emph{temporal} composition: operations that describe not just spatial connections but time-dependent interactions (e.g., intermittent connectivity), \cite{baez2021operads}.
+\end{exercise}

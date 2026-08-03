@@ -1,0 +1,240 @@
+%==============================================================================
+% CHAPTER 2: Algorithmic Fewnomial Theory
+%==============================================================================
+\chapter{Algorithmic Fewnomial Theory Over \texorpdfstring{$\mathbb{R}$}{R}}
+\label{ch:fewnomials}
+\cite{rojas2025fewnomial}
+
+\begin{flushright}
+\textit{J. Maurice Rojas}\\
+Communicated by \textit{Notices} Associate Editor Han-Bom Moon
+\end{flushright}
+
+\epigraph{``There is another family of equations, arguably as simple, that can naturally introduce us to convex geometry and numerical algebraic geometry: those defined by $n$-variate $k$-nomials.''}{--- J. Maurice Rojas}
+
+\begin{abstract}
+A \textbf{fewnomial} is a polynomial with few monomial terms relative to its degree. While classical algebraic geometry focuses on dense polynomials, fewnomials arise naturally in chemical reaction networks, power systems, neural network verification, and optimization. This chapter develops the theory of fewnomials: root counting \index{root counting}via tropical geometry, \index{tropical geometry}the Kushnirenko-Bernstein \index{Kushnirenko-Bernstein theorem}theorem, and algorithmic approaches that exploit sparsity to solve systems far beyond the reach of dense methods, \cite{rojas2025fewnomial}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: Why Fewnomials?}
+\label{sec:few:intro}
+
+In grade school we learn to solve $ax+b=0$ and $ax^2+bx+c=0$. The quadratic formula handles any degree-2 polynomial. But what about
+\[
+x^{100} + 3x^{17} - 5x^3 + 2 = 0 ?
+\]
+This is a \textbf{4-nomial} in 1 variable. It has only 4 terms but degree 100. The fundamental theorem of algebra says 100 complex roots, but how many are \emph{real}? How many are \emph{positive}? Can we find them efficiently?
+
+This is the domain of \textbf{fewnomial theory}: polynomials where the number of terms $k$ is much smaller than the degree $d$. The central questions (S1--S5 from the article): \cite{rojas2025fewnomial}
+\begin{enumerate}
+    \item \textbf{Existence}: Are there any real roots?
+    \item \textbf{Counting}: How many real roots?
+    \item \textbf{Components}: If infinitely many, how many connected components?
+    \item \textbf{Shape}: Can we classify the topology (homology, isotopy type)?
+    \item \textbf{Approximation}: Can we efficiently produce an $\varepsilon$-net of the zero set?
+\end{enumerate}
+
+Why care? Because fewnomials are everywhere: \cite{rojas2025fewnomial}
+\begin{itemize}
+    \item \textbf{Chemical reaction networks}: Steady states = solutions to sparse polynomial systems (mass-action kinetics). Phosphorylation cascades yield $n \sim 20$, $k \sim 3$ per equation.
+    \item \textbf{Power flow equations}: $P_i = \sum_j V_i V_j (G_{ij}\cos\theta_{ij} + B_{ij}\sin\theta_{ij})$ --- trigonometric fewnomials, \cite{rojas2025fewnomial}.
+    \item \textbf{Neural network verification}: ReLU networks are piecewise linear; decision boundaries are fewnomial, \cite{rojas2025fewnomial}.
+    \item \textbf{Robotics}: Kinematics of linkages $\rightarrow$ sparse polynomial systems.
+\end{itemize}
+
+%==============================================================================
+\section{From Binomials to Fewnomials}
+\label{sec:few:binomials}
+
+\begin{definition}[$k$-nomial]
+A \textbf{$k$-nomial} in $n$ variables is a polynomial with exactly $k$ nonzero monomial terms:
+\[
+f(\bm{x}) = \sum_{j=1}^k c_j \bm{x}^{\bm{\alpha}_j}, \quad c_j \in \mathbb{R}\setminus\{0\}, \quad \bm{\alpha}_j \in \mathbb{Z}^n.
+\]
+The \textbf{support} is $\mathrm{Supp}(f) = \{\bm{\alpha}_1,\dots,\bm{\alpha}_k\} \subset \mathbb{Z}^n$.
+\end{definition}
+
+\begin{example}[Binomials are trivial]
+$f(x) = c_1 x^{a} + c_2 x^{b} = 0 \iff x^{a-b} = -c_2/c_1$.
+For $x>0$, this has a solution iff $c_1$ and $c_2$ have opposite signs.
+The positive zero set is either empty or a single point.
+\end{example}
+
+\begin{definition}[Tropical Variety (Positive)]
+For $f = \sum_{j=1}^k c_j \bm{x}^{\bm{\alpha}_j}$ with $c_j \neq 0$, the \textbf{positive tropical variety} is \cite{rojas2025fewnomial}
+\[
+\mathrm{Trop}_+(f) = \{\bm{y} \in \mathbb{R}^n : \max_{j} (\langle \bm{\alpha}_j, \bm{y} \rangle + \log|c_j|) \text{ is attained at least twice}\}.
+\]
+\end{definition}
+
+\begin{theorem}[Fundamental Approximation Theorem]
+\label{thm:trop_approx}
+Let $f$ be an $n$-variate $k$-nomial. Then the zero set $Z_+(f) = \{\bm{x} \in \mathbb{R}_{>0}^n : f(\bm{x})=0\}$ is either empty or contractible. Moreover, every point of $Z_+(f)$ is within distance $O(1)$ of $\mathrm{Trop}_+(f)$ (after log-change of coordinates).
+\end{theorem}
+
+This is remarkable: the zero set of a fewnomial is \textbf{topologically simple} (contractible components) and \textbf{geometrically approximated} by a polyhedral complex (the tropical variety). The tropical variety is a union of at most $\binom{k}{2}$ polyhedral cones---completely independent of the degree! \cite{rojas2025fewnomial}
+
+%==============================================================================
+\section{The Simplex Case: \texorpdfstring{$k = n+1$}{k = n+1}}
+\label{sec:few:simplex}
+
+When $k = n+1$, the support $\mathcal{A} = \{\bm{\alpha}_1,\dots,\bm{\alpha}_{n+1}\}$ forms a simplex (if affinely independent). This is the simplest nontrivial case.
+
+\begin{theorem}[Theorem 1.6 in article, specialized]
+For an $n$-variate $(n+1)$-nomial $f$ with affinely independent support:
+\begin{enumerate}
+    \item $Z_+(f)$ is either empty or a single contractible component.
+    \item $Z_+(f) \neq \emptyset \iff$ the coefficients $c_j$ do \emph{not} all have the same sign.
+    \item $\mathrm{Trop}_+(f)$ is a single affine hyperplane (when nonempty).
+\end{enumerate}
+\end{theorem}
+
+\begin{example}[Approximating radicals]
+Consider $x^d - a = 0$ for $a>0$. The positive root is $x = a^{1/d}$. The binomial $x^d - a$ has trop variety at $\log x = \frac{1}{d}\log a$, exactly the root. For a 3-nomial $x^d + c_1 x^a - c_2 = 0$, the tropical variety gives a piecewise-linear approximation to the root that is metrically close, \cite{rojas2025fewnomial}.
+\end{example}
+
+%==============================================================================
+\section{Systems of Fewnomials: Kushnirenko-Bernstein} \cite{rojas2025fewnomial}
+\label{sec:few:systems}
+
+For a system $f_1 = \cdots = f_n = 0$ in $n$ variables, let $\mathcal{A}_i = \mathrm{Supp}(f_i)$ and $Q_i = \mathrm{conv}(\mathcal{A}_i) \subset \mathbb{R}^n$ be the Newton polytopes.
+
+\begin{theorem}[Kushnirenko-Bernstein] \cite{rojas2025fewnomial}
+The number of isolated solutions in $(\mathbb{C}^*)^n$ (complex torus) is exactly the \textbf{mixed volume} $\mathrm{MV}(Q_1,\dots,Q_n)$, which equals
+\[
+n! \cdot \mathrm{Vol}_n(Q_1 + \cdots + Q_n) - \sum_i n! \cdot \mathrm{Vol}_n(Q_1 + \cdots + \widehat{Q_i} + \cdots + Q_n) + \cdots
+\]
+For fewnomial systems, the Newton polytopes have few vertices, making mixed volume computation tractable, \cite{rojas2025fewnomial}.
+\end{theorem}
+
+\begin{example}[Chemical reaction network]
+A phosphorylation cycle with 3 species yields a 3-variate system where each equation is a 4-nomial. The Newton polytopes are tetrahedra. Mixed volume = 3 (vs. B\'ezout bound $4^3 = 64$). The sparse structure reduces the root count by 20x.
+\end{example}
+
+%==============================================================================
+\section{Arithmetic and Bit Complexity}
+\label{sec:few:complexity}
+
+Solving fewnomial systems requires controlling the \textbf{bit size} of solutions, \cite{rojas2025fewnomial}.
+
+\begin{problem}[Approximating radicals]
+Given $a,b \in \mathbb{N}$, find $x \in \mathbb{Q}$ with $|x - a^{1/b}| < \varepsilon$.
+\end{problem}
+
+\begin{lemma}[Lemma 1.11 in article]
+There is an algorithm using $O(\log b)$ field operations and inequality decisions.
+\end{lemma}
+
+\begin{theorem}[Theorem 1.12, BMST]
+Computing $a^{1/b}$ to accuracy $\varepsilon$ requires $\Omega(\log b + \log(1/\varepsilon))$ arithmetic operations. This is \emph{asymptotically optimal}.
+\end{theorem}
+
+The key insight: \textbf{Newton's method on binomials} achieves the lower bound. For fewnomials, the tropical approximation provides a \textbf{near-optimal initial guess}, after which local refinement (Newton/homotopy) converges rapidly, \cite{rojas2025fewnomial}.
+
+%==============================================================================
+\section{Code: Tropical Approximation for Fewnomials}
+\label{sec:few:code}
+
+\begin{lstlisting}[language=Python,caption=Tropical variety of a fewnomial]
+import numpy as np
+from itertools import combinations
+
+def tropical_variety_positive(alpha, c): \cite{rojas2025fewnomial}
+    """
+    alpha: k x n array of exponent vectors
+    c:     k array of coefficients
+    Returns polyhedral cones (as halfspace intersections) for Trop_+(f)
+    """
+    k, n = alpha.shape
+    logc = np.log(np.abs(c))
+    signs = np.sign(c)
+    
+    cones = []
+    for (i, j) in combinations(range(k), 2):
+        # Equality of two terms:
+        # alpha_i^T y + log|c_i| = alpha_j^T y + log|c_j|
+        # => (alpha_i - alpha_j)^T y = log|c_j| - log|c_i|
+        A_eq = alpha[i] - alpha[j]
+        b_eq = logc[j] - logc[i]
+        
+        # Dominance over all other terms
+        A_ub = []
+        b_ub = []
+        for l in range(k):
+            if l == i or l == j: continue
+            A_ub.append(alpha[l] - alpha[i])
+            b_ub.append(logc[i] - logc[l])
+         logc[l])
+        cones.append((A_eq, b_eq, np.array(A_ub), np.array(b_ub)))
+    return cones
+
+def solve_tropical(alpha, c): \cite{rojas2025fewnomial}
+    """Find a point in Trop_+(f) via linear programming"""
+    from scipy.optimize import linprog
+    cones = tropical_variety_positive(alpha, c)
+    for A_eq, b_eq, A_ub, b_ub in cones:
+        # Minimize 0 subject to A_eq @ y = b_eq, A_ub @ y <= b_ub
+        res = linprog(np.zeros(A_eq.shape[0]), A_ub=A_ub, b_ub=b_ub,
+                      A_eq=A_eq.reshape(1,-1), b_eq=[b_eq],
+                      method='highs')
+        if res.success:
+            return res.x
+    return None
+
+# Example: f(x,y) = x^3 + 2*x*y - 5*y^2
+alpha = np.array([[3,0], [1,1], [0,2]])
+c = np.array([1, 2, -5])
+y = solve_tropical(alpha, c) \cite{rojas2025fewnomial}
+print("Tropical point (log coords):", y)
+print("Approx root (exp):", np.exp(y))
+\end{lstlisting}
+
+%==============================================================================
+\section{Applications}
+\label{sec:few:apps}
+
+\begin{itemize}
+    \item \textbf{Steady states of chemical reaction networks}: Fewnomial systems from mass-action kinetics. The \textbf{deficiency zero theorem} (Feinberg) guarantees uniqueness of positive steady states when the network structure is a directed forest.
+    \item \textbf{Power flow}: The AC power flow equations are trigonometric fewnomials. Converting via $z = e^{i\theta}$ gives polynomial fewnomials. Homotopy methods with tropical start systems solve large grids, \cite{rojas2025fewnomial}.
+    \item \textbf{Neural network verification}: The decision boundary of a ReLU network is a piecewise linear function. The number of linear regions is a fewnomial count (related to hyperplane arrangements), \cite{rojas2025fewnomial}.
+    \item \textbf{Polynomial optimization}: Minimizing a fewnomial over a polytope reduces to checking critical points (fewnomial system) and boundary, \cite{rojas2025fewnomial}.
+\end{itemize}
+
+%==============================================================================
+\section{Bridge to Chapter 3}
+\label{sec:few:bridge}
+
+Fewnomial theory uses \textbf{Newton polytopes} and \textbf{mixed volumes} to count roots. Chapter 3 uses \textbf{spectra of matrices} (eigenvalues) to understand networks. Both are ``spectral'' in a broad sense: fewnomials use the \emph{combinatorial spectrum} (exponent vectors), spectral methods use the \emph{algebraic spectrum} (eigenvalues). Both exploit sparsity/structure to bypass dense complexity, \cite{rojas2025fewnomial}.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:few:refs}
+
+\begin{itemize}
+    \item Rojas, \textit{Algorithmic Fewnomial Theory} (this article, Notices 2025).
+    \item Khovanskii, \textit{Fewnomials} (AMS Translations, 1991)---the foundational monograph.
+    \item Sturmfels, \textit{Solving Systems of Polynomial Equations} (CBMS, 2002)---tropical geometry, \cite{rojas2025fewnomial}.
+    \item Bihan, Sottile, \textit{New bounds for fewnomials} (2007), \cite{rojas2025fewnomial}.
+    \item Feinberg, \textit{Foundations of Chemical Reaction Network Theory} (Springer, 2019).
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:few:exercises}
+
+\begin{exercise}
+Compute the tropical variety of $f(x,y,z) = x^2 + 2y^3 - 3z + 4$. How many polyhedral cones? \cite{rojas2025fewnomial}
+\end{exercise}
+
+\begin{exercise}
+For the phosphorylation cycle (3 species, each equation a 4-nomial), write the system and compute its mixed volume using \texttt{PHCpack} or \texttt{HomotopyContinuation.jl}.
+\end{exercise}
+
+\begin{exercise}
+Show that a univariate $k$-nomial has at most $k-1$ positive real roots (Descartes' rule of signs). What about negative roots?
+\end{exercise}
+
+\begin{exercise}[Research]
+Implement a homotopy continuation solver that uses tropical varieties as start systems for 3-variate 4-nomial systems. Compare to random start systems, \cite{rojas2025fewnomial}.
+\end{exercise}

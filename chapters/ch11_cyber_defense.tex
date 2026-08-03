@@ -1,0 +1,211 @@
+%==============================================================================
+% CHAPTER 11: The Mathematics of Cyber Defense
+%==============================================================================
+\chapter{The Mathematics of Cyber Defense}
+\label{ch:cyber} \cite{emanuello2022cyber}
+
+\begin{flushright}
+\textit{John A. Emanuello, Ahmad Ridley}\\
+Communicated by \textit{Notices} Associate Editor Emilie Purvine
+\end{flushright}
+
+\epigraph{``The speed, complexity, and ubiquity of cyber-attacks has never been more apparent... Current cyber-defense capabilities are static and rules-based... This approach is unsustainable.''}{--- Emanuello \& Ridley} \cite{emanuello2022cyber}
+
+\begin{abstract}
+Cyber defense requires detecting anomalies in massive, heterogeneous data streams (logs, netflow, alerts) and responding autonomously. This chapter surveys the mathematical foundations: autoencoder\index{autoencoders}s for unsupervised anomaly detection, \index{anomaly detection}Word2Vec-style embeddings for categorical log data, and reinforcement learning \index{reinforcement learning, cybersecurity}for autonomous response. The unique challenges: adversarial dynamics, non-stationary distributions, and the need for human-machine teaming, \cite{emanuello2022cyber}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: Why Mathematics for Cyber?}
+\label{sec:cyber:intro} \cite{emanuello2022cyber}
+
+Cyber attacks are not single events but \emph{campaigns}: multi-phase, adaptive, stealthy. Defenders face:
+\begin{itemize}
+    \item \textbf{Volume}: Terabytes/day of logs, netflow, packet captures
+    \item \textbf{Heterogeneity}: Categorical (IPs, usernames), temporal, graph-structured
+    \item \textbf{Adversariality}: Attackers adapt to defenses
+    \item \textbf{Label scarcity}: Almost no labeled attacks; must detect \emph{anomalies}
+\end{itemize}
+
+Mathematical approach: \textbf{Build models of normal behavior; flag deviations.}
+
+%==============================================================================
+\section{Data Representation: Embedding Categorical Features}
+\label{sec:cyber:embedding} \cite{emanuello2022cyber}
+
+Log data is nominal: IP addresses, usernames, process names, file paths. Standard ML needs numeric vectors.
+
+\textbf{Word2Vec for logs (Mikolov et al., 2013)}: Treat a log line as a ``sentence,'' tokens as ``words.'' Train skip-gram model:
+\[
+\max_{\theta} \sum_{(w,c) \in D} \log P(c|w;\theta), \quad P(c|w) = \frac{\exp(\bm{v}_c^\top \bm{v}_w)}{\sum_{c'} \exp(\bm{v}_{c'}^\top \bm{v}_w)}.
+\]
+
+Result: Each token (IP, process, etc.) gets a dense vector $\bm{v} \in \mathbb{R}^d$. Similar behavior $\to$ nearby vectors.
+
+\begin{lstlisting}[style=python,caption=Log embedding with Word2Vec]
+from gensim.models import Word2Vec
+import numpy as np
+
+# Parse logs into token sequences
+log_sequences = [
+    ["192.168.1.1", "ssh", "accept", "user1"],
+    ["192.168.1.2", "ssh", "failed", "user2"],
+    # ...
+]
+
+# Train Word2Vec
+model = Word2Vec(log_sequences, vector_size=100, window=5, min_count=1, workers=4)
+
+# Embed a log line
+def embed_log(tokens, model):
+    vecs = [model.wv[t] for t in tokens if t in model.wv]
+    return np.mean(vecs, axis=0) if vecs else np.zeros(model.vector_size)
+
+# Now each log is a 100-d vector for downstream ML
+\end{lstlisting}
+
+%==============================================================================
+\section{Anomaly Detection: Deep Autoencoders}
+\label{sec:cyber:ae} \cite{emanuello2022cyber}
+
+\textbf{Deep Autoencoder (AE)}: Multi-layer perceptron trained to reconstruct input:
+\[
+\bm{z} = \sigma(\bm{W}_e \bm{x} + \bm{b}_e), \quad \hat{\bm{x}} = \sigma(\bm{W}_d \bm{z} + \bm{b}_d),
+\]
+loss $= \|\bm{x} - \hat{\bm{x}}\|^2$. The bottleneck $\bm{z}$ learns a compressed representation.
+
+\textbf{Unsupervised anomaly detection}: Train on \emph{normal} traffic only. At test time, high reconstruction error $\to$ anomaly, \cite{emanuello2022cyber}.
+
+\begin{theorem}[AE as Nonlinear PCA]
+A deep AE with linear activations learns the PCA subspace. With nonlinearities, it learns a \emph{nonlinear manifold} of normal data.
+\end{theorem}
+
+\begin{lstlisting}[style=python,caption=Autoencoder for log anomaly detection] \cite{emanuello2022cyber}
+import torch
+import torch.nn as nn
+
+class LogAutoencoder(nn.Module):
+    def __init__(self, input_dim, latent_dim=32):
+        super().__init__()
+        self.encoder = nn.Sequential(
+            nn.Linear(input_dim, 128), nn.ReLU(),
+            nn.Linear(128, 64), nn.ReLU(),
+            nn.Linear(64, latent_dim)
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, 64), nn.ReLU(),
+            nn.Linear(64, 128), nn.ReLU(),
+            nn.Linear(128, input_dim)
+        )
+    
+    def forward(self, x):
+        z = self.encoder(x)
+        return self.decoder(z), z
+
+# Training on normal data only
+model = LogAutoencoder(input_dim=100)
+optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+for epoch in range(50):
+    for batch in normal_dataloader:
+        recon, _ = model(batch)
+        loss = nn.MSELoss()(recon, batch)
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+
+# Anomaly score = reconstruction error
+def anomaly_score(model, x):
+    with torch.no_grad():
+        recon, _ = model(x)
+        return torch.mean((x - recon)**2, dim=1)
+\end{lstlisting}
+
+%==============================================================================
+\section{Chaining Anomalies Across Modalities}
+\label{sec:cyber:chaining} \cite{emanuello2022cyber}
+
+A single anomaly (e.g., unusual process) may be benign. A \emph{chain} across modalities (unusual process + unusual netflow + unusual file access) is likely an attack.
+
+\textbf{Challenge}: Fuse AE scores from log embeddings, netflow embeddings, alert embeddings into a unified timeline.
+
+Approach: \textbf{Temporal point processes} or \textbf{graph neural networks} on the alert correlation graph.
+
+%==============================================================================
+\section{Autonomous Response: Reinforcement Learning}
+\label{sec:cyber:rl} \cite{emanuello2022cyber}
+
+Detection is not enough; must \emph{respond}. Formulate as \textbf{Markov Decision Process}:
+\begin{itemize}
+    \item State $s_t$: Network state, active alerts, system health
+    \item Action $a_t$: Block IP, isolate host, rate-limit, collect forensics
+    \item Reward $r_t$: Negative for damage, positive for containment, cost for disruption
+\end{itemize}
+
+Learn policy $\pi(a|s)$ via \textbf{Deep Q-Network (DQN)} or \textbf{Proximal Policy Optimization (PPO)}.
+
+\begin{lstlisting}[style=python,caption=RL environment for cyber response] \cite{emanuello2022cyber}
+import gymnasium as gym
+import numpy as np
+
+class CyberEnv(gym.Env):
+    def __init__(self):
+        # State: [num_alerts, severity_scores, network_health, ...]
+        self.observation_space = gym.spaces.Box(-np.inf, np.inf, (20,))
+        # Actions: 0=monitor, 1=block_ip, 2=isolate_host, 3=rate_limit, 4=forensics
+        self.action_space = gym.spaces.Discrete(5)
+        self.state = None
+        self.attack_ongoing = False
+    
+    def step(self, action):
+        # Simulate attack progression and response effect
+        reward = self._compute_reward(action)
+        terminated = self.attack_neutralized()
+        truncated = self.steps >= 100
+        return self.state, reward, terminated, truncated, {}
+    
+    def reset(self, seed=None):
+        self.state = np.zeros(20)
+        self.attack_ongoing = np.random.rand() < 0.3
+        return self.state, {}
+\end{lstlisting}
+
+\textbf{Human-in-the-loop}: RL agent proposes actions; human analyst approves/modifies. Over time, trust increases $\to$ more autonomy.
+
+%==============================================================================
+\section{Bridge to Chapter 12}
+\label{sec:cyber:bridge} \cite{emanuello2022cyber}
+
+Cyber defense uses deep learning for \emph{pattern recognition} in dynamic systems. Chapter 12 uses \textbf{operads} (categorical algebra) for \emph{compositional design} of complex systems. Both address the challenge of \emph{structure in complexity}: one learns it, the other specifies it.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:cyber:refs} \cite{emanuello2022cyber}
+
+\begin{itemize}
+    \item Emanuello, Ridley (2022). \textit{The Mathematics of Cyber Defense}. Notices, 69(6).
+    \item Golczynski, Emanuello (2021). \textit{End-to-End Anomaly Detection...}. arXiv:2108.12276.
+    \item Sutton, Barto (2018). \textit{Reinforcement Learning}. MIT Press.
+    \item Goodfellow et al. (2016). \textit{Deep Learning}. MIT Press (Ch. 14 on AEs).
+    \item MITRE ATT\&CK framework: \url{https://attack.mitre.org}
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:cyber:exercises} \cite{emanuello2022cyber}
+
+\begin{exercise}
+Train a Word2Vec model on the HDFS log dataset. Visualize the embedding of IP addresses---do malicious IPs cluster?
+\end{exercise}
+
+\begin{exercise}
+Implement a variational autoencoder (VAE) for log anomalies. Compare reconstruction error vs. ELBO as anomaly scores.
+\end{exercise}
+
+\begin{exercise}
+Design a reward function for a cyber RL agent that balances: (1) minimizing data exfiltration, (2) minimizing false positive isolations, (3) minimizing analyst workload, \cite{emanuello2022cyber}.
+\end{exercise}
+
+\begin{exercise}[Research]
+Investigate \emph{adversarial attacks on the anomaly detector itself}: can an attacker craft traffic that looks normal to the AE but is malicious? \cite{emanuello2022cyber}
+\end{exercise}

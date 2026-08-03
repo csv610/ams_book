@@ -1,0 +1,246 @@
+%==============================================================================
+% CHAPTER 8: New Developments in Global Positioning
+%==============================================================================
+\chapter{New Developments in Global Positioning}
+\label{ch:gps}
+
+\begin{flushright}
+\textit{Mireille Boutin, Gregor Kemper}\\
+Communicated by \textit{Notices} Associate Editor
+\end{flushright}
+
+\epigraph{``This is a story about how mathematics can make a difference in a real-world problem... The fundamental question of when the problem has a unique solution and when it does not was still unanswered.''}{--- Boutin \& Kemper}
+
+\begin{abstract}
+The Global Positioning System (GPS) \index{GPS (global positioning)}solves a system of quadratic equations every time your phone finds its location. This chapter shows how algebraic geometry and Minkowski geometry reveal the exact conditions for unique solvability: the satellite \index{satellite geometry}positions must not lie on a quadric with the user position as focus. The solution is a linear algebra \index{linear algebra, GPS application}problem in disguise, \cite{boutin2025gps}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: The Problem}
+\label{sec:gps:intro}
+
+Your phone receives signals from GPS satellites. Each satellite $i$ broadcasts: \cite{boutin2025gps}
+\begin{itemize}
+    \item Its position $\bm{s}_i \in \mathbb{R}^3$ (known precisely)
+    \item Transmission time $t_i^{\text{tx}}$ (from atomic clock)
+\end{itemize}
+Your phone receives at time $t_i^{\text{rx}}$ (from its cheap quartz clock). The \emph{apparent flight time} is $\tau_i = t_i^{\text{rx}} - t_i^{\text{tx}}$.
+
+The \textbf{global positioning equations}:
+\[
+\|\bm{x} - \bm{s}_i\| = c \tau_i - b, \quad i = 1,\dots,m
+\]
+where:
+\begin{itemize}
+    \item $\bm{x} \in \mathbb{R}^3$ = your position (unknown)
+    \item $b$ = your clock bias (unknown)
+    \item $c$ = speed of light (set $c=1$ by time units)
+    \item $m$ = number of satellites in view ($\ge 4$) \cite{boutin2025gps}
+\end{itemize}
+
+This is a system of $m$ quadratic equations in 4 unknowns.
+
+%==============================================================================
+\section{Sphere Intersection in Minkowski Space}
+\label{sec:gps:minkowski}
+
+Square both sides:
+\[
+\|\bm{x} - \bm{s}_i\|^2 = (\tau_i - b)^2.
+\]
+Expand:
+\[
+\|\bm{x}\|^2 - 2\bm{s}_i^\top\bm{x} + \|\bm{s}_i\|^2 = \tau_i^2 - 2\tau_i b + b^2.
+\]
+
+Introduce the Minkowski inner product on $\mathbb{R}^4$:
+\[
+\langle (\bm{x}, b), (\bm{y}, c) \rangle_M = \bm{x}^\top\bm{y} - bc.
+\]
+
+Define $\bm{X} = (\bm{x}, b)$, $\bm{S}_i = (\bm{s}_i, \tau_i)$, $\sigma_i = \frac{1}{2}(\|\bm{s}_i\|^2 - \tau_i^2)$. Then:
+\[
+\|\bm{X}\|_M^2 - 2\langle \bm{X}, \bm{S}_i \rangle_M = -2\sigma_i,
+\]
+where $\|\cdot\|_M^2 = \langle \cdot, \cdot \rangle_M$.
+
+This says: $\bm{X}$ lies on a \textbf{Minkowski sphere} (quadric) centered at $\bm{S}_i$ with ``radius'' determined by $\sigma_i$.
+
+\begin{theorem}[Sphere Intersection as Linear Algebra]
+The system is equivalent to:
+\[
+\bm{A} \bm{X} = \bm{\sigma},
+\]
+where $\bm{A}$ has rows $(2\bm{s}_i^\top, -2\tau_i, -1)$ and $\bm{\sigma}_i = \|\bm{s}_i\|^2 - \tau_i^2$.
+
+If $\bm{A}$ has full column rank (4), then $\bm{X}$ is uniquely determined by the linear system. Then check $\|\bm{X}\|_M^2 = \bm{X}^\top \bm{\eta} \bm{X}$ consistency.
+\end{theorem}
+
+%==============================================================================
+\section{When Is the Solution Unique?}
+\label{sec:gps:unique}
+
+\begin{theorem}[Boutin-Kemper 2024]
+Assume $m \ge 4$ satellites with non-coplanar positions. The GPS problem has: \cite{boutin2025gps}
+\begin{itemize}
+    \item A \textbf{unique} solution iff the satellites do \emph{not} lie on a quadric surface with focus at the user position, \cite{boutin2025gps}.
+    \item \textbf{Two} solutions iff they do lie on such a quadric.
+\end{itemize}
+The quadric is a sphere, ellipsoid, paraboloid, or hyperboloid (depending on eccentricity).
+\end{theorem}
+
+\begin{proof}[Sketch]
+If $\bm{A}$ has rank 3, the linear system gives a line of solutions. Substituting into the quadratic constraint $\|\bm{X}\|_M^2 = \cdots$ gives a quadratic equation: 0, 1, or 2 solutions. Rank deficiency of $\bm{A}$ occurs exactly when satellites lie on a quadric with focus $\bm{X}$, \cite{boutin2025gps}.
+\end{proof}
+
+\begin{example}[Practical geometry]
+\begin{itemize}
+    \item \textbf{Good}: Satellites well-spread across sky (rank 4)
+    \item \textbf{Bad}: All satellites in a plane (e.g., urban canyon) $\to$ rank 3 $\to$ ambiguity \cite{boutin2025gps}
+    \item \textbf{Bad}: Satellites on a sphere centered at you $\to$ quadric with focus at you $\to$ two solutions
+\end{itemize}
+\end{example}
+
+%==============================================================================
+\section{Algorithm: Exact Solution}
+\label{sec:gps:algorithm}
+
+\begin{algorithm}
+\caption{GPS Solution (Exact Data)} \cite{boutin2025gps}
+\label{alg:gps}
+\begin{algorithmic}[1]
+\Procedure{GPS-Solve}{$\bm{s}_i, \tau_i$ for $i=1..m$} \cite{boutin2025gps}
+    \State Form $\bm{A} \in \mathbb{R}^{m \times 4}$ with rows $(2\bm{s}_i^\top, -2\tau_i, -1)$
+    \State Form $\bm{\sigma} \in \mathbb{R}^m$ with $\sigma_i = \|\bm{s}_i\|^2 - \tau_i^2$
+    \If{$\mathrm{rank}(\bm{A}) = 4$}
+        \State $\bm{X} \gets (\bm{A}^\top \bm{A})^{-1} \bm{A}^\top \bm{\sigma}$  \Comment{Least squares if $m>4$}
+        \State \Return $\bm{x} = \bm{X}_{1:3}, b = \bm{X}_4$
+    \Else \Comment{rank 3}
+        \State Find line $\bm{X} = \bm{X}_0 + t \bm{v}$ solving $\bm{A}\bm{X} = \bm{\sigma}$
+        \State Substitute into $\|\bm{X}\|_M^2 - 2\langle \bm{X}, \bm{S}_i \rangle_M + 2\sigma_i = 0$
+        \State Solve quadratic for $t$ (0, 1, or 2 solutions)
+        \State \Return all valid solutions
+    \EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+%==============================================================================
+\section{Noisy Data: Weighted Least Squares}
+\label{sec:gps:noisy}
+
+Real measurements have noise. The linearized system $\bm{A}\bm{X} = \bm{\sigma}$ has errors from:
+\begin{itemize}
+    \item Satellite position errors (small, $\sim$cm)
+    \item Clock/timing errors (larger, $\sim$meters)
+    \item Atmospheric delays (ionosphere/troposphere)
+\end{itemize}
+
+Satellite positions are known much more accurately than apparent flight times. So invert the submatrix $\bm{A}_1$ obtained by deleting the \emph{first} column (the $\bm{s}_i$ terms), rather than the last column (Bancroft\index{Bancroft algorithm}'s method), \cite{bancroft1985algebraic}.
+
+\begin{lstlisting}[style=julia,caption=GPS solver with noise] \cite{boutin2025gps}
+using LinearAlgebra, Statistics
+
+function solve_gps(sat_positions::Matrix, tau::Vector; weights=nothing)
+    # sat_positions: 3 x m matrix of satellite positions \cite{boutin2025gps}
+    # tau: m vector of apparent flight times
+    m = length(tau)
+    
+    # Build A matrix: rows are [2*s_i', -2*tau_i, -1]
+    A = [2*sat_positions'  -2*tau  -ones(m)]
+    
+    # sigma = ||s_i||^2 - tau_i^2
+    sigma = sum(sat_positions.^2, dims=1)' - tau.^2
+    
+    if rank(A) == 4
+        if weights === nothing
+            X = (A' * A) \ (A' * sigma)
+        else
+            W = Diagonal(weights)
+            X = (A' * W * A) \ (A' * W * sigma)
+        end
+        return X[1:3], X[4]
+    else
+        # Rank 3: find line of solutions
+        # A has nullspace of dimension 1
+        F = svd(A)
+        v_null = F.V[:, end]
+        
+        # Particular solution
+        X0 = A \ sigma
+        
+        # Quadratic constraint: ||X||_M^2 - 2*<X, S_i>_M + 2*sigma_i = 0
+        # This gives a quadratic in t: X = X0 + t * v_null
+        # ... (details omitted for brevity)
+        # Return both solutions if they exist
+        error("Rank-deficient case: implement quadratic solve")
+    end
+end
+
+# Test with simulated data
+Random.seed!(42)
+true_x = [1000.0, 2000.0, 500.0]  # user position
+true_b = 50.0  # clock bias
+
+# 6 satellites \cite{boutin2025gps}
+sat = randn(3, 6) * 20000 .+ [0, 0, 20000]  # roughly in orbit
+tau = [norm(sat[:,i] - true_x) + true_b for i in 1:6]
+
+# Add noise
+tau_noisy = tau + 0.01 * randn(6)
+
+x_est, b_est = solve_gps(sat, tau_noisy)
+println("True: ", true_x, " ", true_b)
+println("Est:  ", x_est, " ", b_est)
+println("Error: ", norm(x_est - true_x))
+\end{lstlisting}
+
+%==============================================================================
+\section{Conditioning and Geometry}
+\label{sec:gps:conditioning}
+
+The condition number of the linear system $\bm{A}\bm{X} = \bm{\sigma}$ blows up as satellites approach a quadric with focus at the user. This is \emph{not} just a numerical issue---it reflects a fundamental geometric ambiguity, \cite{boutin2025gps}.
+
+\begin{example}[Urban canyon]
+Satellites visible only along a street: positions nearly coplanar. The matrix $\bm{A}$ has rank 3. Two possible positions symmetric across the satellite plane. The linear system is ill-conditioned; small timing errors $\to$ large position errors, \cite{boutin2025gps}.
+\end{example}
+
+%==============================================================================
+\section{Bridge to Chapter 9}
+\label{sec:gps:bridge}
+
+GPS solves a \emph{static} nonlinear system by algebraic geometry. Chapter 9 addresses a \emph{dynamic} inverse problem: DNA storage systems where the channel introduces insertions, deletions, and substitutions---requiring coding theory for edit-distance channels, \cite{boutin2025gps}.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:gps:refs}
+
+\begin{itemize}
+    \item Boutin, Kemper (2025). \textit{New Developments in Global Positioning}. Notices, 72(8).
+    \item Bancroft (1985). \textit{An Algebraic Solution of the GPS Equations}. IEEE Trans. Aerosp. Electron. Syst, \cite{boutin2025gps}, \cite{bancroft1985algebraic}.
+    \item Strang, Borre (1997). \textit{Linear Algebra, Geodesy, and GPS}. Wellesley-Cambridge, \cite{boutin2025gps}, \cite{strang1997gps}.
+    \item Hofmann-Wellenhof et al. (2001). \textit{GPS: Theory and Practice}. Springer, \cite{boutin2025gps}.
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:gps:exercises}
+
+\begin{exercise}
+For 4 satellites at $(20000,0,20000)$, $(0,20000,20000)$,
+$(-20000,0,20000)$, $(0,-20000,20000)$ with $\tau_i = 25000$,
+compute the user position and clock bias. Are the satellites on
+a quadric with focus at the solution?
+\end{exercise}
+
+\begin{exercise}
+Show that if all satellites lie on a sphere centered at the user position, the GPS equations have exactly two solutions, \cite{boutin2025gps}.
+\end{exercise}
+
+\begin{exercise}
+Implement the rank-3 quadratic solver for the ambiguous case. Test on a coplanar satellite configuration, \cite{boutin2025gps}.
+\end{exercise}
+
+\begin{exercise}[Research]
+Analyze the effect of ionospheric delay (frequency-dependent) on the Minkowski geometry formulation. How does dual-frequency GPS resolve this? \cite{boutin2025gps}
+\end{exercise}

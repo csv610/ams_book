@@ -1,0 +1,177 @@
+%==============================================================================
+% CHAPTER 14: Making Mathematical Online Resources FAIR \cite{bacher2026fair}
+%==============================================================================
+\chapter{Making Mathematical Online Resources FAIR} \cite{bacher2026fair}
+\label{ch:fair}
+
+\begin{flushright}
+\textit{Tabea Bacher, Marina Garrote-López, Christiane Görgen, Marius J. Neubert}\\
+Communicated by \textit{Notices} Associate Editor
+\end{flushright}
+
+\epigraph{``Digital preservation today is guided by the FAIR Principles---Findability, Accessibility, Interoperability, and Reusability. These principles do not insist on the newest and shiniest web tool... much more sensibly, they guide our decisions on selecting methodologies that preserve the long-term value and usability of digitized results.''}{--- Bacher et al.} \cite{bacher2026fair}
+
+\begin{abstract}
+Many valuable mathematical databases (OEIS, LMFDB, Small Phylogenetic Trees) were built with early-2000s technology. This chapter presents a case study: modernizing the \textit{Small Phylogenetic Trees} library using FAIR principles. \index{FAIR principles}We separate computation from presentation, use OSCAR/Julia for verified computation, and deploy a versioned, documented, licensed resource at \texttt{algebraicphylogenetics.org}, \cite{bacher2026fair}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: The Legacy Software Crisis}
+\label{sec:fair:intro}
+
+Mathematical software ages differently than papers. A 2005 paper is still readable; a 2005 Maple worksheet may not run. The \textit{Small Phylogenetic Trees} library (Garcia, Puente, 2005) computed phylogenetic invariants for trees up to 5 taxa using Singular and Maple. By 2025:
+\begin{itemize}
+    \item Original URLs broken (institution changes)
+    \item Maple/Singular versions incompatible
+    \item No DOI, no license, no API
+    \item Data in GIF images and unstructured text files
+\end{itemize}
+
+\textbf{FAIR principles} (Wilkinson et al., 2016) provide a roadmap: \cite{bacher2026fair}
+\begin{description}
+    \item[F] Findable: Persistent identifiers (DOI), rich metadata, indexed
+    \item[A] Accessible: Standard protocols (HTTPS, API), authentication if needed
+    \item[I] Interoperable: Standard formats (JSON, MathML, HDF5), controlled vocabularies
+    \item[R] Reusable: Clear license, provenance, community standards
+\end{description}
+
+%==============================================================================
+\section{Case Study: Small Phylogenetic Trees}
+\label{sec:fair:case}
+
+\textbf{Original resource}: Tables of algebraic invariants (phylogenetic ideals) for group-based models (Jukes-Cantor, Kimura 2/3-parameter) on trees with 3, 4, 5 leaves.
+
+\textbf{Mathematical content}:
+\begin{itemize}
+    \item Tree topology $T$ (graph with labeled leaves)
+    \item Nucleotide substitution model $\to$ polynomial map $\phi_T: \mathbb{C}^p \to \mathbb{C}^{4^n}$
+    \item Phylogenetic ideal $I_T = \ker \phi_T$ (polynomials vanishing on the model)
+    \item Invariants: generators of $I_T$, dimension, degree, ML degree
+\end{itemize}
+
+\textbf{Modernization pipeline}:
+\begin{enumerate}
+    \item \textbf{Computation}: Recompute all invariants in \texttt{OSCAR} (Julia), a computer algebra system with formal verification.
+    \item \textbf{Serialization}: Store as \texttt{.mrdi} (MaRDI) files---JSON-based, schema-validated, with full provenance (code version, input, timestamp).
+    \item \textbf{Website}: \texttt{algebraicphylogenetics.org} built with \texttt{Flask} + \texttt{MathJax}, serving data from PostgreSQL with REST API.
+    \item \textbf{Versioning}: Git repository for code; Zenodo for data snapshots with DOIs.
+    \item \textbf{License}: CC-BY-4.0 for data, MIT for code.
+\end{enumerate}
+
+%==============================================================================
+\section{The MaRDI Format}
+\label{sec:fair:mardi}
+
+The \textbf{MaRDI} (Mathematical Research Data Initiative) format structures computational results:
+
+\begin{lstlisting}[style=json,caption=Example .mrdi file for a phylogenetic invariant]
+{
+  "@context": "https://mardi4nfdi.github.io/metadata/schema.json",
+  "@type": "MathematicalComputation",
+  "identifier": "doi:10.5281/zenodo.1234567",
+  "name": "Phylogenetic invariant for 4-leaf Jukes-Cantor model",
+  "description": "Generator of the phylogenetic ideal I_T...",
+  "hasInput": {
+    "@type": "MathematicalObject",
+    "name": "4-leaf tree topology",
+    "representation": {"format": "newick", "value": "((A,B),(C,D));"}
+  },
+  "hasOutput": {
+    "@type": "MathematicalObject",
+    "name": "Phylogenetic invariant",
+    "representation": {"format": "polynomial", "value": "p0011*p0100 - p0001*p0110 + ..."}
+  },
+  "usedSoftware": {
+    "@type": "Software",
+    "name": "OSCAR",
+    "version": "0.12.0",
+    "url": "https://github.com/oscar-system/OSCAR.jl"
+  },
+  "dateCreated": "2025-03-15T14:32:00Z",
+  "license": "CC-BY-4.0"
+}
+\end{lstlisting}
+
+%==============================================================================
+\section{Verification and Reproducibility}
+\label{sec:fair:verify}
+
+\textbf{Key innovation}: The new computation is \emph{verified}:
+\begin{itemize}
+    \item OSCAR uses exact rational arithmetic (no floating-point errors)
+    \item Gröbner basis computations are certified
+    \item Results cross-checked with \texttt{Macaulay2} and \texttt{Singular}
+\end{itemize}
+
+The \texttt{.mrdi} file contains the \emph{entire provenance}: software versions, input parameters, random seeds. Anyone can re-run and bitwise verify.
+
+\begin{lstlisting}[style=julia,caption=Verified computation in OSCAR]
+using Oscar
+using Pkg; Pkg.activate("AlgebraicPhylogenetics")
+
+# Exact computation of phylogenetic ideal for 4-leaf JC69
+T = phylogenetic_tree("((A,B),(C,D));")
+model = jukes_cantor_model()
+I = phylogenetic_ideal(T, model)
+
+# Verify generators match known results
+gens = minimal_generators(I)
+println("Number of generators: ", length(gens))
+println("Degrees: ", [total_degree(g) for g in gens])
+
+# Export to MaRDI
+export_mardi(I, "invariant_4leaf_jc69.mrdi")
+\end{lstlisting}
+
+%==============================================================================
+\section{Guidelines for FAIRifying Your Resource} \cite{bacher2026fair}
+\label{sec:fair:guidelines}
+
+\begin{enumerate}
+    \item \textbf{Audit}: What data/code exists? What formats? What dependencies?
+    \item \textbf{Separate concerns}: Computation $\neq$ presentation. Build a \emph{software package} (versioned, tested) + a \emph{website} (consumes package output).
+    \item \textbf{Choose standards}: 
+    \begin{itemize}
+        \item Data: HDF5, NetCDF, Parquet, or MaRDI JSON
+        \item Metadata: Schema.org, CodeMeta, MaRDI
+        \item API: OpenAPI/Swagger
+    \end{itemize}
+    \item \textbf{Assign DOIs}: Zenodo, Figshare, or institutional repository
+    \item \textbf{License explicitly}: CC-BY-4.0 (data), MIT/BSD (code)
+    \item \textbf{Document provenance}: Every output links to code version, inputs, environment
+    \item \textbf{Test reproducibility}: CI pipeline that re-runs computations on every commit
+\end{enumerate}
+
+%==============================================================================
+\section{Bridge to Chapter 15}
+\label{sec:fair:bridge}
+
+FAIR principles ensure mathematical software survives institutional changes. Chapter 15 applies similar rigor to \emph{tomographic reconstruction}: a complete pipeline from raw projections to readable text, with documented code, versioned data, and reproducibility---exactly the FAIR principles in action for inverse problems, \cite{bacher2026fair}.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:fair:refs}
+
+\begin{itemize}
+    \item Bacher et al. (2026). \textit{Making Mathematical Online Resources FAIR}. Notices, 73(5), \cite{bacher2026fair}.
+    \item Wilkinson et al. (2016). \textit{The FAIR Guiding Principles}. Scientific Data, \cite{bacher2026fair}.
+    \item MaRDI Consortium (2024). \textit{MaRDI White Paper}. \url{https://mardi4nfdi.de}
+    \item Garcia-Puente et al. (2005). \textit{Small Phylogenetic Trees}. \url{https://algebraicphylogenetics.org}
+    \item OSCAR Computer Algebra System. \url{https://www.oscar-system.org}
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:fair:exercises}
+
+\begin{exercise}
+Take a small mathematical dataset (e.g., a table of integer sequences) and create a MaRDI JSON file for it. Include input, output, software version, and license.
+\end{exercise}
+
+\begin{exercise}
+Set up a GitHub Actions workflow that re-runs a Julia/OSCAR computation on every push and verifies the output matches a stored .mrdi file.
+\end{exercise}
+
+\begin{exercise}[Research]
+Design a FAIR-compliant schema for storing trained neural network models (weights, architecture, training data provenance, hyperparameters) that enables reproducibility and comparison, \cite{bacher2026fair}.
+\end{exercise}

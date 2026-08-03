@@ -1,0 +1,345 @@
+%==============================================================================
+% CHAPTER 1: Numerical Stability in Gaussian Elimination
+%==============================================================================
+\chapter{Numerical Stability in Gaussian Elimination}
+\label{ch:gaussian}
+
+\begin{flushright}
+\textit{John Urschel}\\
+Communicated by \textit{Notices} Associate Editor Emilie Purvine
+\end{flushright}
+
+\epigraph{``In some sense, numerical analysis is a very old field... But with the advent of the computer age in the 1940s, which made numerical calculations on a scale that was previously unimaginable not only possible but easy, understanding the stability of these algorithms became increasingly urgent.''}{--- John Urschel}
+
+\begin{abstract}
+Gaussian elimination \index{Gaussian elimination}is the oldest algorithm in linear algebra, the most popular method for solving linear systems, and the workhorse behind every `A\b' command in MATLAB, Julia, and Python. Yet its numerical stability remained mysterious for decades. This chapter traces the story from von Neumann and Goldstine's 1947 analysis through Wilkinson's breakthrough to modern understanding of growth factor\index{growth factor}s, pivoting \index{pivoting}strategies, and the surprising fact that partial pivoting---theoretically unstable in worst case---works beautifully in practice, \cite{urschel2025numerical}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: The Algorithm Behind Every Linear Solve}
+\label{sec:ge:intro}
+
+You have solved a linear system today. Whether you wrote \texttt{A \textbackslash b} in Julia, \texttt{numpy.linalg.solve(A, b)} in Python, or \texttt{A\b} in MATLAB, you called Gaussian elimination (via LAPACK's \texttt{getrf}/\texttt{getrs}). It is the default, the standard, the algorithm that powers finite element codes, circuit simulators, structural analysis, and countless engineering computations.
+
+And yet: \emph{why does it work?}
+
+The algorithm is ancient. The earliest variant appears in Chapter 8 of \textit{The Nine Chapters on the Mathematical Art} (Han Dynasty, $\sim$200 BCE), solving a 3×3 system for rice yields. Gaussian elimination is simple enough to teach to middle schoolers. But as von Neumann and Goldstine discovered in 1947, when you run it on a computer with finite precision, \emph{errors compound}. The question of stability---whether small rounding errors produce small changes in the answer---became ``absolutely basic to numerical mathematics'' (Goldstine's words), \cite{urschel2025numerical}.
+
+This chapter is a guided tour through 75 years of answers:
+\begin{itemize}
+    \item The \textbf{floating-point \index{floating-point arithmetic}model} and why exact arithmetic is impossibly slow
+    \item \textbf{Backward stability}: the right way to measure algorithmic quality
+    \item The \textbf{growth factor} $\rho$: the single number that controls stability
+    \item \textbf{Complete vs. partial pivoting}: theory vs. practice
+    \item \textbf{Open problems}: what we still don't know after 75 years
+\end{itemize}
+
+Along the way, we'll see Julia benchmarks showing why exact rational arithmetic takes 40 minutes for what floating-point does in 10 milliseconds, and why the growth factor is the ``Rosetta Stone'' connecting analysis to computation.
+
+%==============================================================================
+\section{What Is Gaussian Elimination?}
+\label{sec:ge:algorithm}
+
+Given an invertible matrix $\bm{A} \in \mathbb{R}^{n \times n}$ and a vector $\bm{b} \in \mathbb{R}^n$, Gaussian elimination solves $\bm{A}\bm{x} = \bm{b}$ in two stages:
+
+\begin{enumerate}
+    \item \textbf{LU Factorization}: Factor $\bm{A} = \bm{L}\bm{U}$ where $\bm{L}$ is unit lower-triangular and $\bm{U}$ is upper-triangular.
+    \item \textbf{Substitution}: Solve $\bm{L}\bm{y} = \bm{b}$ (forward) then $\bm{U}\bm{x} = \bm{y}$ (backward).
+\end{enumerate}
+
+The second stage is straightforward and numerically stable (conditional on the first). The heart of the algorithm---and the source of all instability---is the LU factorization.\index{LU factorization}
+
+The block-recursive formulation reveals the structure. Partition
+\[
+\bm{A} = \begin{bmatrix} a_{11} & \bm{a}_{12}^\top \\ \bm{a}_{21} & \bm{A}_{22} \end{bmatrix},
+\quad
+\bm{L} = \begin{bmatrix} 1 & \bm{0}^\top \\ \bm{\ell}_{21} & \bm{L}_{22} \end{bmatrix},
+\quad
+\bm{U} = \begin{bmatrix} u_{11} & \bm{u}_{12}^\top \\ \bm{0} & \bm{U}_{22} \end{bmatrix}.
+\]
+If $a_{11} \neq 0$, the first step computes
+\[
+u_{11} = a_{11},\quad
+\bm{u}_{12} = \bm{a}_{12},\quad
+\bm{\ell}_{21} = \bm{a}_{21}/a_{11},\quad
+\bm{A}_{22} \leftarrow \bm{A}_{22} - \bm{\ell}_{21}\bm{u}_{12}^\top,
+\]
+where the last line is a \textbf{rank-one update} (Schur complement). Recurse on the updated $\bm{A}_{22}$.
+
+\begin{algorithm}
+\caption{Gaussian Elimination (no pivoting)}
+\label{alg:ge:basic}
+\begin{algorithmic}[1]
+\For{$k = 1$ to $n-1$}
+    \If{$A_{kk} = 0$} \State \textbf{fail} \EndIf
+    \For{$i = k+1$ to $n$}
+        \State $L_{ik} \gets A_{ik} / A_{kk}$
+    \EndFor
+    \For{$j = k+1$ to $n$}
+        \For{$i = k+1$ to $n$}
+            \State $A_{ij} \gets A_{ij} - L_{ik} A_{kj}$
+        \EndFor
+    \EndFor
+\EndFor
+\State $U \gets$ upper triangle of $A$, $L \gets$ unit lower triangle of $A$
+\end{algorithmic}
+\end{algorithm}
+
+\textbf{Critical issue}: What if $a_{11} = 0$? Or worse, what if $a_{11}$ is \emph{tiny}? Division by a small pivot amplifies rounding errors catastrophically. This is why \textbf{pivoting} (row/column permutations) is essential.
+
+%==============================================================================
+\section{Floating-Point Arithmetic: Why We Can't Use Exact Rational}
+\label{sec:ge:float}
+
+\begin{example}[The cost of exactness]
+Consider solving a $1000 \times 1000$ system with random binary entries in Julia:
+\begin{lstlisting}[language=Julia,caption=Exact vs. floating-point solve]
+n = 1000
+A = rand(Bool, n, n)
+b = rand(Bool, n)
+
+# Floating-point (Float64, 53 bits precision)
+@time x_fp = Float64.(A) \ Float64.(b)
+# 0.01 seconds
+
+# Exact rational (BigInt numerator/denominator)
+@time x_exact = Rational{BigInt}.(A) \ Rational{BigInt}.(b)
+# 2389.89 seconds (~40 minutes)
+
+# Relative error
+norm(x_fp - x_exact) / norm(x_exact)
+# 4.34e-13
+\end{lstlisting}
+The exact solve takes \textbf{240,000$\times$ longer}. The numerator/denominator of the first entry of $\bm{x}_{\text{exact}}$ exceed \textbf{3200 bits}. For $n=2000$, exact arithmetic would take \emph{weeks}.
+\end{example}
+
+Floating-point is not a bug---it's a necessity. The IEEE 754 model:
+\[
+\fl(x) = x(1 + \delta),\quad |\delta| \le u,
+\]
+where $u = 2^{-53} \approx 1.1 \times 10^{-16}$ (unit roundoff for double precision). Every operation $\circ \in \{+,-,\times,/\}$ satisfies
+\[
+\fl(a \circ b) = (a \circ b)(1 + \delta),\quad |\delta| \le u.
+\]
+This \textbf{fundamental axiom} is the foundation of all rounding-error analysis.
+
+%==============================================================================
+\section{Backward Stability: The Right Metric}
+\label{sec:ge:backward}
+
+Suppose an algorithm computes $\hat{\bm{x}} \approx \bm{x}$ for $\bm{A}\bm{x} = \bm{b}$. The \textbf{forward error} is $\|\hat{\bm{x}} - \bm{x}\|$. But if $\bm{A}$ is ill-conditioned, even the exact solution is sensitive to tiny perturbations in $\bm{A}$ or $\bm{b}$---forward error is unfair to the algorithm.
+
+\textbf{Backward error} asks: Does there exist a perturbed problem $(\bm{A}+\Delta\bm{A})\hat{\bm{x}} = \bm{b}+\Delta\bm{b}$ with $\|\Delta\bm{A}\|, \|\Delta\bm{b}\|$ small, such that $\hat{\bm{x}}$ is the \emph{exact} solution? If yes, the algorithm is \textbf{backward stable}.
+
+For LU factorization, the computed $\hat{\bm{L}}, \hat{\bm{U}}$ satisfy
+\[
+\hat{\bm{L}}\hat{\bm{U}} = \bm{A} + \Delta\bm{A},
+\]
+and the fundamental theorem (Golub \& Van Loan, Theorem 3.4.1) gives the bound:
+
+\begin{theorem}[LU Backward Error]
+\label{thm:lu:backward}
+If Gaussian elimination encounters no zero pivots, the computed factors satisfy
+\[
+|\Delta\bm{A}| \le \gamma_n |\hat{\bm{L}}| |\hat{\bm{U}}|,
+\quad \gamma_n = \frac{nu}{1-nu} \approx nu.
+\]
+Componentwise: the error in each entry is bounded by $nu$ times the corresponding entry of $|\hat{\bm{L}}||\hat{\bm{U}}|$.
+\end{theorem}
+
+This transforms a \emph{computational} question into a \emph{mathematical} one: \textbf{How large are the entries of $\hat{\bm{L}}$ and $\hat{\bm{U}}$ relative to $\bm{A}$?}
+
+%==============================================================================
+\section{The Growth Factor: Stability's Rosetta Stone}
+\label{sec:ge:growth}
+
+\begin{definition}[Growth Factor]
+\label{def:growth}
+For $\bm{A} = \bm{L}\bm{U}$ (with pivoting $\bm{P}\bm{A} = \bm{L}\bm{U}$), the \textbf{growth factor} is
+\[
+\rho = \frac{\max_{i,j} |U_{ij}|}{\max_{i,j} |A_{ij}|}.
+\]
+Equivalently, $\rho = \|\bm{U}\|_{\max} / \|\bm{A}\|_{\max}$.
+\end{definition}
+
+The growth factor $\rho$ is the \emph{only} quantity in Theorem~\ref{thm:lu:backward} that depends on the matrix $\bm{A}$ and the pivoting strategy. Everything else ($n, u$) is fixed by the problem size and precision.
+
+\begin{corollary}
+Gaussian elimination is backward stable iff $\rho$ is small (say, $\rho = O(n)$ or less).
+\end{corollary}
+
+\begin{example}[Worst-case growth without pivoting]
+The Wilkinson matrix \cite{urschel2025numerical}
+\[
+\bm{A} = \begin{bmatrix}
+1 & & & & 1 \\
+-1 & 1 & & & 1 \\
+-1 & -1 & 1 & & 1 \\
+\vdots & \vdots & \ddots & \ddots & \vdots \\
+-1 & -1 & \cdots & -1 & 1
+\end{bmatrix}
+\]
+has $\rho = 2^{n-1}$ without pivoting. For $n=100$, $\rho \approx 10^{30}$---catastrophic.
+\end{example}
+
+%==============================================================================
+\section{Pivoting Strategies}
+\label{sec:ge:pivoting}
+
+Pivoting permutes rows/columns to control $\rho$. Three main strategies:
+
+\begin{itemize}
+    \item \textbf{Complete pivoting}: At step $k$, choose $(i^*,j^*) = \argmax_{i,j\ge k} |A_{ij}|$. Swap rows $k \leftrightarrow i^*$ and columns $k \leftrightarrow j^*$. Cost: $O(n^3)$ comparisons (dominates factorization).
+    \item \textbf{Partial pivoting}: Choose $i^* = \argmax_{i\ge k} |A_{ik}|$. Swap rows $k \leftrightarrow i^*$. Cost: $O(n^2)$ comparisons (negligible).
+    \item \textbf{Rook pivoting}: A compromise---search until a ``local maximum'' in both row and column.
+\end{itemize}
+
+\begin{theorem}[Wilkinson 1961: Complete Pivoting Bound] \cite{urschel2025numerical}
+\label{thm:wilkinson:complete}
+For complete pivoting, $\rho \le n^{1/2} (2 \cdot 3^{1/2} \cdots n^{1/(n-1)})^{1/2} \sim c n^{1/2} (\log n)^{1/2}$.
+\end{theorem}
+
+This proved complete pivoting is stable. But it's \emph{slow}. Partial pivoting is what everyone uses.
+
+\begin{theorem}[Wilkinson 1961: Partial Pivoting Bound] \cite{urschel2025numerical}
+\label{thm:wilkinson:partial}
+For partial pivoting, $\rho \le 2^{n-1}$.
+\end{theorem}
+
+This bound is \emph{tight}---the Wilkinson matrix achieves it. \textbf{Theoretically, partial pivoting is exponentially unstable.} \cite{urschel2025numerical}
+
+Yet in practice, $\rho$ for partial pivoting is almost always tiny (often $< 10$). This \textbf{Wilkinson's paradox} drove decades of research: \cite{urschel2025numerical}
+
+\begin{itemize}
+    \item \textbf{Higham \& Higham (1989)}: Lower bounds on $\rho$ for \emph{any} pivoting strategy.
+    \item \textbf{Trefethen \& Schreiber (1990)}: Average-case analysis---$\rho$ grows like $n^{2/3}$ for random matrices.
+    \item \textbf{Demmel, Grigori, Rusciano (2023)}: Expected $\log \rho$ for random orthogonal transformations.
+\end{itemize}
+
+%==============================================================================
+\section{Why Partial Pivoting Works in Practice}
+\label{sec:ge:practice}
+
+\begin{example}[Typical growth factors]
+For random matrices (standard normal entries), empirical growth factors with partial pivoting:
+\begin{center}
+\begin{tabular}{c|cccc}
+$n$ & 100 & 500 & 1000 & 5000 \\
+\hline
+$\rho$ (median) & 3.2 & 4.1 & 4.8 & 6.2 \\
+$\rho$ (99th percentile) & 12 & 28 & 45 & 110
+\end{tabular}
+\end{center}
+Nowhere near $2^{n-1}$. The worst-case matrices are \emph{extremely rare} and \emph{highly structured}.
+\end{example}
+
+\begin{remark}[What makes a matrix ``bad'' for partial pivoting?]
+Matrices with large growth factors have a special structure: they are nearly \textbf{upper Hessenberg} with a specific pattern of cancellations. Random matrices don't have this structure. In scientific computing, the matrices arising from PDE discretizations, covariance estimation, or structural mechanics are typically well-behaved (often symmetric positive definite, where Cholesky is stable without pivoting).
+\end{remark}
+
+%==============================================================================
+\section{Code: Measuring Growth Factor in Julia}
+\label{sec:ge:code}
+
+\begin{lstlisting}[language=Julia,caption=Growth factor computation]
+using LinearAlgebra
+
+function growth_factor(A; pivoting=:partial)
+    n = size(A, 1)
+    A = copy(Float64.(A))
+    max_A = maximum(abs, A)
+    
+    if pivoting == :none
+        # No pivoting LU
+        for k = 1:n-1
+            for i = k+1:n
+                A[i,k] /= A[k,k]
+            end
+            for j = k+1:n
+                for i = k+1:n
+                    A[i,j] -= A[i,k] * A[k,j]
+                end
+            end
+        end
+    elseif pivoting == :partial
+        # Partial pivoting (row swaps)
+        for k = 1:n-1
+            # Find pivot
+            i_max = argmax(abs.(A[k:n, k])) + k - 1
+            if i_max != k
+                A[k, :], A[i_max, :] = A[i_max, :], A[k, :]
+            end
+            for i = k+1:n
+                A[i,k] /= A[k,k]
+            end
+            for j = k+1:n
+                for i = k+1:n
+                    A[i,j] -= A[i,k] * A[k,j]
+                end
+            end
+        end
+    end
+    
+    U = UpperTriangular(A)
+    max_U = maximum(abs, U.data)
+    return max_U / max_A
+end
+
+# Test
+using Random
+Random.seed!(42)
+for n in [100, 500, 1000]
+    A = randn(n, n)
+    rho = growth_factor(A, pivoting=:partial)
+    println("n=$n, rho=$rho")
+end
+\end{lstlisting}
+
+%==============================================================================
+\section{Open Problems}
+\label{sec:ge:open}
+
+Despite 75 years of progress, fundamental questions remain:
+
+\begin{enumerate}
+    \item \textbf{Average-case $\rho$ for partial pivoting}: Prove $\E[\rho] \sim n^{2/3}$ (Trefethen-Schreiber conjecture).
+    \item \textbf{Smoothed analysis}: Spielman-Teng style analysis for LU---show that tiny random perturbations make $\rho$ small with high probability.
+    \item \textbf{Communication-avoiding LU}: Stability of CALU and butterfly-based factorizations for modern architectures.
+    \item \textbf{Mixed-precision iterative refinement}: Using FP16/FP32 for factorization, FP64 for refinement (Carson \& Higham, 2018).
+\end{enumerate}
+
+%==============================================================================
+\section{Bridge to Chapter 2}
+\label{sec:ge:bridge}
+
+Gaussian elimination solves \emph{linear} systems. But many scientific problems---chemical equilibrium, power flow, neural network verification---reduce to \emph{polynomial} systems with \emph{few terms} (fewnomials). Chapter 2 introduces algorithmic fewnomial theory: how the monomial structure determines the number of real solutions and enables efficient solving beyond the reach of generic polynomial methods.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:ge:refs}
+
+\begin{itemize}
+    \item Higham, \textit{Accuracy and Stability of Numerical Algorithms} (SIAM, 2002)---the definitive reference.
+    \item Trefethen \& Bau, \textit{Numerical Linear Algebra} (SIAM, 1997)---accessible partial pivoting analysis.
+    \item Wilkinson, \textit{The Algebraic Eigenvalue Problem} (Oxford, 1965)---the original breakthrough papers, \cite{urschel2025numerical}.
+    \item Demmel, Grigori, Rusciano, \textit{Improved bounds for the expected log growth factor} (2023).
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:ge:exercises}
+
+\begin{exercise}
+Implement complete pivoting in Julia and compare growth factors on the Wilkinson matrix for $n=20, 50, 100$, \cite{urschel2025numerical}.
+\end{exercise}
+
+\begin{exercise}
+Generate a random $100 \times 100$ matrix with condition number $10^{12}$ (using SVD). Compare forward error of LU with partial pivoting vs. QR factorization.
+\end{exercise}
+
+\begin{exercise}
+Prove that for symmetric positive definite $\bm{A}$, Gaussian elimination without pivoting has $\rho \le 1$.
+\end{exercise}
+
+\begin{exercise}[Research] Investigate growth factors for matrices from SuiteSparse (e.g., finite element matrices). Are they ever large?
+\end{exercise}

@@ -1,0 +1,73 @@
+%==============================================================================
+% PREFACE
+%==============================================================================
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+\epigraph{``All models are wrong, but some are useful.''}{--- George Box}
+
+This book is born from a simple observation: the \textit{Notices of the American Mathematical Society} publishes some of the most accessible, beautifully written, and practically relevant expository mathematics anywhere---yet these articles remain scattered across dozens of issues, unknown to many of the scientists and engineers who would benefit most from them.
+
+We have selected fifteen articles published between 2020 and 2026, each chosen for three criteria:
+\begin{enumerate}
+    \item \textbf{Applied relevance}: The mathematics directly addresses problems in scientific computing, machine learning, engineering, or data science.
+    \item \textbf{Implementation readiness}: Each article includes algorithms, code references, or mathematical frameworks that can be translated into working software.
+    \item \textbf{Pedagogical clarity}: Written for a broad mathematical audience, these pieces require no specialized background beyond undergraduate linear algebra, calculus, and probability.
+\end{enumerate}
+
+The result is a curated textbook that bridges the gap between cutting-edge mathematical research and daily computational practice. Unlike a traditional survey, this book preserves the original authors' voices and narratives---we have lightly edited for consistent notation, added cross-references, and inserted ``Bridge'' sections connecting chapters, but the core exposition remains as published in the \textit{Notices}.
+
+\section*{Organization}
+
+The fifteen chapters are grouped into four parts:
+
+\medskip
+\noindent\textbf{Part I: Numerical Foundations} (Chapters 1--5) covers the computational bedrock:
+\begin{itemize}
+    \item Chapter 1: Why Gaussian elimination---the algorithm behind every linear solver---is both surprisingly stable and dangerously unstable (Urschel, 2025).
+    \item Chapter 2: Fewnomial theory for sparse polynomial systems arising in chemical kinetics, power grids, and neural network verification (Rojas, 2025).
+    \item Chapter 3: Spectral methods as a unifying language for networks, economics, and opinion dynamics (Golub, 2026).
+    \item Chapter 4: 3D printing invariant manifolds of dynamical systems---making the invisible visible (Bishop et al., 2026).
+    \item Chapter 5: FAIR principles for mathematical software and digital libraries (Bacher et al., 2026).
+\end{itemize}
+
+\medskip
+\noindent\textbf{Part II: Machine Learning Theory} (Chapters 6--8) develops a geometric understanding of deep learning:
+\begin{itemize}
+    \item Chapter 6: Deep networks as affine spline operators---tessellations, loss landscapes, batch norm, and grokking (Balestriero et al., 2025).
+    \item Chapter 7: Equivariant neural networks for symmetry-preserving ML in physics, chemistry, and vision (Lim \& Nelson, 2023).
+    \item Chapter 8: The Euler Characteristic Transform as a differentiable topological layer (Rieck, 2025).
+\end{itemize}
+
+\medskip
+\noindent\textbf{Part III: Uncertainty Quantification \& Inverse Problems} (Chapters 9--10) provides complete pipelines:
+\begin{itemize}
+    \item Chapter 9: UQ tutorial from entropy to EnKF to stochastic surrogate modeling (Chen et al., 2025).
+    \item Chapter 10: Tomographic reconstruction of Herculaneum scrolls---a complete inverse problem pipeline (Foschiatti et al., 2025).
+\end{itemize}
+
+\medskip
+\noindent\textbf{Part IV: Domain Applications} (Chapters 11--15) showcases mathematics in action:
+\begin{itemize}
+    \item Chapter 11: Algebraic geometry meets GNSS---the global positioning problem as sphere intersection (Boutin \& Kemper, 2025).
+    \item Chapter 12: Deep learning for cyber defense---anomaly detection and RL for network security (Emanuello \& Ridley, 2022).
+    \item Chapter 13: Coding theory for DNA storage---edit-distance codes, clustering, and reconstruction (Bar-Lev et al., 2022).
+    \item Chapter 14: From Hipparchus to Hamiltonian Monte Carlo---inference in astronomy (de Souza et al., 2025).
+    \item Chapter 15: Machine-assisted proof---Lean, LLMs, and the future of verification (Tao, 2025).
+\end{itemize}
+
+\section*{Companion Resources}
+
+Every chapter has an associated code repository (Python/Julia/MATLAB) at:
+\begin{center}
+    \url{https://github.com/ams-notices-book/companion-code}
+\end{center}
+These are not ``supplementary materials''---they are integral to the book. We encourage you to run, modify, and break them.
+
+\section*{Acknowledgments}
+
+We thank the American Mathematical Society for permission to reuse these articles, the authors for writing such clear exposition, and the \textit{Notices} editors (especially Frank Morgan, Karen Saxe, and Daniela De Silva) for curating this body of work. Special thanks to the associate editors who communicated these pieces: Emilie Purvine, Reza Malek-Madani, Vidit Nanda, Richard Levine, Han-Bom Moon, and Laura Schaposnik.
+
+\vspace{1cm}
+\noindent\textit{The Editors}\\
+\textit{2025}

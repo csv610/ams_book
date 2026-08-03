@@ -1,0 +1,219 @@
+%==============================================================================
+% GLOSSARY - Unified notation across all chapters
+%==============================================================================
+\providecommand{\gls}[1]{#1}
+\providecommand{\Gls}[1]{#1}
+
+% Linear Algebra
+\newglossaryentry{vec}{
+    name={\(\bm{x}, \bm{y}, \bm{z}\)},
+    description={Vectors (bold lowercase)},
+    sort=vec
+}
+\newglossaryentry{mat}{
+    name={\(\bm{A}, \bm{B}, \bm{W}\)},
+    description={Matrices (bold uppercase)},
+    sort=mat
+}
+\newglossaryentry{transpose}{
+    name={\(\bm{A}^\top\)},
+    description={Transpose},
+    sort=transpose
+}
+\newglossaryentry{inv}{
+    name={\(\bm{A}^{-1}\)},
+    description={Matrix inverse},
+    sort=inv
+}
+\newglossaryentry{norm}{
+    name={\(\|\cdot\|\)},
+    description={Euclidean norm (default), \(\|\cdot\|_p\) for \(p\)-norm},
+    sort=norm
+}
+\newglossaryentry{spectral_radius}{
+    name={\(\rho(\bm{A})\)},
+    description={Spectral radius},
+    sort=spectral_radius
+}
+\newglossaryentry{condition_number}{
+    name={\(\kappa(\bm{A})\)},
+    description={Condition number \(\|\bm{A}\|\|\bm{A}^{-1}\|\)},
+    sort=condition_number
+}
+\newglossaryentry{svd}{
+    name={\(\bm{U}\bm{\Sigma}\bm{V}^\top\)},
+    description={Singular value decomposition},
+    sort=svd
+}
+\newglossaryentry{eig}{
+    name={\(\lambda_i, \bm{v}_i\)},
+    description={Eigenvalues and eigenvectors},
+    sort=eig
+}
+\newglossaryentry{perron_vector}{
+    name={\(\bm{u}, \bm{v}\)},
+    description={Left/right Perron vectors (positive eigenvectors)},
+    sort=perron_vector
+}
+
+% Probability & Statistics
+\newglossaryentry{expectation}{
+    name={\(\mathbb{E}[\cdot]\)},
+    description={Expectation},
+    sort=expectation
+}
+\newglossaryentry{variance}{
+    name={\(\operatorname{Var}[\cdot]\)},
+    description={Variance},
+    sort=variance
+}
+\newglossaryentry{covariance}{
+    name={\(\operatorname{Cov}[\cdot]\)},
+    description={Covariance},
+    sort=covariance
+}
+\newglossaryentry{kl_divergence}{
+    name={\(D_{\mathrm{KL}}(P\|Q)\)},
+    description={Kullback-Leibler divergence},
+    sort=kl_divergence
+}
+\newglossaryentry{entropy}{
+    name={\(H(X)\)},
+    description={Shannon entropy},
+    sort=entropy
+}
+\newglossaryentry{gaussian}{
+    name={\(\mathcal{N}(\bm{\mu}, \bm{\Sigma})\)},
+    description={Multivariate Gaussian},
+    sort=gaussian
+}
+\newglossaryentry{kalman_gain}{
+    name={\(\bm{K}\)},
+    description={Kalman gain},
+    sort=kalman_gain
+}
+
+% Machine Learning
+\newglossaryentry{relu}{
+    name={\(\relu(x) = \max(0,x)\)},
+    description={Rectified Linear Unit},
+    sort=relu
+}
+\newglossaryentry{softmax}{
+    name={\(\softmax(\bm{z})_i = e^{z_i}/\sum_j e^{z_j}\)},
+    description={Softmax},
+    sort=softmax
+}
+\newglossaryentry{loss}{
+    name={\(\mathcal{L}(\bm{\theta})\)},
+    description={Loss function},
+    sort=loss
+}
+\newglossaryentry{gradient}{
+    name={\(\nabla_{\bm{\theta}}\mathcal{L}\)},
+    description={Gradient w.r.t. parameters},
+    sort=gradient
+}
+\newglossaryentry{parameters}{
+    name={\(\bm{\theta}\)},
+    description={Network parameters (weights + biases)},
+    sort=parameters
+}
+\newglossaryentry{activation}{
+    name={\(\sigma(\cdot)\)},
+    description={Activation function},
+    sort=activation
+}
+\newglossaryentry{layer}{
+    name={\(\bm{x}^{(\ell)} = \sigma(\bm{W}^{(\ell)}\bm{x}^{(\ell-1)} + \bm{b}^{(\ell)})\)},
+    description={Layer \(\ell\) transformation},
+    sort=layer
+}
+
+% Dynamical Systems
+\newglossaryentry{flow}{
+    name={\(\varphi_t(\bm{x})\)},
+    description={Flow at time \(t\)},
+    sort=flow
+}
+\newglossaryentry{jacobian}{
+    name={\(\bm{D}f\)},
+    description={Jacobian matrix},
+    sort=jacobian
+}
+\newglossaryentry{stable_manifold}{
+    name={\(W^s\)},
+    description={Stable manifold},
+    sort=stable_manifold
+}
+\newglossaryentry{unstable_manifold}{
+    name={\(W^u\)},
+    description={Unstable manifold},
+    sort=unstable_manifold
+}
+\newglossaryentry{lyapunov}{
+    name={\(\lambda_i\)},
+    description={Lyapunov exponents},
+    sort=lyapunov
+}
+
+% Optimization
+\newglossaryentry{argmin}{
+    name={\(\argmin\)},
+    description={Argument minimizing},
+    sort=argmin
+}
+\newglossaryentry{convex}{
+    name={\(\conv(\cdot)\)},
+    description={Convex hull},
+    sort=convex
+}
+
+% Topology
+\newglossaryentry{euler_char}{
+    name={\(\chi\)},
+    description={Euler characteristic},
+    sort=euler_char
+}
+\newglossaryentry{betti}{
+    name={\(\beta_k\)},
+    description={\(k\)-th Betti number},
+    sort=betti
+}
+\newglossaryentry{ect}{
+    name={\(\operatorname{ECT}\)},
+    description={Euler Characteristic Transform},
+    sort=ect
+}
+
+% Common sets
+\newglossaryentry{reals}{
+    name={\(\mathbb{R}\)},
+    description={Real numbers},
+    sort=reals
+}
+\newglossaryentry{complex}{
+    name={\(\mathbb{C}\)},
+    description={Complex numbers},
+    sort=complex
+}
+\newglossaryentry{integers}{
+    name={\(\mathbb{Z}\)},
+    description={Integers},
+    sort=integers
+}
+\newglossaryentry{naturals}{
+    name={\(\mathbb{N}\)},
+    description={Natural numbers},
+    sort=naturals
+}
+\newglossaryentry{positive_reals}{
+    name={\(\mathbb{R}_{>0}\)},
+    description={Positive reals},
+    sort=positive_reals
+}
+\newglossaryentry{nonnegative_reals}{
+    name={\(\mathbb{R}_{\ge 0}\)},
+    description={Nonnegative reals},
+    sort=nonnegative_reals
+}

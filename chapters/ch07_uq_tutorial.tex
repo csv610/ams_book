@@ -1,0 +1,239 @@
+%==============================================================================
+% CHAPTER 7: UQ Tutorial
+%==============================================================================
+\chapter{Taming Uncertainty: The Rise of Uncertainty Quantification}
+\label{ch:uq}
+
+\begin{flushright}
+\textit{Nan Chen, Stephen Wiggins, Marios Andreou}\\
+Communicated by \textit{Notices} Associate Editor Reza Malek-Madani
+\end{flushright}
+
+\epigraph{``All models are wrong, but some are useful.''}{--- George Box}
+
+\begin{abstract}
+Uncertainty Quantification (UQ) provides a systematic framework for characterizing how unknowns propagate through mathematical models. This chapter is a self-contained tutorial: from Shannon entropy \index{entropy (information theory)}and KL divergence through data assimilation (Kalman/Ensemble filters) to stochastic surrogate modeling for turbulent PDEs. Complete with MATLAB/Python code for every algorithm, \cite{chen2025uq}.
+\end{abstract}
+
+%==============================================================================
+\section{Introduction: Why Quantify Uncertainty?}
+\label{sec:uq:intro}
+
+Mathematical models have imperfections:
+\begin{itemize}
+    \item \textbf{Parametric uncertainty}: Unknown coefficients (e.g., viscosity, reaction rates) \cite{chen2025uq}
+    \item \textbf{Structural uncertainty}: Missing physics, simplified equations \cite{chen2025uq}
+    \item \textbf{Initial/boundary condition uncertainty}: Noisy or sparse observations \cite{chen2025uq}
+    \item \textbf{Numerical uncertainty}: Discretization, rounding errors \cite{chen2025uq}
+\end{itemize}
+
+UQ asks: \emph{How do these uncertainties affect the model output?} The answer is a probability distribution (or at least its moments) on the output space.
+
+Two fundamental information measures:
+\begin{description}
+    \item[Shannon Entropy] $H(p) = -\int p(x) \log p(x) dx$ --- spread of a single distribution
+    \item[KL Divergence] $D_{\mathrm{KL}}(p\|q) = \int p(x) \log \frac{p(x)}{q(x)} dx$ --- difference between two distributions
+\end{description}
+
+%==============================================================================
+\section{Entropy and Relative Entropy}
+\label{sec:uq:entropy}
+
+For a Gaussian $\mathcal{N}(\bm{\mu}, \bm{\Sigma})$ in $d$ dimensions:
+\[
+H = \frac{1}{2} \log \det(2\pi e \bm{\Sigma}) = \frac{d}{2}(1 + \log 2\pi) + \frac{1}{2} \log \det \bm{\Sigma}.
+\]
+
+For non-Gaussian distributions, entropy captures features variance cannot:
+\begin{itemize}
+    \item \textbf{Skewness}: Asymmetric tails $\to$ higher entropy
+    \item \textbf{Multimodality}: Multiple peaks $\to$ higher entropy
+    \item \textbf{Heavy tails}: Extreme events $\to$ higher entropy
+\end{itemize}
+
+\begin{example}[Gamma vs. Gaussian with same variance]
+$\mathrm{Gamma}(2, 1)$ has variance 2, entropy $\approx 1.68$. $\mathcal{N}(0, 2)$ has entropy $\approx 1.42$. Same variance, different uncertainty! \cite{chen2025uq}
+\end{example}
+
+\textbf{KL divergence} measures the cost of using approximate model $q$ when truth is $p$:
+\[
+D_{\mathrm{KL}}(p\|q) = \underbrace{\frac{1}{2} \mathrm{tr}(\bm{\Sigma}_q^{-1} \bm{\Sigma}_p) - \frac{d}{2} + \frac{1}{2} \log \frac{\det \bm{\Sigma}_q}{\det \bm{\Sigma}_p}}_{\text{Dispersion}} + \underbrace{\frac{1}{2} (\bm{\mu}_p - \bm{\mu}_q)^\top \bm{\Sigma}_q^{-1} (\bm{\mu}_p - \bm{\mu}_q)}_{\text{Signal}}.
+\]
+
+%==============================================================================
+\section{Uncertainty in Dynamical Systems}
+\label{sec:uq:dynamical}
+
+Consider $\dot{\bm{x}} = \bm{f}(\bm{x})$ with uncertain initial condition $\bm{x}(0) \sim p_0$.
+
+\textbf{Linear systems}: $\dot{\bm{x}} = \bm{A}\bm{x}$. If $\bm{A}$ is stable, uncertainty \emph{decays} and mean dynamics separate: \cite{chen2025uq}
+\[
+\frac{d}{dt} \mathbb{E}[\bm{x}] = \bm{A} \mathbb{E}[\bm{x}], \quad \frac{d}{dt} \mathrm{Cov}[\bm{x}] = \bm{A} \mathrm{Cov}[\bm{x}] + \mathrm{Cov}[\bm{x}] \bm{A}^\top.
+\]
+
+\textbf{Nonlinear systems}: Reynolds decomposition $\bm{x} = \bar{\bm{x}} + \bm{x}'$:
+\[
+\frac{d}{dt} \bar{\bm{x}} = \mathbb{E}[\bm{f}(\bar{\bm{x}} + \bm{x}')] \neq \bm{f}(\bar{\bm{x}}).
+\]
+The \emph{mean dynamics couple to higher moments}. For quadratic $\bm{f}$:
+\[
+\mathbb{E}[\bm{x}\bm{x}^\top] = \bar{\bm{x}}\bar{\bm{x}}^\top + \mathrm{Cov}[\bm{x}].
+\]
+The covariance feeds back into the mean! This is the \textbf{closure problem}.
+
+\textbf{Chaotic systems} (Lorenz-63): Small initial uncertainty $\to$ exponential divergence (positive Lyapunov exponents). Ensemble mean quickly becomes meaningless, \cite{chen2025uq}.
+
+%==============================================================================
+\section{Data Assimilation: Kalman and Ensemble Filters} \cite{chen2025uq}
+\label{sec:uq:da}
+
+Combine model forecast $\bm{x}^f \sim \mathcal{N}(\bm{\mu}^f, \bm{P}^f)$ with observation $\bm{y} = \bm{H}\bm{x} + \bm{\eta}$, $\bm{\eta} \sim \mathcal{N}(0, \bm{R})$.
+
+\begin{theorem}[Kalman Filter Update] \cite{chen2025uq}
+Posterior (analysis) distribution:
+\[
+\bm{\mu}^a = \bm{\mu}^f + \bm{K}(\bm{y} - \bm{H}\bm{\mu}^f), \quad \bm{P}^a = (\bm{I} - \bm{K}\bm{H})\bm{P}^f,
+\]
+where $\bm{K} = \bm{P}^f \bm{H}^\top (\bm{H} \bm{P}^f \bm{H}^\top + \bm{R})^{-1}$ is the \textbf{Kalman gain}, \cite{chen2025uq}.
+\end{theorem}
+
+For nonlinear/high-dimensional systems, use \textbf{Ensemble Kalman Filter (EnKF)}: \cite{chen2025uq}
+\begin{enumerate}
+    \item Maintain ensemble $\{\bm{x}_i^f\}_{i=1}^N$ representing forecast distribution
+    \item Sample observations $\bm{y}_i = \bm{y} + \bm{\eta}_i$, $\bm{\eta}_i \sim \mathcal{N}(0, \bm{R})$
+    \item Update each member: $\bm{x}_i^a = \bm{x}_i^f + \bm{K}(\bm{y}_i - \bm{H}\bm{x}_i^f)$
+    \item $\bm{K}$ estimated from ensemble covariance
+\end{enumerate}
+
+\begin{lstlisting}[style=julia,caption=Ensemble Kalman Filter] \cite{chen2025uq}
+using LinearAlgebra, Statistics, Random
+
+function enkf_update(ensemble::Matrix, H, y, R)
+    # ensemble: n_state x n_ensemble
+    # H: n_obs x n_state
+    # y: n_obs observation
+    # R: n_obs x n_obs observation noise covariance
+    n_state, N = size(ensemble)
+    
+    # Ensemble mean and perturbation matrix
+    mu_f = mean(ensemble, dims=2)
+    X_f = ensemble .- mu_f  # n_state x N
+    
+    # Forecast ensemble in observation space
+    Y_f = H * ensemble  # n_obs x N
+    y_mean = mean(Y_f, dims=2)
+    Y_pert = Y_f .- y_mean
+    
+    # Observation perturbations
+    y_obs = y .+ sqrt(R) * randn(n_obs, N)
+    
+    # Ensemble covariances
+    Pf_xy = (X_f * Y_pert') / (N - 1)  # n_state x n_obs
+    Pf_yy = (Y_pert * Y_pert') / (N - 1)  # n_obs x n_obs
+    
+    # Kalman gain \cite{chen2025uq}
+    K = Pf_xy * inv(Pf_yy + R)
+    
+    # Analysis update
+    ensemble_a = ensemble + K * (y_obs - Y_f)
+    return ensemble_a
+end
+
+# Lorenz-63 twin experiment
+function lorenz63(u, p, t)
+    sigma, rho, beta = 10.0, 28.0, 8/3
+    x, y, z = u
+    [sigma*(y-x), x*(rho-z)-y, x*y - beta*z]
+end
+
+# Run EnKF on Lorenz-63
+using DifferentialEquations
+prob = ODEProblem(lorenz63, [1.0, 1.0, 1.0], (0.0, 10.0))
+true_sol = solve(prob, Tsit5(), saveat=0.01)
+
+# Generate synthetic observations (every 0.1 time units, observe x only)
+obs_times = 0.0:0.1:10.0
+obs = true_sol(obs_times)[1, :] + 0.5 * randn(length(obs_times))
+
+# EnKF assimilation
+ensemble = [1.0, 1.0, 1.0] .+ 0.5 * randn(3, 50)  # 50 members
+H = [1.0 0.0 0.0]
+R = [0.25]
+
+for (i, t) in enumerate(obs_times)
+    # Forecast step
+    prob = ODEProblem(lorenz63, ensemble, (t, t+0.1))
+    ensemble = hcat([solve(prob, Tsit5(), saveat=0.1).u[end] for _ in 1:50]...)
+    
+    # Analysis step
+    ensemble = enkf_update(ensemble, H, obs[i], R)
+end
+\end{lstlisting}
+
+%==============================================================================
+\section{Stochastic Surrogate Modeling}
+\label{sec:uq:surrogate}
+
+High-dimensional PDEs (climate, turbulence) are too expensive for ensemble forecasting. Replace with a stochastic model that matches statistics.
+
+Consider a Fourier mode $\hat{u}_k(t)$ from a turbulent PDE:
+\[
+\frac{d\hat{u}_k}{dt} = \lambda_k \hat{u}_k + \sum_{p+q=k} N_{k,p,q} \hat{u}_p \hat{u}_q + F_k.
+\]
+
+\textbf{Stochastic surrogate}: Replace nonlinear sum with noise calibrated to match statistics:
+\[
+\frac{d\hat{u}_k}{dt} = \lambda_k \hat{u}_k + \sigma_k \dot{W}_k(t),
+\]
+where $\sigma_k$ chosen so equilibrium PDF and decorrelation time match the true mode.
+
+\begin{theorem}[Calibration]
+For Ornstein-Uhlenbeck $dx = -\theta x dt + \sigma dW$:
+\begin{itemize}
+    \item Equilibrium variance: $\sigma^2 / (2\theta) = \mathrm{Var}_{\text{true}}$
+    \item Decorrelation time: $1/\theta = \tau_{\text{true}}$
+\end{itemize}
+Solve for $\theta, \sigma$.
+\end{theorem}
+
+\begin{example}[2-Layer Quasi-Geostrophic Model]
+Full model: $128^2$ modes per layer. Stochastic surrogate: only 5 leading modes, calibrated to their statistics. Qualitatively similar spatial fields, matching temporal correlations and PDFs.
+\end{example}
+
+%==============================================================================
+\section{Bridge to Chapter 8}
+\label{sec:uq:bridge}
+
+UQ quantifies uncertainty in \emph{dynamical systems}. Chapter 8 applies algebraic geometry to a \emph{static} but nonlinear problem: the global positioning equations. Both use the same insight: \emph{reformulate the problem to reveal its mathematical structure} (sphere intersection for GPS, entropy/KL for UQ), \cite{chen2025uq}.
+
+%==============================================================================
+\section{Further Reading}
+\label{sec:uq:refs}
+
+\begin{itemize}
+    \item Chen, Wiggins, Andreou (2025). \textit{Taming Uncertainty...}. Notices, 72(3). Code: \url{https://github.com/marandmath/UQ_tutorial_code}
+    \item Chen (2023). \textit{Stochastic Methods for Modeling and Predicting Complex Dynamical Systems}. Springer.
+    \item Law, Stuart, Zygalakis (2015). \textit{Data Assimilation}. Springer.
+    \item Reich, Cotter (2015). \textit{Probabilistic Forecasting and Bayesian Data Assimilation}. Cambridge.
+    \item Majda, Harlim (2012). \textit{Filtering Complex Turbulent Systems}. Science.
+\end{itemize}
+
+%==============================================================================
+\section{Exercises}
+\label{sec:uq:exercises}
+
+\begin{exercise}
+Compute the KL divergence between $\mathcal{N}(0, 1)$ and $\mathcal{N}(0.5, 1.5)$. Interpret the signal and dispersion terms.
+\end{exercise}
+
+\begin{exercise}
+Implement the EnKF for the Lorenz-96 system (40 variables, observe every 4th). Compare RMSE vs. ensemble size $N = 10, 20, 50, 100$.
+\end{exercise}
+
+\begin{exercise}
+For a scalar OU process with true variance 2.0 and decorrelation time 0.5, compute the surrogate parameters $\theta, \sigma$. Simulate and verify equilibrium statistics.
+\end{exercise}
+
+\begin{exercise}[Research]
+Apply the stochastic surrogate approach to the Kuramoto-Sivashinsky equation. Can you reduce the number of modes by 90% while preserving the energy spectrum?
+\end{exercise}
